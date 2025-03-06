@@ -10,12 +10,14 @@ import { useStore } from 'zustand';
 import { useClubStore } from '@/store/store';
 import dayjs from 'dayjs';
 import { Room } from '@/components/Room';
+import { Button } from 'tamagui';
 
 export default function TabOneScreen() {
 	const { dancers, rooms } = useClubStore((state) => state);
 
 	return (
 		<View style={styles.container}>
+			<Button>Plain</Button>
 			<View style={styles.roomsContainer}>
 				<FlatList
 					data={rooms}
