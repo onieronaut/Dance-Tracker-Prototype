@@ -47604,6 +47604,7 @@ var themes2 = process.env.TAMAGUI_ENVIRONMENT === "client" && process.env.NODE_E
 // tamagui.config.ts
 var tamaguiConfig = createTamagui({
   ...defaultConfig,
+  shorthands,
   themes: themes2
 });
 var tamagui_config_default = tamaguiConfig;

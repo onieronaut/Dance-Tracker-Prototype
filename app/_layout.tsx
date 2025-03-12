@@ -20,6 +20,8 @@ export {
 import { Drawer } from 'expo-router/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import tamaguiConfig from '@/tamagui.config';
+import 'react-native-get-random-values';
+import { createTables, dropTables } from '@/db/database';
 
 export const unstable_settings = {
 	// Ensure that reloading on `/modal` keeps a back button present.
@@ -56,6 +58,18 @@ export default function RootLayout() {
 function RootLayoutNav() {
 	const colorScheme = 'dark';
 	// const colorScheme = useColorScheme();
+
+	useEffect(() => {
+		const prepare = async () => {
+			try {
+				// await dropTables();
+				await createTables();
+			} catch (err) {
+				console.warn(err);
+			}
+		};
+		prepare();
+	}, []);
 
 	return (
 		<TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>

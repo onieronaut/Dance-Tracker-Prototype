@@ -1,35 +1,34 @@
-import { StyleSheet } from 'react-native';
+import { getDancers } from '@/db/users/database';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { View } from 'react-native';
+import { Text } from 'tamagui';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function RotationScreen() {
+	const [dancers, setDancers] = useState([]);
 
-export default function TabTwoScreen2() {
+	console.log(dancers);
+
+	const handleGetDancers = async () => {
+		try {
+			const res = await getDancers();
+			setDancers(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useLayoutEffect(() => {
+		handleGetDancers();
+	}, []);
+
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Tab Two222</Text>
-			<View
-				style={styles.separator}
-				lightColor='#eee'
-				darkColor='rgba(255,255,255,0.1)'
-			/>
-			<EditScreenInfo path='app/(tabs)/two.tsx' />
+		<View>
+			{dancers.map((dancer) => (
+				<>
+					<Text>{dancer.name}</Text>
+					<Text>{dancer.status}</Text>
+				</>
+			))}
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	title: {
-		fontSize: 20,
-		fontWeight: 'bold',
-	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: '80%',
-	},
-});

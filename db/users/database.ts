@@ -1,17 +1,27 @@
 import { v4 as uuidv4 } from 'uuid';
 import { openDatabase } from '../database';
 
-export const createUser = async (data: any) => {
+export const createUser = async (data: { name: string; type: string }) => {
 	const db = await openDatabase();
 
 	const uniqueId = uuidv4();
 
-	// await db.runAsync(`INSERT INTO boxes (boxId, name) VALUES (?, ?);`, [
-	// 	uniqueId,
-	// 	name,
-	// ]);
+	await db.runAsync(
+		`INSERT INTO users (userId, name, status, room, type) VALUES (?, ?, 'Active', '', ?);`,
+		[uniqueId, data.name, data.type]
+	);
 
-	console.log('Box created');
+	console.log('User created');
 
 	return;
+};
+
+export const getDancers = async () => {
+	const db = await openDatabase();
+
+	const dancers = await db.getAllAsync(
+		'SELECT * FROM users WHERE type = "dancer";'
+	);
+
+	return dancers;
 };

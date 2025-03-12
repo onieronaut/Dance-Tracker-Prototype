@@ -1,36 +1,52 @@
-import { StyleSheet } from 'react-native';
+import { getRooms } from '@/db/rooms/database';
+import { getDancers } from '@/db/users/database';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { View } from 'react-native';
+import { Text } from 'tamagui';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function RoomsScreen() {
+	const [dancers, setDancers] = useState([]);
+	const [rooms, setRooms] = useState([]);
 
-export default function TabTwoScreen2() {
+	console.log(dancers);
+
+	const handleGetDancers = async () => {
+		try {
+			const res = await getDancers();
+			setDancers(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const handleGetRooms = async () => {
+		try {
+			const res = await getRooms();
+			setRooms(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useLayoutEffect(() => {
+		handleGetDancers();
+		handleGetRooms();
+	}, []);
+
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Tab Two222</Text>
-			<View
-				style={styles.separator}
-				lightColor='#eee'
-				darkColor='rgba(255,255,255,0.1)'
-			/>
-			<EditScreenInfo path='app/(tabs)/two.tsx' />
+		<View>
+			{dancers.map((dancer) => (
+				<>
+					<Text>{dancer.name}</Text>
+					<Text>{dancer.status}</Text>
+				</>
+			))}
+			{rooms.map((room) => (
+				<>
+					<Text>{room.name}</Text>
+					<Text>{room.status}</Text>
+				</>
+			))}
 		</View>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: 'black',
-	},
-	title: {
-		fontSize: 20,
-		fontWeight: 'bold',
-	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: '80%',
-	},
-});

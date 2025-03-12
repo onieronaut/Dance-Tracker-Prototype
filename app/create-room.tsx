@@ -2,34 +2,66 @@ import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import {
+	Button,
+	Form,
+	H4,
+	H5,
+	H6,
+	Input,
+	Spinner,
+	XStack,
+	YStack,
+} from 'tamagui';
+import { useEffect, useState } from 'react';
+import { createUser } from '@/db/users/database';
+import { createRoom } from '@/db/rooms/database';
 
-export default function TabTwoScreen22() {
+export default function CreateRoomScreen() {
+	const [status, setStatus] = useState<'off' | 'submitting' | 'submitted'>(
+		'off'
+	);
+	const [name, setName] = useState('');
+
+	const handleSubmit = async () => {
+		const data = {
+			name: name,
+		};
+
+		try {
+			setStatus('submitting');
+			await createRoom(data);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setStatus('off');
+		}
+	};
+
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Tab 3</Text>
-			<View
-				style={styles.separator}
-				lightColor='#eee'
-				darkColor='rgba(255,255,255,0.1)'
-			/>
-			<EditScreenInfo path='app/(tabs)/two.tsx' />
-		</View>
+		<YStack flex={1}>
+			<Form
+				gap='$4'
+				onSubmit={handleSubmit}
+				borderWidth={1}
+				bg='$background'
+				rounded={4}
+				borderColor='$borderColor'
+				p={8}>
+				<H6>Name</H6>
+				<Input
+					size='$4'
+					borderWidth={2}
+					onChangeText={(text) => setName(text)}
+					value={name}
+				/>
+				<Form.Trigger asChild disabled={status !== 'off'}>
+					<Button
+						icon={status === 'submitting' ? () => <Spinner /> : undefined}>
+						Submit
+					</Button>
+				</Form.Trigger>
+			</Form>
+		</YStack>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	title: {
-		fontSize: 20,
-		fontWeight: 'bold',
-	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: '80%',
-	},
-});

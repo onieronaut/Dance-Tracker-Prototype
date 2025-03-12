@@ -12,7 +12,7 @@ export const createTables = async () => {
 			`
     CREATE TABLE IF NOT EXISTS users (
       userId TEXT NOT NULL PRIMARY KEY,
-      name INTEGER NOT NULL,
+      name TEXT NOT NULL,
       status TEXT NOT NULL,
       room TEXT,
       type TEXT NOT NULL
@@ -20,7 +20,7 @@ export const createTables = async () => {
 
     CREATE TABLE IF NOT EXISTS rooms (
       roomId TEXT NOT NULL PRIMARY KEY,
-      name INTEGER NOT NULL,
+      name TEXT NOT NULL,
       status TEXT NOT NULL,
       timestamp INTEGER NOT NULL
     );
@@ -38,6 +38,7 @@ export const dropTables = async () => {
 
 	await db.execAsync(`
     DROP TABLE IF EXISTS users;
+    DROP TABLE IF EXISTS rooms;
     `);
 
 	console.log('Database deleted');

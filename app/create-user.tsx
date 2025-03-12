@@ -14,6 +14,7 @@ import {
 	YStack,
 } from 'tamagui';
 import { useEffect, useState } from 'react';
+import { createUser } from '@/db/users/database';
 
 export default function CreateUserScreen() {
 	const [status, setStatus] = useState<'off' | 'submitting' | 'submitted'>(
@@ -22,20 +23,20 @@ export default function CreateUserScreen() {
 	const [name, setName] = useState('');
 	const [type, setType] = useState('');
 
-	console.log('hi');
+	const handleSubmit = async () => {
+		const data = {
+			name: name,
+			type: type,
+		};
 
-	useEffect(() => {
-		if (status === 'submitting') {
-			const timer = setTimeout(() => setStatus('off'), 2000);
-			return () => {
-				clearTimeout(timer);
-			};
+		try {
+			setStatus('submitting');
+			await createUser(data);
+		} catch (err) {
+			console.log(err);
+		} finally {
+			setStatus('off');
 		}
-	}, [status]);
-
-	const handleSubmit = () => {
-		setStatus('submitting');
-		console.log(name, type);
 	};
 
 	return (
