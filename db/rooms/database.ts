@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { openDatabase } from '../database';
+import { RoomType } from '@/types/rooms';
 
 export const createRoom = async (data: { name: string }) => {
 	const db = await openDatabase();
@@ -19,7 +20,7 @@ export const createRoom = async (data: { name: string }) => {
 export const getRooms = async () => {
 	const db = await openDatabase();
 
-	const rooms = await db.getAllAsync('SELECT * FROM rooms;');
+	const rooms: RoomType[] = await db.getAllAsync('SELECT * FROM rooms;');
 
 	return rooms;
 };

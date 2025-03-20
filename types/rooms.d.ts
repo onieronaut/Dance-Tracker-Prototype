@@ -1,4 +1,4 @@
-export type Room = {
+export type RoomType = {
 	roomId: string;
 	name: string;
 	status: string;

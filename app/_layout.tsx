@@ -22,6 +22,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import tamaguiConfig from '@/tamagui.config';
 import 'react-native-get-random-values';
 import { createTables, dropTables } from '@/db/database';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export const unstable_settings = {
 	// Ensure that reloading on `/modal` keeps a back button present.
@@ -56,6 +57,7 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+	const queryClient = new QueryClient();
 	const colorScheme = 'dark';
 	// const colorScheme = useColorScheme();
 
@@ -74,46 +76,49 @@ function RootLayoutNav() {
 	return (
 		<TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-				<GestureHandlerRootView style={{ flex: 1 }}>
-					<Drawer>
-						<Drawer.Screen
-							name='index'
-							options={{
-								drawerLabel: 'Dashboard',
-								title: 'Dashboard',
-							}}
-						/>
-						<Drawer.Screen
-							name='create-user'
-							options={{
-								drawerLabel: 'Create User',
-								title: 'Create User',
-							}}
-						/>
-						<Drawer.Screen
-							name='create-room'
-							options={{
-								drawerLabel: 'Create Room',
-							}}
-						/>
-						<Drawer.Screen
-							name='rotation'
-							options={{
-								drawerLabel: 'Rotation',
-							}}
-						/>
-						<Drawer.Screen
-							name='rooms'
-							options={{
-								drawerLabel: 'Rooms',
-							}}
-						/>
-						{/* <Stack screenOptions={{ contentStyle: { backgroundColor: 'red' } }}>
+				<QueryClientProvider client={queryClient}>
+					<GestureHandlerRootView style={{ flex: 1 }}>
+						<Drawer>
+							<Drawer.Screen
+								name='index'
+								options={{
+									drawerLabel: 'Dashboard',
+									title: 'Dashboard',
+								}}
+							/>
+							<Drawer.Screen
+								name='create-user'
+								options={{
+									drawerLabel: 'Create User',
+									title: 'Create User',
+								}}
+							/>
+							<Drawer.Screen
+								name='create-room'
+								options={{
+									drawerLabel: 'Create Room',
+								}}
+							/>
+							<Drawer.Screen
+								name='rotation'
+								options={{
+									drawerLabel: 'Rotation',
+								}}
+							/>
+							<Drawer.Screen
+								name='rooms'
+								options={{
+									drawerLabel: 'Rooms',
+								}}
+							/>
+
+							{/* <Stack screenOptions={{ contentStyle: { backgroundColor: 'red' } }}>
 							<Stack.Screen name='index2' options={{ headerShown: false }} />
 							<Stack.Screen name='modal' options={{ presentation: 'modal' }} />
 						</Stack> */}
-					</Drawer>
-				</GestureHandlerRootView>
+						</Drawer>
+					</GestureHandlerRootView>
+				</QueryClientProvider>
 			</ThemeProvider>
 		</TamaguiProvider>
 	);

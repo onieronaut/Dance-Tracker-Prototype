@@ -1,52 +1,59 @@
+import { AddDancersToRoom } from '@/components/AddDancersToRoom';
+import { RoomItem } from '@/components/RoomItem';
 import { getRooms } from '@/db/rooms/database';
 import { getDancers } from '@/db/users/database';
+import { RoomType } from '@/types/rooms';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useLayoutEffect, useState } from 'react';
-import { View } from 'react-native';
-import { Text } from 'tamagui';
+import { FlatList, View } from 'react-native';
+import { Text, YStack } from 'tamagui';
 
 export default function RoomsScreen() {
-	const [dancers, setDancers] = useState([]);
-	const [rooms, setRooms] = useState([]);
+	const [open, setOpen] = useState(false);
+	const [selectedRoom, setSelectedRoom] = useState<RoomType>();
+	const queryClient = useQueryClient();
 
-	console.log(dancers);
+	const { data: rooms } = useQuery({ queryKey: ['rooms'], queryFn: getRooms });
+	const { data: dancers } = useQuery({
+		queryKey: ['dancers'],
+		queryFn: getDancers,
+	});
 
-	const handleGetDancers = async () => {
-		try {
-			const res = await getDancers();
-			setDancers(res);
-		} catch (err) {
-			console.log(err);
-		}
+	const mutation = useMutation({
+		// mutationFn:
+		onSuccess: () => {
+			// Invalidate and refetch
+			queryClient.invalidateQueries({ queryKey: ['rooms'] });
+		},
+	});
+
+	const handleOpenAddDancersToRoom = (roomId: string) => {
+		const room = rooms.find((room) => room.roomId === roomId);
+
+		setSelectedRoom(room);
+		setOpen(true);
 	};
-
-	const handleGetRooms = async () => {
-		try {
-			const res = await getRooms();
-			setRooms(res);
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	useLayoutEffect(() => {
-		handleGetDancers();
-		handleGetRooms();
-	}, []);
 
 	return (
-		<View>
-			{dancers.map((dancer) => (
-				<>
-					<Text>{dancer.name}</Text>
-					<Text>{dancer.status}</Text>
-				</>
-			))}
-			{rooms.map((room) => (
-				<>
-					<Text>{room.name}</Text>
-					<Text>{room.status}</Text>
-				</>
-			))}
-		</View>
+		<YStack flex={1}>
+			<AddDancersToRoom
+				open={open}
+				setOpen={setOpen}
+				dancers={dancers}
+				selectedRoom={selectedRoom}
+			/>
+			<FlatList
+				data={rooms}
+				keyExtractor={(item) => item.roomId}
+				renderItem={({ item }) => (
+					<YStack m={'$2'}>
+						<RoomItem
+							room={item}
+							handleOpenAddDancersToRoom={handleOpenAddDancersToRoom}
+						/>
+					</YStack>
+				)}
+			/>
+		</YStack>
 	);
 }

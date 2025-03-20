@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { openDatabase } from '../database';
+import { UserType } from '@/types/users';
 
 export const createUser = async (data: { name: string; type: string }) => {
 	const db = await openDatabase();
@@ -19,7 +20,7 @@ export const createUser = async (data: { name: string; type: string }) => {
 export const getDancers = async () => {
 	const db = await openDatabase();
 
-	const dancers = await db.getAllAsync(
+	const dancers: UserType[] = await db.getAllAsync(
 		'SELECT * FROM users WHERE type = "dancer";'
 	);
 
