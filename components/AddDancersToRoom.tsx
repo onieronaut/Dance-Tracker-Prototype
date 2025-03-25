@@ -1,4 +1,4 @@
-import { addDancersToRoom } from '@/db/rooms/database';
+import { startSession } from '@/db/sessions/database';
 import { RoomType } from '@/types/rooms';
 import { UserType } from '@/types/users';
 import { Check } from '@tamagui/lucide-icons';
@@ -50,10 +50,9 @@ export const AddDancersToRoom = ({
 	const [selectedOptions, setSelectedOptions] = useState({});
 
 	const handleCheckboxChange = (id: string) => {
-		console.log('hi');
 		setSelectedOptions((prevState) => ({
 			...prevState,
-			[id]: !prevState[id], // Toggle the checkbox state
+			[id]: !prevState[id],
 		}));
 	};
 
@@ -76,7 +75,7 @@ export const AddDancersToRoom = ({
 			.map(([key]) => key);
 
 		try {
-			await addDancersToRoom(selectedRoom.roomId, payload);
+			await startSession(selectedRoom.roomId, payload);
 		} catch (err) {
 			console.log(err);
 		}

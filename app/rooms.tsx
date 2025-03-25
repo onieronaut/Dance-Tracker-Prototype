@@ -1,6 +1,7 @@
 import { AddDancersToRoom } from '@/components/AddDancersToRoom';
 import { RoomItem } from '@/components/RoomItem';
 import { getRooms } from '@/db/rooms/database';
+import { getSession, getSessions } from '@/db/sessions/database';
 import { getDancers } from '@/db/users/database';
 import { RoomType } from '@/types/rooms';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -14,16 +15,30 @@ export default function RoomsScreen() {
 	const [selectedRoom, setSelectedRoom] = useState<RoomType>();
 	const queryClient = useQueryClient();
 
-	const { height, width } = useWindowDimensions();
+	const sessionId = '75eb5083-b676-411c-ab31-0cc597b4e042';
 
 	const { data: rooms, refetch: refetchRooms } = useQuery({
 		queryKey: ['rooms'],
 		queryFn: getRooms,
 	});
+
 	const { data: dancers, refetch: refetchDancers } = useQuery({
 		queryKey: ['dancers'],
 		queryFn: getDancers,
 	});
+
+	const { data: sessions, refetch: refetchSessions } = useQuery({
+		queryKey: ['sessions'],
+		queryFn: getSessions,
+	});
+
+	const { data: session } = useQuery({
+		queryKey: ['session', sessionId],
+		queryFn: () => getSession(sessionId),
+	});
+
+	console.log('x', session);
+	console.log('y', sessions);
 
 	useFocusEffect(() => {
 		refetchRooms();

@@ -26,34 +26,3 @@ export const getRooms = async () => {
 
 	return rooms;
 };
-
-export const addDancersToRoom = async (roomId: string, userIds: string[]) => {
-	const db = await openDatabase();
-
-	const dancers = await getDancers();
-
-	const timestamp = dayjs().unix() * 1000;
-
-	for (const userId of userIds) {
-		const uniqueId = uuidv4();
-
-		await db.runAsync(
-			'INSERT INTO dancers_in_rooms (sessionId, roomId, dancerId, startTime, endTime) VALUES (?, ?, ?, ?, 0);',
-			[uniqueId, roomId, userId, timestamp]
-		);
-
-		await db.runAsync(
-			'UPDATE users SET status = "In Room", room = ? WHERE userId = ?;',
-			[roomId, userId]
-		);
-	}
-
-	await db.runAsync(
-		'UPDATE rooms SET status = "In Use", timestamp = ? WHERE roomId = ?;',
-		[timestamp, roomId]
-	);
-
-	console.log('dancers added to room');
-
-	return;
-};
