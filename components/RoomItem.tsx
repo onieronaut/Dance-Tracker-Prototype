@@ -1,6 +1,6 @@
 import { RoomType } from '@/types/rooms';
 import React, { useState } from 'react';
-import { Card, XStack, H2, Button } from 'tamagui';
+import { Card, XStack, H2, Button, H3 } from 'tamagui';
 import { StatusChip } from './ui/StatusChip';
 import { Link } from 'expo-router';
 import { AddDancersToRoom } from './AddDancersToRoom';
@@ -16,10 +16,10 @@ export const RoomItem = ({
 }: RoomItemPropsType) => {
 	return (
 		<>
-			<Card>
+			<Card flex={1}>
 				<Card.Header>
 					<XStack justify='space-between'>
-						<H2>{room.name}</H2>
+						<H3>{room.name}</H3>
 						<StatusChip status={room.status} />
 					</XStack>
 				</Card.Header>

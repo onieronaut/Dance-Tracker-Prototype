@@ -1,12 +1,20 @@
+import { addDancersToRoom } from '@/db/rooms/database';
 import { RoomType } from '@/types/rooms';
 import { UserType } from '@/types/users';
-import React, { useState } from 'react';
+import { Check } from '@tamagui/lucide-icons';
+import React, { useLayoutEffect, useState } from 'react';
 import {
+	Button,
 	Card,
 	Checkbox,
+	CheckboxProps,
+	Form,
 	H4,
+	Label,
+	ScrollView,
 	Separator,
 	Sheet,
+	Spinner,
 	Text,
 	XStack,
 	YStack,
@@ -39,6 +47,41 @@ export const AddDancersToRoom = ({
 
 	const [snapPoints, setSnapPoints] = useState(initialSnapPoints);
 
+	const [selectedOptions, setSelectedOptions] = useState({});
+
+	const handleCheckboxChange = (id: string) => {
+		console.log('hi');
+		setSelectedOptions((prevState) => ({
+			...prevState,
+			[id]: !prevState[id], // Toggle the checkbox state
+		}));
+	};
+
+	useLayoutEffect(() => {
+		if (!dancers) return;
+
+		setSelectedOptions(() => {
+			return dancers?.reduce((acc, dancer) => {
+				acc[dancer?.userId] = false;
+				return acc;
+			}, {});
+		});
+	}, [open]);
+
+	const handleSubmit = async () => {
+		console.log(selectedOptions);
+
+		const payload = Object.entries(selectedOptions)
+			.filter(([key, value]) => value === true)
+			.map(([key]) => key);
+
+		try {
+			await addDancersToRoom(selectedRoom.roomId, payload);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<>
 			<Sheet
@@ -66,70 +109,35 @@ export const AddDancersToRoom = ({
 					<YStack flex={1} width={'100%'} gap='$2'>
 						<H4>Add Dancers to {selectedRoom?.name}</H4>
 						<Separator my={5} />
-						{dancers?.map((dancer) => (
-							<YStack>
-								<Card>
-									<Card.Header>
-										<XStack justify='space-between'>
-											<Text>{dancer.name}</Text>
 
-											<Checkbox
-											// id={id} size={size} {...checkboxProps}
-											>
-												<Checkbox.Indicator>
-													{/* <CheckIcon /> */}
-												</Checkbox.Indicator>
-											</Checkbox>
-										</XStack>
-									</Card.Header>
-									<Card.Footer> </Card.Footer>
-								</Card>
+						<Sheet.ScrollView>
+							<YStack gap={'$3'}>
+								{dancers?.map((dancer) => (
+									<Card onPress={() => handleCheckboxChange(dancer.userId)}>
+										<Card.Header>
+											<XStack
+												justify='space-between'
+												style={{ alignItems: 'center' }}>
+												<Text>{dancer.name}</Text>
+
+												<Checkbox
+													id={dancer.userId}
+													checked={selectedOptions[dancer.userId]}
+													onCheckedChange={() =>
+														handleCheckboxChange(dancer.userId)
+													}
+													size='$6'>
+													<Checkbox.Indicator>
+														<Check />
+													</Checkbox.Indicator>
+												</Checkbox>
+											</XStack>
+										</Card.Header>
+									</Card>
+								))}
 							</YStack>
-						))}
-						{/* <XStack alignItems='center'>
-										<XStack flex={1}>
-											<Label>Item</Label>
-										</XStack>
-										<SelectBox
-											id={`${_package.packageId}`}
-											label='Items'
-											placeholder={'Select Item'}
-											size={'$2'}
-											value={selectedItem}
-											setValue={setSelectedItem}
-											native
-											items={order?.items.filter(
-												(item) => item.status === 'Pending'
-											)}
-											identifier={'itemId'}
-										/>
-									</XStack>
-									<XStack alignItems='center' gap={'$5'}>
-										<XStack>
-											<Label>Quantity</Label>
-										</XStack>
-										<Input
-											width={60}
-											keyboardType='number-pad'
-											onChangeText={setQuantity}
-											value={quantity}
-											returnKeyType='done'
-											onFocus={() => setSnapPoints(keypadSnapPoints)}
-											onBlur={() => setSnapPoints(initialSnapPoints)}
-										/>
-										{selectedItem && (
-											<>
-												<XStack>
-													<Label>Quantity Available:</Label>
-												</XStack>
-												<SizableText>{quantityAvailable}</SizableText>
-											</>
-										)}
-									</XStack>
-									<Separator marginVertical={5} />
-									<Button onPress={handleAddLineItemToPackage} theme='accent'>
-										Add to Package
-									</Button> */}
+						</Sheet.ScrollView>
+						<Button onPress={handleSubmit}>Submit</Button>
 					</YStack>
 				</Sheet.Frame>
 			</Sheet>

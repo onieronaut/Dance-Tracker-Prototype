@@ -25,7 +25,13 @@ export const createTables = async () => {
       timestamp INTEGER NOT NULL
     );
 
-  
+    CREATE TABLE IF NOT EXISTS dancers_in_rooms (
+      sessionId TEXT NOT NULL PRIMARY KEY,
+      roomId TEXT NOT NULL,
+      dancerId TEXT NOT NULL,
+      startTime INTEGER NOT NULL,
+      endTime INTEGER NOT NULL
+    );
     `
 		)
 		.catch((err) => console.log(err));
@@ -39,6 +45,7 @@ export const dropTables = async () => {
 	await db.execAsync(`
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS rooms;
+    DROP TABLE IF EXISTS dancers_in_rooms;
     `);
 
 	console.log('Database deleted');

@@ -109,6 +109,7 @@ function RootLayoutNav() {
 								name='rooms'
 								options={{
 									drawerLabel: 'Rooms',
+									headerTitle: 'VIP Rooms',
 								}}
 							/>
 
