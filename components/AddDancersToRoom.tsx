@@ -1,7 +1,7 @@
 import { startSession } from '@/db/sessions/database';
 import { RoomType } from '@/types/rooms';
 import { UserType } from '@/types/users';
-import { Check } from '@tamagui/lucide-icons';
+import { Check, CheckCircle2 } from '@tamagui/lucide-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useLayoutEffect, useState } from 'react';
 import {
@@ -72,6 +72,8 @@ export const AddDancersToRoom = ({
 			.map(([key]) => key);
 
 		mutation.mutate({ roomId: selectedRoom.roomId, payload });
+		console.log(mutation);
+
 		handleClose();
 	};
 
@@ -128,7 +130,9 @@ export const AddDancersToRoom = ({
 									))}
 							</YStack>
 						</Sheet.ScrollView>
-						<Button onPress={handleSubmit}>Submit</Button>
+						<Button onPress={handleSubmit} icon={<CheckCircle2 size={18} />}>
+							Start Session
+						</Button>
 					</YStack>
 				</Sheet.Frame>
 			</Sheet>

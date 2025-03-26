@@ -25,8 +25,8 @@ export const startSession = async (roomId: string, userIds: string[]) => {
 		);
 
 		await db.runAsync(
-			'UPDATE users SET status = "In Room", roomId = ? WHERE userId = ?;',
-			[roomId, userId]
+			'UPDATE users SET status = "In Room", roomId = ?, timestamp = ? WHERE userId = ?;',
+			[roomId, timestamp, userId]
 		);
 	}
 
@@ -54,7 +54,7 @@ export const endSession = async (sessionId: string) => {
 
 	for (const userId of session.users) {
 		await db.runAsync(
-			'UPDATE users SET status = "Active", roomId = "" WHERE userId = ?;',
+			'UPDATE users SET status = "Active", roomId = "", timestamp = 0 WHERE userId = ?;',
 			[userId]
 		);
 

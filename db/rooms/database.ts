@@ -44,7 +44,5 @@ export const getRooms = async () => {
 		};
 	});
 
-	console.log(rooms);
-
 	return rooms;
 };

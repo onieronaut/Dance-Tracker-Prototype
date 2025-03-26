@@ -103,6 +103,7 @@ function RootLayoutNav() {
 								name='rotation'
 								options={{
 									drawerLabel: 'Rotation',
+									headerTitle: 'DJ Rotation',
 								}}
 							/>
 							<Drawer.Screen
@@ -110,6 +111,13 @@ function RootLayoutNav() {
 								options={{
 									drawerLabel: 'Rooms',
 									headerTitle: 'VIP Rooms',
+								}}
+							/>
+							<Drawer.Screen
+								name='assign-user'
+								options={{
+									drawerLabel: 'Assign',
+									headerTitle: 'Assign',
 								}}
 							/>
 

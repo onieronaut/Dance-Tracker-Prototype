@@ -1,5 +1,9 @@
 import * as SQLite from 'expo-sqlite';
-import { initializeRooms, initializeUsers } from './startup/database';
+import {
+	initializeRooms,
+	initializeRotation,
+	initializeUsers,
+} from './startup/database';
 
 export const openDatabase = async () => {
 	return await SQLite.openDatabaseAsync('dance-tracker.db');
@@ -16,7 +20,9 @@ export const createTables = async () => {
       name TEXT NOT NULL,
       status TEXT NOT NULL,
       roomId TEXT,
-      type TEXT NOT NULL
+      rotationId TEXT,
+      type TEXT NOT NULL,
+      timestamp INTEGER
     );
 
     CREATE TABLE IF NOT EXISTS rooms (
@@ -46,12 +52,33 @@ export const createTables = async () => {
       FOREIGN KEY (sessionId) REFERENCES sessions(sessionId),
       FOREIGN KEY (roomId) REFERENCES rooms(roomId)
     );
+
+    CREATE TABLE IF NOT EXISTS rotation (
+      rotationId TEXT NOT NULL PRIMARY KEY,
+      name TEXT NOT NULL,
+      position NUMBER NOT NULL,
+      type TEXT NOT NULL,
+      userId TEXT,
+      available BOOLEAN DEFAULT TRUE
+    );
+
+    CREATE TABLE IF NOT EXISTS user_rotation (
+      userRotationId TEXT NOT NULL PRIMARY KEY,
+      userId TEXT NOT NULL,
+      rotationId TEXT NOT NULL,
+      startTime NUMBER NOT NULL,
+      endTime NUMBER NOT NULL,
+      FOREIGN KEY (userId) REFERENCES users(userId),
+      FOREIGN KEY (rotationId) REFERENCES rotation(rotationId)
+    )
+    
     `
 		)
 		.catch((err) => console.log(err));
 
 	// await initializeUsers();
 	// await initializeRooms();
+	// await initializeRotation();
 
 	console.log('Database created');
 };
@@ -64,6 +91,8 @@ export const dropTables = async () => {
     DROP TABLE IF EXISTS rooms;
     DROP TABLE IF EXISTS sessions;
     DROP TABLE IF EXISTS user_sessions;
+    DROP TABLE IF EXISTS rotation;
+    DROP TABLE IF EXISTS user_rotation;
     `);
 
 	console.log('Database deleted');

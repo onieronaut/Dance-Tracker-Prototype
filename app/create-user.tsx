@@ -1,20 +1,6 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-import {
-	Button,
-	Form,
-	H4,
-	H5,
-	H6,
-	Input,
-	Spinner,
-	XStack,
-	YStack,
-} from 'tamagui';
-import { useEffect, useState } from 'react';
 import { createUser } from '@/db/users/database';
+import { useState } from 'react';
+import { Button, Form, H6, Input, Spinner, YStack } from 'tamagui';
 
 export default function CreateUserScreen() {
 	const [status, setStatus] = useState<'off' | 'submitting' | 'submitted'>(

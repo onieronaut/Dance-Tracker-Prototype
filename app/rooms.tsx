@@ -30,13 +30,7 @@ export default function RoomsScreen() {
 		refetchDancers();
 	});
 
-	const mutation = useMutation({
-		// mutationFn:
-		onSuccess: () => {
-			// Invalidate and refetch
-			queryClient.invalidateQueries({ queryKey: ['rooms'] });
-		},
-	});
+	console.log('ROOM', rooms);
 
 	const handleOpenAddDancersToRoom = (roomId: string) => {
 		const room = rooms.find((room) => room.roomId === roomId);

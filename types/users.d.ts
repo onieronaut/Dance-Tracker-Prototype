@@ -4,4 +4,5 @@ export type UserType = {
 	name: string;
 	status: string;
 	type: string;
+	timestamp: number;
 };
