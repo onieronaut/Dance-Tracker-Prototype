@@ -15,8 +15,6 @@ export default function RoomsScreen() {
 	const [selectedRoom, setSelectedRoom] = useState<RoomType>();
 	const queryClient = useQueryClient();
 
-	const sessionId = '75eb5083-b676-411c-ab31-0cc597b4e042';
-
 	const { data: rooms, refetch: refetchRooms } = useQuery({
 		queryKey: ['rooms'],
 		queryFn: getRooms,
@@ -26,19 +24,6 @@ export default function RoomsScreen() {
 		queryKey: ['dancers'],
 		queryFn: getDancers,
 	});
-
-	const { data: sessions, refetch: refetchSessions } = useQuery({
-		queryKey: ['sessions'],
-		queryFn: getSessions,
-	});
-
-	const { data: session } = useQuery({
-		queryKey: ['session', sessionId],
-		queryFn: () => getSession(sessionId),
-	});
-
-	console.log('x', session);
-	console.log('y', sessions);
 
 	useFocusEffect(() => {
 		refetchRooms();

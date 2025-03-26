@@ -22,7 +22,7 @@ export const initializeUsers = async () => {
 export const initializeRooms = async () => {
 	const db = await openDatabase();
 
-	for (let i = 1; i < 18; i++) {
+	for (let i = 1; i < 19; i++) {
 		const uniqueId = uuidv4();
 
 		await db.runAsync(

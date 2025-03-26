@@ -1,27 +1,21 @@
 import { RotationItem } from '@/components/RotationItem';
 import { getDancers } from '@/db/users/database';
 import { UserType } from '@/types/users';
+import { useQuery } from '@tanstack/react-query';
+import { useFocusEffect } from 'expo-router';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { Text, YStack } from 'tamagui';
 
 export default function RotationScreen() {
-	const [dancers, setDancers] = useState<UserType[]>([]);
+	const { data: dancers, refetch: refetchDancers } = useQuery({
+		queryKey: ['dancers'],
+		queryFn: getDancers,
+	});
 
-	console.log(dancers);
-
-	const handleGetDancers = async () => {
-		try {
-			const res = await getDancers();
-			setDancers(res);
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	useLayoutEffect(() => {
-		handleGetDancers();
-	}, []);
+	useFocusEffect(() => {
+		refetchDancers();
+	});
 
 	return (
 		<YStack flex={1}>

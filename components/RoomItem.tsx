@@ -1,11 +1,10 @@
-import { RoomType } from '@/types/rooms';
-import React, { useEffect, useState } from 'react';
-import { Card, XStack, H2, Button, H3, Text } from 'tamagui';
-import { StatusChip } from './ui/StatusChip';
-import { Link } from 'expo-router';
-import { AddDancersToRoom } from './AddDancersToRoom';
-import dayjs from 'dayjs';
 import { endSession } from '@/db/sessions/database';
+import { RoomType } from '@/types/rooms';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
+import { Button, Card, H6, Text, XStack, YStack } from 'tamagui';
+import { RoomStatusChip } from './ui/RoomStatusChip';
 
 interface RoomItemPropsType {
 	room: RoomType;
@@ -16,7 +15,17 @@ export const RoomItem = ({
 	room,
 	handleOpenAddDancersToRoom,
 }: RoomItemPropsType) => {
-	const [time, setTime] = useState('0:00');
+	const initialTime = '0:00';
+	const [time, setTime] = useState(initialTime);
+
+	const queryClient = useQueryClient();
+
+	const mutation = useMutation({
+		mutationFn: (sessionId: string) => endSession(sessionId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['rooms'] });
+		},
+	});
 
 	useEffect(() => {
 		if (room.timestamp === 0) return;
@@ -29,25 +38,30 @@ export const RoomItem = ({
 	}, [room.timestamp]);
 
 	const handleEndSession = async () => {
-		try {
-			await endSession(room.sessionId);
-		} catch (err) {
-			console.log(err);
-		}
+		mutation.mutate(room.sessionId);
+
+		setTime(initialTime);
 	};
 
 	return (
 		<>
 			<Card flex={1}>
 				<Card.Header>
-					<XStack justify='space-between'>
-						<H3>{room.name}</H3>
-						<StatusChip status={room.status} />
+					<XStack justify='space-between' style={{ alignItems: 'center' }}>
+						<H6>{room.name}</H6>
+						<RoomStatusChip status={room.status} />
+					</XStack>
+					<XStack>
+						<Text>{room.timestamp > 0 && time} </Text>
+					</XStack>
+					<XStack>
+						<YStack>
+							{room.users.map((user) => (
+								<Text>{user} </Text>
+							))}
+						</YStack>
 					</XStack>
 				</Card.Header>
-				<Card.Footer>
-					<Text>{time} </Text>
-				</Card.Footer>
 				{room.status === 'Open' && (
 					<Button onPress={() => handleOpenAddDancersToRoom(room.roomId)}>
 						Add Dancers
