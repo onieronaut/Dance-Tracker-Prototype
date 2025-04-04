@@ -6,32 +6,33 @@ import { Hourglass } from '@tamagui/lucide-icons';
 import dayjs from 'dayjs';
 import { RotationType } from '@/types/rotation';
 
-interface RotationItemPropsType {
+interface QueueRotationItemPropsType {
 	slot: RotationType;
 }
 
-export const RotationItem = ({ slot }: RotationItemPropsType) => {
+export const QueueRotationItem = ({ slot }: QueueRotationItemPropsType) => {
 	const initialTime = '0:00';
 	const [time, setTime] = useState(initialTime);
 
-	// useEffect(() => {
-	// 	if (slot.timestamp === 0) return;
+	useEffect(() => {
+		if (slot.timestamp === 0) return;
 
-	// 	const intervalId = setInterval(() => {
-	// 		setTime(dayjs(new Date().getTime() - slot.timestamp).format('m:ss'));
-	// 	}, 1000);
+		const intervalId = setInterval(() => {
+			setTime(dayjs(new Date().getTime() - slot.timestamp).format('m:ss'));
+		}, 1000);
 
-	// 	return () => clearInterval(intervalId);
-	// }, [slot.timestamp]);
+		return () => clearInterval(intervalId);
+	}, [slot.timestamp]);
 
 	return (
 		<Card>
 			<Card.Header>
-				<XStack justify='space-between'>
-					<H2>{slot.name}</H2>
-					{/* <UserStatusChip status={slot.status} /> */}
+				<XStack justify='space-between' style={{ alignItems: 'center' }}>
+					<H2>{slot.position}</H2>
+					<H2>{slot.userName}</H2>
+					<UserStatusChip status={slot.status} />
 				</XStack>
-				{/* {slot.timestamp > 0 && (
+				{slot.timestamp > 0 && (
 					<XStack
 						style={{ alignItems: 'center' }}
 						justify='flex-end'
@@ -41,11 +42,9 @@ export const RotationItem = ({ slot }: RotationItemPropsType) => {
 							{time}
 						</Text>
 					</XStack>
-				)} */}
+				)}
 			</Card.Header>
 			<Card.Footer />
-			{/* any other components */}
-			<Card.Background />
 		</Card>
 	);
 };

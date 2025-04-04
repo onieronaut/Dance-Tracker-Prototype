@@ -24,5 +24,7 @@ export const getDancers = async () => {
 		'SELECT * FROM users WHERE type = "dancer";'
 	);
 
+	console.log('dancers', dancers);
+
 	return dancers;
 };

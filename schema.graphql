@@ -1,0 +1,2081 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+  """measured in seconds"""
+  ttl: Int! = 60
+) on QUERY
+
+"""
+columns and relationships of "active_session"
+"""
+type ActiveSession {
+  """An array relationship"""
+  activeUsers(
+    """distinct select on columns"""
+    distinctOn: [ActiveUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveUsersOrderBy!]
+    """filter the rows returned"""
+    where: ActiveUsersBoolExp
+  ): [ActiveUsers!]!
+  """An aggregate relationship"""
+  activeUsersAggregate(
+    """distinct select on columns"""
+    distinctOn: [ActiveUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveUsersOrderBy!]
+    """filter the rows returned"""
+    where: ActiveUsersBoolExp
+  ): ActiveUsersAggregate!
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""
+aggregated selection of "active_session"
+"""
+type ActiveSessionAggregate {
+  aggregate: ActiveSessionAggregateFields
+  nodes: [ActiveSession!]!
+}
+
+"""
+aggregate fields of "active_session"
+"""
+type ActiveSessionAggregateFields {
+  count(columns: [ActiveSessionSelectColumn!], distinct: Boolean): Int!
+  max: ActiveSessionMaxFields
+  min: ActiveSessionMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "active_session". All fields are combined with a logical 'AND'.
+"""
+input ActiveSessionBoolExp {
+  _and: [ActiveSessionBoolExp!]
+  _not: ActiveSessionBoolExp
+  _or: [ActiveSessionBoolExp!]
+  activeUsers: ActiveUsersBoolExp
+  activeUsersAggregate: ActiveUsersAggregateBoolExp
+  endTime: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  roomId: UuidComparisonExp
+  startTime: TimestamptzComparisonExp
+  status: StringComparisonExp
+}
+
+"""
+input type for inserting data into table "active_session"
+"""
+input ActiveSessionInsertInput {
+  activeUsers: ActiveUsersArrRelInsertInput
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""aggregate max on columns"""
+type ActiveSessionMaxFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""aggregate min on columns"""
+type ActiveSessionMinFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""
+response of any mutation on the table "active_session"
+"""
+type ActiveSessionMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [ActiveSession!]!
+}
+
+"""
+input type for inserting object relation for remote table "active_session"
+"""
+input ActiveSessionObjRelInsertInput {
+  data: ActiveSessionInsertInput!
+}
+
+"""Ordering options when selecting data from "active_session"."""
+input ActiveSessionOrderBy {
+  activeUsersAggregate: ActiveUsersAggregateOrderBy
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+}
+
+"""
+select columns of table "active_session"
+"""
+enum ActiveSessionSelectColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  roomId
+  """column name"""
+  startTime
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "active_session"
+"""
+input ActiveSessionSetInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""
+Streaming cursor of the table "active_session"
+"""
+input ActiveSessionStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: ActiveSessionStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ActiveSessionStreamCursorValueInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+input ActiveSessionUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: ActiveSessionSetInput
+  """filter the rows which have to be updated"""
+  where: ActiveSessionBoolExp!
+}
+
+"""
+columns and relationships of "active_users"
+"""
+type ActiveUsers {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  """An object relationship"""
+  user: Users
+  userId: uuid
+}
+
+"""
+aggregated selection of "active_users"
+"""
+type ActiveUsersAggregate {
+  aggregate: ActiveUsersAggregateFields
+  nodes: [ActiveUsers!]!
+}
+
+input ActiveUsersAggregateBoolExp {
+  count: activeUsersAggregateBoolExpCount
+}
+
+"""
+aggregate fields of "active_users"
+"""
+type ActiveUsersAggregateFields {
+  count(columns: [ActiveUsersSelectColumn!], distinct: Boolean): Int!
+  max: ActiveUsersMaxFields
+  min: ActiveUsersMinFields
+}
+
+"""
+order by aggregate values of table "active_users"
+"""
+input ActiveUsersAggregateOrderBy {
+  count: OrderBy
+  max: ActiveUsersMaxOrderBy
+  min: ActiveUsersMinOrderBy
+}
+
+"""
+input type for inserting array relation for remote table "active_users"
+"""
+input ActiveUsersArrRelInsertInput {
+  data: [ActiveUsersInsertInput!]!
+}
+
+"""
+Boolean expression to filter rows from the table "active_users". All fields are combined with a logical 'AND'.
+"""
+input ActiveUsersBoolExp {
+  _and: [ActiveUsersBoolExp!]
+  _not: ActiveUsersBoolExp
+  _or: [ActiveUsersBoolExp!]
+  endTime: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  roomId: UuidComparisonExp
+  sessionId: UuidComparisonExp
+  startTime: TimestamptzComparisonExp
+  status: StringComparisonExp
+  user: UsersBoolExp
+  userId: UuidComparisonExp
+}
+
+"""
+input type for inserting data into table "active_users"
+"""
+input ActiveUsersInsertInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  user: UsersObjRelInsertInput
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type ActiveUsersMaxFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""
+order by max() on columns of table "active_users"
+"""
+input ActiveUsersMaxOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  sessionId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+  userId: OrderBy
+}
+
+"""aggregate min on columns"""
+type ActiveUsersMinFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""
+order by min() on columns of table "active_users"
+"""
+input ActiveUsersMinOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  sessionId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+  userId: OrderBy
+}
+
+"""
+response of any mutation on the table "active_users"
+"""
+type ActiveUsersMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [ActiveUsers!]!
+}
+
+"""Ordering options when selecting data from "active_users"."""
+input ActiveUsersOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  sessionId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+  user: UsersOrderBy
+  userId: OrderBy
+}
+
+"""
+select columns of table "active_users"
+"""
+enum ActiveUsersSelectColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  roomId
+  """column name"""
+  sessionId
+  """column name"""
+  startTime
+  """column name"""
+  status
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "active_users"
+"""
+input ActiveUsersSetInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""
+Streaming cursor of the table "active_users"
+"""
+input ActiveUsersStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: ActiveUsersStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ActiveUsersStreamCursorValueInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+input ActiveUsersUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: ActiveUsersSetInput
+  """filter the rows which have to be updated"""
+  where: ActiveUsersBoolExp!
+}
+
+"""ordering argument of a cursor"""
+enum CursorOrdering {
+  """ascending ordering of the cursor"""
+  ASC
+  """descending ordering of the cursor"""
+  DESC
+}
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input IntComparisonExp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _isNull: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""column ordering options"""
+enum OrderBy {
+  """in ascending order, nulls last"""
+  ASC
+  """in ascending order, nulls first"""
+  ASC_NULLS_FIRST
+  """in ascending order, nulls last"""
+  ASC_NULLS_LAST
+  """in descending order, nulls first"""
+  DESC
+  """in descending order, nulls first"""
+  DESC_NULLS_FIRST
+  """in descending order, nulls last"""
+  DESC_NULLS_LAST
+}
+
+"""
+columns and relationships of "rooms"
+"""
+type Rooms {
+  """An object relationship"""
+  activeSession: ActiveSession
+  id: uuid!
+  name: String!
+  """An array relationship"""
+  sessions(
+    """distinct select on columns"""
+    distinctOn: [SessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [SessionsOrderBy!]
+    """filter the rows returned"""
+    where: SessionsBoolExp
+  ): [Sessions!]!
+  """An aggregate relationship"""
+  sessionsAggregate(
+    """distinct select on columns"""
+    distinctOn: [SessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [SessionsOrderBy!]
+    """filter the rows returned"""
+    where: SessionsBoolExp
+  ): SessionsAggregate!
+  status: String!
+}
+
+"""
+aggregated selection of "rooms"
+"""
+type RoomsAggregate {
+  aggregate: RoomsAggregateFields
+  nodes: [Rooms!]!
+}
+
+"""
+aggregate fields of "rooms"
+"""
+type RoomsAggregateFields {
+  count(columns: [RoomsSelectColumn!], distinct: Boolean): Int!
+  max: RoomsMaxFields
+  min: RoomsMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "rooms". All fields are combined with a logical 'AND'.
+"""
+input RoomsBoolExp {
+  _and: [RoomsBoolExp!]
+  _not: RoomsBoolExp
+  _or: [RoomsBoolExp!]
+  activeSession: ActiveSessionBoolExp
+  id: UuidComparisonExp
+  name: StringComparisonExp
+  sessions: SessionsBoolExp
+  sessionsAggregate: SessionsAggregateBoolExp
+  status: StringComparisonExp
+}
+
+"""
+unique or primary key constraints on table "rooms"
+"""
+enum RoomsConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  rooms_pkey
+}
+
+"""
+input type for inserting data into table "rooms"
+"""
+input RoomsInsertInput {
+  activeSession: ActiveSessionObjRelInsertInput
+  id: uuid
+  name: String
+  sessions: SessionsArrRelInsertInput
+  status: String
+}
+
+"""aggregate max on columns"""
+type RoomsMaxFields {
+  id: uuid
+  name: String
+  status: String
+}
+
+"""aggregate min on columns"""
+type RoomsMinFields {
+  id: uuid
+  name: String
+  status: String
+}
+
+"""
+response of any mutation on the table "rooms"
+"""
+type RoomsMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [Rooms!]!
+}
+
+"""
+input type for inserting object relation for remote table "rooms"
+"""
+input RoomsObjRelInsertInput {
+  data: RoomsInsertInput!
+  """upsert condition"""
+  onConflict: RoomsOnConflict
+}
+
+"""
+on_conflict condition type for table "rooms"
+"""
+input RoomsOnConflict {
+  constraint: RoomsConstraint!
+  updateColumns: [RoomsUpdateColumn!]! = []
+  where: RoomsBoolExp
+}
+
+"""Ordering options when selecting data from "rooms"."""
+input RoomsOrderBy {
+  activeSession: ActiveSessionOrderBy
+  id: OrderBy
+  name: OrderBy
+  sessionsAggregate: SessionsAggregateOrderBy
+  status: OrderBy
+}
+
+"""primary key columns input for table: rooms"""
+input RoomsPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "rooms"
+"""
+enum RoomsSelectColumn {
+  """column name"""
+  id
+  """column name"""
+  name
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "rooms"
+"""
+input RoomsSetInput {
+  id: uuid
+  name: String
+  status: String
+}
+
+"""
+Streaming cursor of the table "rooms"
+"""
+input RoomsStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: RoomsStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input RoomsStreamCursorValueInput {
+  id: uuid
+  name: String
+  status: String
+}
+
+"""
+update columns of table "rooms"
+"""
+enum RoomsUpdateColumn {
+  """column name"""
+  id
+  """column name"""
+  name
+  """column name"""
+  status
+}
+
+input RoomsUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: RoomsSetInput
+  """filter the rows which have to be updated"""
+  where: RoomsBoolExp!
+}
+
+"""
+columns and relationships of "sessions"
+"""
+type Sessions {
+  endTime: timestamptz
+  id: uuid!
+  """An object relationship"""
+  room: Rooms!
+  roomId: uuid!
+  startTime: timestamptz!
+  status: String!
+}
+
+"""
+aggregated selection of "sessions"
+"""
+type SessionsAggregate {
+  aggregate: SessionsAggregateFields
+  nodes: [Sessions!]!
+}
+
+input SessionsAggregateBoolExp {
+  count: sessionsAggregateBoolExpCount
+}
+
+"""
+aggregate fields of "sessions"
+"""
+type SessionsAggregateFields {
+  count(columns: [SessionsSelectColumn!], distinct: Boolean): Int!
+  max: SessionsMaxFields
+  min: SessionsMinFields
+}
+
+"""
+order by aggregate values of table "sessions"
+"""
+input SessionsAggregateOrderBy {
+  count: OrderBy
+  max: SessionsMaxOrderBy
+  min: SessionsMinOrderBy
+}
+
+"""
+input type for inserting array relation for remote table "sessions"
+"""
+input SessionsArrRelInsertInput {
+  data: [SessionsInsertInput!]!
+  """upsert condition"""
+  onConflict: SessionsOnConflict
+}
+
+"""
+Boolean expression to filter rows from the table "sessions". All fields are combined with a logical 'AND'.
+"""
+input SessionsBoolExp {
+  _and: [SessionsBoolExp!]
+  _not: SessionsBoolExp
+  _or: [SessionsBoolExp!]
+  endTime: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  room: RoomsBoolExp
+  roomId: UuidComparisonExp
+  startTime: TimestamptzComparisonExp
+  status: StringComparisonExp
+}
+
+"""
+unique or primary key constraints on table "sessions"
+"""
+enum SessionsConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  sessions_pkey
+}
+
+"""
+input type for inserting data into table "sessions"
+"""
+input SessionsInsertInput {
+  endTime: timestamptz
+  id: uuid
+  room: RoomsObjRelInsertInput
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""aggregate max on columns"""
+type SessionsMaxFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""
+order by max() on columns of table "sessions"
+"""
+input SessionsMaxOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+}
+
+"""aggregate min on columns"""
+type SessionsMinFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""
+order by min() on columns of table "sessions"
+"""
+input SessionsMinOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+}
+
+"""
+response of any mutation on the table "sessions"
+"""
+type SessionsMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [Sessions!]!
+}
+
+"""
+on_conflict condition type for table "sessions"
+"""
+input SessionsOnConflict {
+  constraint: SessionsConstraint!
+  updateColumns: [SessionsUpdateColumn!]! = []
+  where: SessionsBoolExp
+}
+
+"""Ordering options when selecting data from "sessions"."""
+input SessionsOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  room: RoomsOrderBy
+  roomId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+}
+
+"""primary key columns input for table: sessions"""
+input SessionsPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "sessions"
+"""
+enum SessionsSelectColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  roomId
+  """column name"""
+  startTime
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "sessions"
+"""
+input SessionsSetInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""
+Streaming cursor of the table "sessions"
+"""
+input SessionsStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: SessionsStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input SessionsStreamCursorValueInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  startTime: timestamptz
+  status: String
+}
+
+"""
+update columns of table "sessions"
+"""
+enum SessionsUpdateColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  roomId
+  """column name"""
+  startTime
+  """column name"""
+  status
+}
+
+input SessionsUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: SessionsSetInput
+  """filter the rows which have to be updated"""
+  where: SessionsBoolExp!
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input StringComparisonExp {
+  _eq: String
+  _gt: String
+  _gte: String
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _isNull: Boolean
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+  """does the column NOT match the given pattern"""
+  _nlike: String
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input TimestamptzComparisonExp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _isNull: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+"""
+columns and relationships of "user_sessions"
+"""
+type UserSessions {
+  endTime: timestamptz
+  id: uuid!
+  roomId: uuid!
+  sessionId: uuid!
+  startTime: timestamptz!
+  status: String!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "user_sessions"
+"""
+type UserSessionsAggregate {
+  aggregate: UserSessionsAggregateFields
+  nodes: [UserSessions!]!
+}
+
+"""
+aggregate fields of "user_sessions"
+"""
+type UserSessionsAggregateFields {
+  count(columns: [UserSessionsSelectColumn!], distinct: Boolean): Int!
+  max: UserSessionsMaxFields
+  min: UserSessionsMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "user_sessions". All fields are combined with a logical 'AND'.
+"""
+input UserSessionsBoolExp {
+  _and: [UserSessionsBoolExp!]
+  _not: UserSessionsBoolExp
+  _or: [UserSessionsBoolExp!]
+  endTime: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  roomId: UuidComparisonExp
+  sessionId: UuidComparisonExp
+  startTime: TimestamptzComparisonExp
+  status: StringComparisonExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "user_sessions"
+"""
+enum UserSessionsConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_sessions_pkey
+}
+
+"""
+input type for inserting data into table "user_sessions"
+"""
+input UserSessionsInsertInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type UserSessionsMaxFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type UserSessionsMinFields {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "user_sessions"
+"""
+type UserSessionsMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [UserSessions!]!
+}
+
+"""
+on_conflict condition type for table "user_sessions"
+"""
+input UserSessionsOnConflict {
+  constraint: UserSessionsConstraint!
+  updateColumns: [UserSessionsUpdateColumn!]! = []
+  where: UserSessionsBoolExp
+}
+
+"""Ordering options when selecting data from "user_sessions"."""
+input UserSessionsOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  sessionId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: user_sessions"""
+input UserSessionsPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "user_sessions"
+"""
+enum UserSessionsSelectColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  roomId
+  """column name"""
+  sessionId
+  """column name"""
+  startTime
+  """column name"""
+  status
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "user_sessions"
+"""
+input UserSessionsSetInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""
+Streaming cursor of the table "user_sessions"
+"""
+input UserSessionsStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: UserSessionsStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input UserSessionsStreamCursorValueInput {
+  endTime: timestamptz
+  id: uuid
+  roomId: uuid
+  sessionId: uuid
+  startTime: timestamptz
+  status: String
+  userId: uuid
+}
+
+"""
+update columns of table "user_sessions"
+"""
+enum UserSessionsUpdateColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  roomId
+  """column name"""
+  sessionId
+  """column name"""
+  startTime
+  """column name"""
+  status
+  """column name"""
+  userId
+}
+
+input UserSessionsUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: UserSessionsSetInput
+  """filter the rows which have to be updated"""
+  where: UserSessionsBoolExp!
+}
+
+"""
+columns and relationships of "users"
+"""
+type Users {
+  id: uuid!
+  name: String!
+  role: String!
+  status: String!
+}
+
+"""
+aggregated selection of "users"
+"""
+type UsersAggregate {
+  aggregate: UsersAggregateFields
+  nodes: [Users!]!
+}
+
+"""
+aggregate fields of "users"
+"""
+type UsersAggregateFields {
+  count(columns: [UsersSelectColumn!], distinct: Boolean): Int!
+  max: UsersMaxFields
+  min: UsersMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
+"""
+input UsersBoolExp {
+  _and: [UsersBoolExp!]
+  _not: UsersBoolExp
+  _or: [UsersBoolExp!]
+  id: UuidComparisonExp
+  name: StringComparisonExp
+  role: StringComparisonExp
+  status: StringComparisonExp
+}
+
+"""
+unique or primary key constraints on table "users"
+"""
+enum UsersConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  users_pkey
+}
+
+"""
+input type for inserting data into table "users"
+"""
+input UsersInsertInput {
+  id: uuid
+  name: String
+  role: String
+  status: String
+}
+
+"""aggregate max on columns"""
+type UsersMaxFields {
+  id: uuid
+  name: String
+  role: String
+  status: String
+}
+
+"""aggregate min on columns"""
+type UsersMinFields {
+  id: uuid
+  name: String
+  role: String
+  status: String
+}
+
+"""
+response of any mutation on the table "users"
+"""
+type UsersMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [Users!]!
+}
+
+"""
+input type for inserting object relation for remote table "users"
+"""
+input UsersObjRelInsertInput {
+  data: UsersInsertInput!
+  """upsert condition"""
+  onConflict: UsersOnConflict
+}
+
+"""
+on_conflict condition type for table "users"
+"""
+input UsersOnConflict {
+  constraint: UsersConstraint!
+  updateColumns: [UsersUpdateColumn!]! = []
+  where: UsersBoolExp
+}
+
+"""Ordering options when selecting data from "users"."""
+input UsersOrderBy {
+  id: OrderBy
+  name: OrderBy
+  role: OrderBy
+  status: OrderBy
+}
+
+"""primary key columns input for table: users"""
+input UsersPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "users"
+"""
+enum UsersSelectColumn {
+  """column name"""
+  id
+  """column name"""
+  name
+  """column name"""
+  role
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "users"
+"""
+input UsersSetInput {
+  id: uuid
+  name: String
+  role: String
+  status: String
+}
+
+"""
+Streaming cursor of the table "users"
+"""
+input UsersStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: UsersStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input UsersStreamCursorValueInput {
+  id: uuid
+  name: String
+  role: String
+  status: String
+}
+
+"""
+update columns of table "users"
+"""
+enum UsersUpdateColumn {
+  """column name"""
+  id
+  """column name"""
+  name
+  """column name"""
+  role
+  """column name"""
+  status
+}
+
+input UsersUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: UsersSetInput
+  """filter the rows which have to be updated"""
+  where: UsersBoolExp!
+}
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input UuidComparisonExp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _isNull: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+
+input activeUsersAggregateBoolExpCount {
+  arguments: [ActiveUsersSelectColumn!]
+  distinct: Boolean
+  filter: ActiveUsersBoolExp
+  predicate: IntComparisonExp!
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "active_session"
+  """
+  deleteActiveSession(
+    """filter the rows which have to be deleted"""
+    where: ActiveSessionBoolExp!
+  ): ActiveSessionMutationResponse
+  """
+  delete data from the table: "active_users"
+  """
+  deleteActiveUsers(
+    """filter the rows which have to be deleted"""
+    where: ActiveUsersBoolExp!
+  ): ActiveUsersMutationResponse
+  """
+  delete data from the table: "rooms"
+  """
+  deleteRooms(
+    """filter the rows which have to be deleted"""
+    where: RoomsBoolExp!
+  ): RoomsMutationResponse
+  """
+  delete single row from the table: "rooms"
+  """
+  deleteRoomsByPk(id: uuid!): Rooms
+  """
+  delete data from the table: "sessions"
+  """
+  deleteSessions(
+    """filter the rows which have to be deleted"""
+    where: SessionsBoolExp!
+  ): SessionsMutationResponse
+  """
+  delete single row from the table: "sessions"
+  """
+  deleteSessionsByPk(id: uuid!): Sessions
+  """
+  delete data from the table: "user_sessions"
+  """
+  deleteUserSessions(
+    """filter the rows which have to be deleted"""
+    where: UserSessionsBoolExp!
+  ): UserSessionsMutationResponse
+  """
+  delete single row from the table: "user_sessions"
+  """
+  deleteUserSessionsByPk(id: uuid!): UserSessions
+  """
+  delete data from the table: "users"
+  """
+  deleteUsers(
+    """filter the rows which have to be deleted"""
+    where: UsersBoolExp!
+  ): UsersMutationResponse
+  """
+  delete single row from the table: "users"
+  """
+  deleteUsersByPk(id: uuid!): Users
+  """
+  insert data into the table: "active_session"
+  """
+  insertActiveSession(
+    """the rows to be inserted"""
+    objects: [ActiveSessionInsertInput!]!
+  ): ActiveSessionMutationResponse
+  """
+  insert a single row into the table: "active_session"
+  """
+  insertActiveSessionOne(
+    """the row to be inserted"""
+    object: ActiveSessionInsertInput!
+  ): ActiveSession
+  """
+  insert data into the table: "active_users"
+  """
+  insertActiveUsers(
+    """the rows to be inserted"""
+    objects: [ActiveUsersInsertInput!]!
+  ): ActiveUsersMutationResponse
+  """
+  insert a single row into the table: "active_users"
+  """
+  insertActiveUsersOne(
+    """the row to be inserted"""
+    object: ActiveUsersInsertInput!
+  ): ActiveUsers
+  """
+  insert data into the table: "rooms"
+  """
+  insertRooms(
+    """the rows to be inserted"""
+    objects: [RoomsInsertInput!]!
+    """upsert condition"""
+    onConflict: RoomsOnConflict
+  ): RoomsMutationResponse
+  """
+  insert a single row into the table: "rooms"
+  """
+  insertRoomsOne(
+    """the row to be inserted"""
+    object: RoomsInsertInput!
+    """upsert condition"""
+    onConflict: RoomsOnConflict
+  ): Rooms
+  """
+  insert data into the table: "sessions"
+  """
+  insertSessions(
+    """the rows to be inserted"""
+    objects: [SessionsInsertInput!]!
+    """upsert condition"""
+    onConflict: SessionsOnConflict
+  ): SessionsMutationResponse
+  """
+  insert a single row into the table: "sessions"
+  """
+  insertSessionsOne(
+    """the row to be inserted"""
+    object: SessionsInsertInput!
+    """upsert condition"""
+    onConflict: SessionsOnConflict
+  ): Sessions
+  """
+  insert data into the table: "user_sessions"
+  """
+  insertUserSessions(
+    """the rows to be inserted"""
+    objects: [UserSessionsInsertInput!]!
+    """upsert condition"""
+    onConflict: UserSessionsOnConflict
+  ): UserSessionsMutationResponse
+  """
+  insert a single row into the table: "user_sessions"
+  """
+  insertUserSessionsOne(
+    """the row to be inserted"""
+    object: UserSessionsInsertInput!
+    """upsert condition"""
+    onConflict: UserSessionsOnConflict
+  ): UserSessions
+  """
+  insert data into the table: "users"
+  """
+  insertUsers(
+    """the rows to be inserted"""
+    objects: [UsersInsertInput!]!
+    """upsert condition"""
+    onConflict: UsersOnConflict
+  ): UsersMutationResponse
+  """
+  insert a single row into the table: "users"
+  """
+  insertUsersOne(
+    """the row to be inserted"""
+    object: UsersInsertInput!
+    """upsert condition"""
+    onConflict: UsersOnConflict
+  ): Users
+  """
+  update data of the table: "active_session"
+  """
+  updateActiveSession(
+    """sets the columns of the filtered rows to the given values"""
+    _set: ActiveSessionSetInput
+    """filter the rows which have to be updated"""
+    where: ActiveSessionBoolExp!
+  ): ActiveSessionMutationResponse
+  """
+  update multiples rows of table: "active_session"
+  """
+  updateActiveSessionMany(
+    """updates to execute, in order"""
+    updates: [ActiveSessionUpdates!]!
+  ): [ActiveSessionMutationResponse]
+  """
+  update data of the table: "active_users"
+  """
+  updateActiveUsers(
+    """sets the columns of the filtered rows to the given values"""
+    _set: ActiveUsersSetInput
+    """filter the rows which have to be updated"""
+    where: ActiveUsersBoolExp!
+  ): ActiveUsersMutationResponse
+  """
+  update multiples rows of table: "active_users"
+  """
+  updateActiveUsersMany(
+    """updates to execute, in order"""
+    updates: [ActiveUsersUpdates!]!
+  ): [ActiveUsersMutationResponse]
+  """
+  update data of the table: "rooms"
+  """
+  updateRooms(
+    """sets the columns of the filtered rows to the given values"""
+    _set: RoomsSetInput
+    """filter the rows which have to be updated"""
+    where: RoomsBoolExp!
+  ): RoomsMutationResponse
+  """
+  update single row of the table: "rooms"
+  """
+  updateRoomsByPk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: RoomsSetInput
+    pkColumns: RoomsPkColumnsInput!
+  ): Rooms
+  """
+  update multiples rows of table: "rooms"
+  """
+  updateRoomsMany(
+    """updates to execute, in order"""
+    updates: [RoomsUpdates!]!
+  ): [RoomsMutationResponse]
+  """
+  update data of the table: "sessions"
+  """
+  updateSessions(
+    """sets the columns of the filtered rows to the given values"""
+    _set: SessionsSetInput
+    """filter the rows which have to be updated"""
+    where: SessionsBoolExp!
+  ): SessionsMutationResponse
+  """
+  update single row of the table: "sessions"
+  """
+  updateSessionsByPk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: SessionsSetInput
+    pkColumns: SessionsPkColumnsInput!
+  ): Sessions
+  """
+  update multiples rows of table: "sessions"
+  """
+  updateSessionsMany(
+    """updates to execute, in order"""
+    updates: [SessionsUpdates!]!
+  ): [SessionsMutationResponse]
+  """
+  update data of the table: "user_sessions"
+  """
+  updateUserSessions(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UserSessionsSetInput
+    """filter the rows which have to be updated"""
+    where: UserSessionsBoolExp!
+  ): UserSessionsMutationResponse
+  """
+  update single row of the table: "user_sessions"
+  """
+  updateUserSessionsByPk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UserSessionsSetInput
+    pkColumns: UserSessionsPkColumnsInput!
+  ): UserSessions
+  """
+  update multiples rows of table: "user_sessions"
+  """
+  updateUserSessionsMany(
+    """updates to execute, in order"""
+    updates: [UserSessionsUpdates!]!
+  ): [UserSessionsMutationResponse]
+  """
+  update data of the table: "users"
+  """
+  updateUsers(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UsersSetInput
+    """filter the rows which have to be updated"""
+    where: UsersBoolExp!
+  ): UsersMutationResponse
+  """
+  update single row of the table: "users"
+  """
+  updateUsersByPk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UsersSetInput
+    pkColumns: UsersPkColumnsInput!
+  ): Users
+  """
+  update multiples rows of table: "users"
+  """
+  updateUsersMany(
+    """updates to execute, in order"""
+    updates: [UsersUpdates!]!
+  ): [UsersMutationResponse]
+}
+
+type query_root {
+  """
+  fetch data from the table: "active_session"
+  """
+  activeSession(
+    """distinct select on columns"""
+    distinctOn: [ActiveSessionSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveSessionOrderBy!]
+    """filter the rows returned"""
+    where: ActiveSessionBoolExp
+  ): [ActiveSession!]!
+  """
+  fetch aggregated fields from the table: "active_session"
+  """
+  activeSessionAggregate(
+    """distinct select on columns"""
+    distinctOn: [ActiveSessionSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveSessionOrderBy!]
+    """filter the rows returned"""
+    where: ActiveSessionBoolExp
+  ): ActiveSessionAggregate!
+  """An array relationship"""
+  activeUsers(
+    """distinct select on columns"""
+    distinctOn: [ActiveUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveUsersOrderBy!]
+    """filter the rows returned"""
+    where: ActiveUsersBoolExp
+  ): [ActiveUsers!]!
+  """An aggregate relationship"""
+  activeUsersAggregate(
+    """distinct select on columns"""
+    distinctOn: [ActiveUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveUsersOrderBy!]
+    """filter the rows returned"""
+    where: ActiveUsersBoolExp
+  ): ActiveUsersAggregate!
+  """
+  fetch data from the table: "rooms"
+  """
+  rooms(
+    """distinct select on columns"""
+    distinctOn: [RoomsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RoomsOrderBy!]
+    """filter the rows returned"""
+    where: RoomsBoolExp
+  ): [Rooms!]!
+  """
+  fetch aggregated fields from the table: "rooms"
+  """
+  roomsAggregate(
+    """distinct select on columns"""
+    distinctOn: [RoomsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RoomsOrderBy!]
+    """filter the rows returned"""
+    where: RoomsBoolExp
+  ): RoomsAggregate!
+  """fetch data from the table: "rooms" using primary key columns"""
+  roomsByPk(id: uuid!): Rooms
+  """An array relationship"""
+  sessions(
+    """distinct select on columns"""
+    distinctOn: [SessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [SessionsOrderBy!]
+    """filter the rows returned"""
+    where: SessionsBoolExp
+  ): [Sessions!]!
+  """An aggregate relationship"""
+  sessionsAggregate(
+    """distinct select on columns"""
+    distinctOn: [SessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [SessionsOrderBy!]
+    """filter the rows returned"""
+    where: SessionsBoolExp
+  ): SessionsAggregate!
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessionsByPk(id: uuid!): Sessions
+  """
+  fetch data from the table: "user_sessions"
+  """
+  userSessions(
+    """distinct select on columns"""
+    distinctOn: [UserSessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserSessionsOrderBy!]
+    """filter the rows returned"""
+    where: UserSessionsBoolExp
+  ): [UserSessions!]!
+  """
+  fetch aggregated fields from the table: "user_sessions"
+  """
+  userSessionsAggregate(
+    """distinct select on columns"""
+    distinctOn: [UserSessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserSessionsOrderBy!]
+    """filter the rows returned"""
+    where: UserSessionsBoolExp
+  ): UserSessionsAggregate!
+  """fetch data from the table: "user_sessions" using primary key columns"""
+  userSessionsByPk(id: uuid!): UserSessions
+  """
+  fetch data from the table: "users"
+  """
+  users(
+    """distinct select on columns"""
+    distinctOn: [UsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UsersOrderBy!]
+    """filter the rows returned"""
+    where: UsersBoolExp
+  ): [Users!]!
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  usersAggregate(
+    """distinct select on columns"""
+    distinctOn: [UsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UsersOrderBy!]
+    """filter the rows returned"""
+    where: UsersBoolExp
+  ): UsersAggregate!
+  """fetch data from the table: "users" using primary key columns"""
+  usersByPk(id: uuid!): Users
+}
+
+input sessionsAggregateBoolExpCount {
+  arguments: [SessionsSelectColumn!]
+  distinct: Boolean
+  filter: SessionsBoolExp
+  predicate: IntComparisonExp!
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "active_session"
+  """
+  activeSession(
+    """distinct select on columns"""
+    distinctOn: [ActiveSessionSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveSessionOrderBy!]
+    """filter the rows returned"""
+    where: ActiveSessionBoolExp
+  ): [ActiveSession!]!
+  """
+  fetch aggregated fields from the table: "active_session"
+  """
+  activeSessionAggregate(
+    """distinct select on columns"""
+    distinctOn: [ActiveSessionSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveSessionOrderBy!]
+    """filter the rows returned"""
+    where: ActiveSessionBoolExp
+  ): ActiveSessionAggregate!
+  """
+  fetch data from the table in a streaming manner: "active_session"
+  """
+  activeSessionStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [ActiveSessionStreamCursorInput]!
+    """filter the rows returned"""
+    where: ActiveSessionBoolExp
+  ): [ActiveSession!]!
+  """An array relationship"""
+  activeUsers(
+    """distinct select on columns"""
+    distinctOn: [ActiveUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveUsersOrderBy!]
+    """filter the rows returned"""
+    where: ActiveUsersBoolExp
+  ): [ActiveUsers!]!
+  """An aggregate relationship"""
+  activeUsersAggregate(
+    """distinct select on columns"""
+    distinctOn: [ActiveUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveUsersOrderBy!]
+    """filter the rows returned"""
+    where: ActiveUsersBoolExp
+  ): ActiveUsersAggregate!
+  """
+  fetch data from the table in a streaming manner: "active_users"
+  """
+  activeUsersStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [ActiveUsersStreamCursorInput]!
+    """filter the rows returned"""
+    where: ActiveUsersBoolExp
+  ): [ActiveUsers!]!
+  """
+  fetch data from the table: "rooms"
+  """
+  rooms(
+    """distinct select on columns"""
+    distinctOn: [RoomsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RoomsOrderBy!]
+    """filter the rows returned"""
+    where: RoomsBoolExp
+  ): [Rooms!]!
+  """
+  fetch aggregated fields from the table: "rooms"
+  """
+  roomsAggregate(
+    """distinct select on columns"""
+    distinctOn: [RoomsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RoomsOrderBy!]
+    """filter the rows returned"""
+    where: RoomsBoolExp
+  ): RoomsAggregate!
+  """fetch data from the table: "rooms" using primary key columns"""
+  roomsByPk(id: uuid!): Rooms
+  """
+  fetch data from the table in a streaming manner: "rooms"
+  """
+  roomsStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [RoomsStreamCursorInput]!
+    """filter the rows returned"""
+    where: RoomsBoolExp
+  ): [Rooms!]!
+  """An array relationship"""
+  sessions(
+    """distinct select on columns"""
+    distinctOn: [SessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [SessionsOrderBy!]
+    """filter the rows returned"""
+    where: SessionsBoolExp
+  ): [Sessions!]!
+  """An aggregate relationship"""
+  sessionsAggregate(
+    """distinct select on columns"""
+    distinctOn: [SessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [SessionsOrderBy!]
+    """filter the rows returned"""
+    where: SessionsBoolExp
+  ): SessionsAggregate!
+  """fetch data from the table: "sessions" using primary key columns"""
+  sessionsByPk(id: uuid!): Sessions
+  """
+  fetch data from the table in a streaming manner: "sessions"
+  """
+  sessionsStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [SessionsStreamCursorInput]!
+    """filter the rows returned"""
+    where: SessionsBoolExp
+  ): [Sessions!]!
+  """
+  fetch data from the table: "user_sessions"
+  """
+  userSessions(
+    """distinct select on columns"""
+    distinctOn: [UserSessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserSessionsOrderBy!]
+    """filter the rows returned"""
+    where: UserSessionsBoolExp
+  ): [UserSessions!]!
+  """
+  fetch aggregated fields from the table: "user_sessions"
+  """
+  userSessionsAggregate(
+    """distinct select on columns"""
+    distinctOn: [UserSessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserSessionsOrderBy!]
+    """filter the rows returned"""
+    where: UserSessionsBoolExp
+  ): UserSessionsAggregate!
+  """fetch data from the table: "user_sessions" using primary key columns"""
+  userSessionsByPk(id: uuid!): UserSessions
+  """
+  fetch data from the table in a streaming manner: "user_sessions"
+  """
+  userSessionsStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [UserSessionsStreamCursorInput]!
+    """filter the rows returned"""
+    where: UserSessionsBoolExp
+  ): [UserSessions!]!
+  """
+  fetch data from the table: "users"
+  """
+  users(
+    """distinct select on columns"""
+    distinctOn: [UsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UsersOrderBy!]
+    """filter the rows returned"""
+    where: UsersBoolExp
+  ): [Users!]!
+  """
+  fetch aggregated fields from the table: "users"
+  """
+  usersAggregate(
+    """distinct select on columns"""
+    distinctOn: [UsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UsersOrderBy!]
+    """filter the rows returned"""
+    where: UsersBoolExp
+  ): UsersAggregate!
+  """fetch data from the table: "users" using primary key columns"""
+  usersByPk(id: uuid!): Users
+  """
+  fetch data from the table in a streaming manner: "users"
+  """
+  usersStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [UsersStreamCursorInput]!
+    """filter the rows returned"""
+    where: UsersBoolExp
+  ): [Users!]!
+}
+
+scalar timestamptz
+
+scalar uuid

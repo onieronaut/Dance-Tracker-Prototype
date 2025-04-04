@@ -23,6 +23,24 @@ import tamaguiConfig from '@/tamagui.config';
 import 'react-native-get-random-values';
 import { createTables, dropTables } from '@/db/database';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+	ApolloClient,
+	InMemoryCache,
+	ApolloProvider,
+	gql,
+	HttpLink,
+} from '@apollo/client';
+
+const client = new ApolloClient({
+	link: new HttpLink({
+		uri: 'https://guiding-foxhound-54.hasura.app/v1/graphql', // Replace with your Hasura API endpoint
+		headers: {
+			'x-hasura-admin-secret':
+				'hhjMjX0Dr84ZQAmijY99wnCq9hxuTw2YEEph613ineP2hddtLFvLbyWC6bKKv6t9', // Replace with your Hasura secret
+		},
+	}),
+	cache: new InMemoryCache(),
+});
 
 export const unstable_settings = {
 	// Ensure that reloading on `/modal` keeps a back button present.
@@ -57,7 +75,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-	const queryClient = new QueryClient();
 	const colorScheme = 'dark';
 	// const colorScheme = useColorScheme();
 
@@ -65,7 +82,7 @@ function RootLayoutNav() {
 		const prepare = async () => {
 			try {
 				// await dropTables();
-				await createTables();
+				// await createTables();
 			} catch (err) {
 				console.warn(err);
 			}
@@ -76,7 +93,7 @@ function RootLayoutNav() {
 	return (
 		<TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-				<QueryClientProvider client={queryClient}>
+				<ApolloProvider client={client}>
 					<GestureHandlerRootView style={{ flex: 1 }}>
 						<Drawer>
 							<Drawer.Screen
@@ -127,7 +144,7 @@ function RootLayoutNav() {
 						</Stack> */}
 						</Drawer>
 					</GestureHandlerRootView>
-				</QueryClientProvider>
+				</ApolloProvider>
 			</ThemeProvider>
 		</TamaguiProvider>
 	);

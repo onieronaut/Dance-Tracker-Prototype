@@ -1,62 +1,60 @@
-import { AddDancersToRoom } from '@/components/AddDancersToRoom';
-import { RoomItem } from '@/components/RoomItem';
-import { getRooms } from '@/db/rooms/database';
-import { getSession, getSessions } from '@/db/sessions/database';
-import { getDancers } from '@/db/users/database';
-import { RoomType } from '@/types/rooms';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useFocusEffect } from 'expo-router';
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { FlatList, View, useWindowDimensions } from 'react-native';
-import { ScrollView, Text, XStack, YStack } from 'tamagui';
+import { RoomsList } from '@/components/rooms/RoomsList';
+import { gql } from '@/graphql';
+import { useQuery } from '@apollo/client';
+import { useState } from 'react';
+import { ScrollView, Text, XStack } from 'tamagui';
+
+export const RoomsQueryDocument = gql(/* GraphQL */ `
+	query Rooms {
+		rooms {
+			...RoomsList
+			# ...Room
+		}
+	}
+`);
+
+// type Room = DocumentType<typeof RoomFragment>;
 
 export default function RoomsScreen() {
 	const [open, setOpen] = useState(false);
-	const [selectedRoom, setSelectedRoom] = useState<RoomType>();
-	const queryClient = useQueryClient();
+	const [selectedRoom, setSelectedRoom] = useState<any>();
 
-	const { data: rooms, refetch: refetchRooms } = useQuery({
-		queryKey: ['rooms'],
-		queryFn: getRooms,
-	});
+	const { loading, error, data } = useQuery(RoomsQueryDocument);
 
-	const { data: dancers, refetch: refetchDancers } = useQuery({
-		queryKey: ['dancers'],
-		queryFn: getDancers,
-	});
+	// const { data: dancers, refetch: refetchDancers } = useQuery({
+	// 	queryKey: ['dancers'],
+	// 	queryFn: getDancers,
+	// });
 
-	useFocusEffect(() => {
-		refetchRooms();
-		refetchDancers();
-	});
+	// useFocusEffect(() => {
+	// 	refetchRooms();
+	// 	refetchDancers();
+	// });
 
-	console.log('ROOM', rooms);
+	// console.log('[rooms]', data?.rooms);
 
 	const handleOpenAddDancersToRoom = (roomId: string) => {
-		const room = rooms.find((room) => room.roomId === roomId);
+		// const room = rooms.find((room) => room.id === roomId);
 
-		setSelectedRoom(room);
+		// setSelectedRoom(room);
 		setOpen(true);
 	};
 
+	if (loading) return <Text>Loading</Text>;
+
+	if (error) return <Text>Error</Text>;
+
 	return (
 		<>
-			<AddDancersToRoom
+			{/* <AddDancersToRoom
 				open={open}
 				setOpen={setOpen}
 				dancers={dancers}
 				selectedRoom={selectedRoom}
-			/>
+			/> */}
 			<ScrollView flex={1}>
 				<XStack flexWrap='wrap' gap={'$3'} p={'$5'} justify='space-between'>
-					{rooms?.map((room) => (
-						<XStack width={'32%'} key={room.roomId}>
-							<RoomItem
-								room={room}
-								handleOpenAddDancersToRoom={handleOpenAddDancersToRoom}
-							/>
-						</XStack>
-					))}
+					<RoomsList rooms={data?.rooms} />
 				</XStack>
 			</ScrollView>
 		</>
