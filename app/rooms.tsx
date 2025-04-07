@@ -1,43 +1,28 @@
+import { StartSession } from '@/components/StartSession';
 import { RoomsList } from '@/components/rooms/RoomsList';
-import { gql } from '@/graphql';
+import { FragmentType } from '@/graphql/generated';
+import { RoomFragmentDoc, RoomsDocument } from '@/graphql/generated/graphql';
 import { useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { ScrollView, Text, XStack } from 'tamagui';
 
-export const RoomsQueryDocument = gql(/* GraphQL */ `
-	query Rooms {
-		rooms {
-			...RoomsList
-			# ...Room
-		}
-	}
-`);
-
-// type Room = DocumentType<typeof RoomFragment>;
+type Room = FragmentType<typeof RoomFragmentDoc>;
 
 export default function RoomsScreen() {
 	const [open, setOpen] = useState(false);
-	const [selectedRoom, setSelectedRoom] = useState<any>();
+	const [selectedRoom, setSelectedRoom] = useState<Room>();
 
-	const { loading, error, data } = useQuery(RoomsQueryDocument);
+	const { loading, error, data } = useQuery(RoomsDocument);
 
-	// const { data: dancers, refetch: refetchDancers } = useQuery({
-	// 	queryKey: ['dancers'],
-	// 	queryFn: getDancers,
-	// });
+	const handleOpen = (roomId: string) => {
+		const room = data.rooms.find((room) => room.id === roomId);
 
-	// useFocusEffect(() => {
-	// 	refetchRooms();
-	// 	refetchDancers();
-	// });
-
-	// console.log('[rooms]', data?.rooms);
-
-	const handleOpenAddDancersToRoom = (roomId: string) => {
-		// const room = rooms.find((room) => room.id === roomId);
-
-		// setSelectedRoom(room);
+		setSelectedRoom(room);
 		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
 	};
 
 	if (loading) return <Text>Loading</Text>;
@@ -46,15 +31,14 @@ export default function RoomsScreen() {
 
 	return (
 		<>
-			{/* <AddDancersToRoom
+			<StartSession
 				open={open}
-				setOpen={setOpen}
-				dancers={dancers}
+				handleClose={handleClose}
 				selectedRoom={selectedRoom}
-			/> */}
+			/>
 			<ScrollView flex={1}>
 				<XStack flexWrap='wrap' gap={'$3'} p={'$5'} justify='space-between'>
-					<RoomsList rooms={data?.rooms} />
+					<RoomsList rooms={data?.rooms} handleOpen={handleOpen} />
 				</XStack>
 			</ScrollView>
 		</>

@@ -1,77 +1,31 @@
+import { FragmentType, getFragmentData } from '@/graphql/generated';
+import {
+	ActiveDancersDocument,
+	EndSessionDocument,
+	RoomFragmentDoc,
+	RoomsDocument,
+} from '@/graphql/generated/graphql';
+import { useMutation } from '@apollo/client';
 import { DoorClosed, DoorOpen, Hourglass } from '@tamagui/lucide-icons';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import React, { useEffect, useState } from 'react';
 import { Button, Card, H6, Text, XStack, YStack } from 'tamagui';
 import { RoomStatusChip } from '../ui/RoomStatusChip';
-import { FragmentType, getFragmentData, gql } from '@/graphql';
-import { useMutation } from '@apollo/client';
-import { RoomsQueryDocument } from '@/app/rooms';
 
 dayjs.extend(duration);
 
-export const RoomFragment = gql(/* GraphQL */ `
-	fragment Room on Rooms {
-		id
-		name
-		status
-		activeSession {
-			id
-			startTime
-			endTime
-			activeUsers {
-				id
-				user {
-					name
-				}
-			}
-		}
-	}
-`);
-
-const EndSessionMutation = gql(/* GraphQL */ `
-	mutation EndSession(
-		$roomId: uuid = ""
-		$roomStatus: String = ""
-		$sessionId: uuid = ""
-		$sessionStatus: String = ""
-		$endTime: timestamptz = ""
-		$userSessionIds: [uuid!] = ""
-		$userSessionStatus: String = ""
-	) {
-		updateRoomsByPk(pkColumns: { id: $roomId }, _set: { status: $roomStatus }) {
-			id
-		}
-		updateSessionsByPk(
-			pkColumns: { id: $sessionId }
-			_set: { status: $sessionStatus, endTime: $endTime }
-		) {
-			id
-		}
-		updateUserSessionsMany(
-			updates: {
-				where: { id: { _in: $userSessionIds } }
-				_set: { status: $userSessionStatus, endTime: $endTime }
-			}
-		) {
-			returning {
-				id
-			}
-		}
-	}
-`);
-
 export const RoomItem = (props: {
-	room: FragmentType<typeof RoomFragment>;
-	// handleOpenAddDancersToRoom,
+	room: FragmentType<typeof RoomFragmentDoc>;
+	handleOpen: (roomId: string) => void;
 }) => {
 	const initialTime = '0:00';
 	const [time, setTime] = useState(initialTime);
-	const room = getFragmentData(RoomFragment, props.room);
+	const room = getFragmentData(RoomFragmentDoc, props.room);
 
 	const [endSession, { data, loading, error }] = useMutation(
-		EndSessionMutation,
-		{ refetchQueries: [RoomsQueryDocument] }
+		EndSessionDocument,
+		{ refetchQueries: [RoomsDocument, ActiveDancersDocument] }
 	);
 
 	useEffect(() => {
@@ -93,19 +47,19 @@ export const RoomItem = (props: {
 		const userSessionIds = room.activeSession.activeUsers.map(
 			(userSession) => userSession.id
 		);
+		const userIds = room.activeSession.activeUsers.map((user) => user.user.id);
+
+		setTime(initialTime);
 
 		await endSession({
 			variables: {
 				roomId: room.id,
-				roomStatus: 'Open',
 				sessionId: room.activeSession.id,
-				sessionStatus: 'Complete',
 				endTime: timestamp,
 				userSessionIds: userSessionIds,
-				userSessionStatus: 'Complete',
+				userIds: userIds,
 			},
 		});
-		setTime(initialTime);
 	};
 
 	return (
@@ -134,7 +88,7 @@ export const RoomItem = (props: {
 				</Card.Header>
 				{room.status === 'Open' && (
 					<Button
-						// onPress={() => handleOpenAddDancersToRoom(room.id)}
+						onPress={() => props.handleOpen(room.id)}
 						icon={<DoorOpen size={18} />}>
 						Start Session
 					</Button>

@@ -1,19 +1,14 @@
-import { FragmentType, getFragmentData, gql } from '@/graphql';
+import { FragmentType, getFragmentData } from '@/graphql/generated';
+import { RoomsListFragmentDoc } from '@/graphql/generated/graphql';
 import React from 'react';
 import { XStack } from 'tamagui';
 import { RoomItem } from './RoomItem';
 
-export const RoomsListFragment = gql(/* GraphQL */ `
-	fragment RoomsList on Rooms {
-		id
-		...Room
-	}
-`);
-
 export const RoomsList = (props: {
-	rooms: FragmentType<typeof RoomsListFragment>[];
+	rooms: FragmentType<typeof RoomsListFragmentDoc>[];
+	handleOpen: (roomId: string) => void;
 }) => {
-	const rooms = getFragmentData(RoomsListFragment, props.rooms);
+	const rooms = getFragmentData(RoomsListFragmentDoc, props.rooms);
 
 	console.log('[rooms list]:', rooms);
 
@@ -21,10 +16,7 @@ export const RoomsList = (props: {
 		<>
 			{rooms?.map((room) => (
 				<XStack width={'32%'} key={room.id}>
-					<RoomItem
-						room={room}
-						// handleOpenAddDancersToRoom={handleOpenAddDancersToRoom}
-					/>
+					<RoomItem room={room} handleOpen={props.handleOpen} />
 				</XStack>
 			))}
 		</>

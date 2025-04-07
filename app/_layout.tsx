@@ -1,44 +1,68 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {
 	DarkTheme,
 	DefaultTheme,
 	ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+import tamaguiConfig from '@/tamagui.config';
+import {
+	ApolloClient,
+	ApolloProvider,
+	HttpLink,
+	InMemoryCache,
+	split,
+} from '@apollo/client';
+import { Drawer } from 'expo-router/drawer';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import 'react-native-get-random-values';
 import { TamaguiProvider } from 'tamagui';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 export {
 	// Catch any errors thrown by the Layout component.
 	ErrorBoundary,
 } from 'expo-router';
-import { Drawer } from 'expo-router/drawer';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import tamaguiConfig from '@/tamagui.config';
-import 'react-native-get-random-values';
-import { createTables, dropTables } from '@/db/database';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-	ApolloClient,
-	InMemoryCache,
-	ApolloProvider,
-	gql,
-	HttpLink,
-} from '@apollo/client';
+
+const httpLink = new HttpLink({
+	uri: 'https://guiding-foxhound-54.hasura.app/v1/graphql',
+	headers: {
+		'x-hasura-admin-secret':
+			'hhjMjX0Dr84ZQAmijY99wnCq9hxuTw2YEEph613ineP2hddtLFvLbyWC6bKKv6t9',
+	},
+});
+
+const wsLink = new GraphQLWsLink(
+	createClient({
+		url: 'wss://guiding-foxhound-54.hasura.app/v1/graphql',
+		connectionParams: {
+			headers: {
+				'x-hasura-admin-secret':
+					'hhjMjX0Dr84ZQAmijY99wnCq9hxuTw2YEEph613ineP2hddtLFvLbyWC6bKKv6t9',
+			},
+		},
+	})
+);
+
+const splitLink = split(
+	({ query }) => {
+		const definition = getMainDefinition(query);
+		return (
+			definition.kind === 'OperationDefinition' &&
+			definition.operation === 'subscription'
+		);
+	},
+	wsLink,
+	httpLink
+);
 
 const client = new ApolloClient({
-	link: new HttpLink({
-		uri: 'https://guiding-foxhound-54.hasura.app/v1/graphql', // Replace with your Hasura API endpoint
-		headers: {
-			'x-hasura-admin-secret':
-				'hhjMjX0Dr84ZQAmijY99wnCq9hxuTw2YEEph613ineP2hddtLFvLbyWC6bKKv6t9', // Replace with your Hasura secret
-		},
-	}),
+	link: splitLink,
 	cache: new InMemoryCache(),
 });
 

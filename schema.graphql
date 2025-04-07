@@ -659,6 +659,32 @@ type Sessions {
   roomId: uuid!
   startTime: timestamptz!
   status: String!
+  """An array relationship"""
+  userSessions(
+    """distinct select on columns"""
+    distinctOn: [UserSessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserSessionsOrderBy!]
+    """filter the rows returned"""
+    where: UserSessionsBoolExp
+  ): [UserSessions!]!
+  """An aggregate relationship"""
+  userSessionsAggregate(
+    """distinct select on columns"""
+    distinctOn: [UserSessionsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserSessionsOrderBy!]
+    """filter the rows returned"""
+    where: UserSessionsBoolExp
+  ): UserSessionsAggregate!
 }
 
 """
@@ -713,6 +739,8 @@ input SessionsBoolExp {
   roomId: UuidComparisonExp
   startTime: TimestamptzComparisonExp
   status: StringComparisonExp
+  userSessions: UserSessionsBoolExp
+  userSessionsAggregate: UserSessionsAggregateBoolExp
 }
 
 """
@@ -735,6 +763,7 @@ input SessionsInsertInput {
   roomId: uuid
   startTime: timestamptz
   status: String
+  userSessions: UserSessionsArrRelInsertInput
 }
 
 """aggregate max on columns"""
@@ -788,6 +817,15 @@ type SessionsMutationResponse {
 }
 
 """
+input type for inserting object relation for remote table "sessions"
+"""
+input SessionsObjRelInsertInput {
+  data: SessionsInsertInput!
+  """upsert condition"""
+  onConflict: SessionsOnConflict
+}
+
+"""
 on_conflict condition type for table "sessions"
 """
 input SessionsOnConflict {
@@ -804,6 +842,7 @@ input SessionsOrderBy {
   roomId: OrderBy
   startTime: OrderBy
   status: OrderBy
+  userSessionsAggregate: UserSessionsAggregateOrderBy
 }
 
 """primary key columns input for table: sessions"""
@@ -945,6 +984,8 @@ type UserSessions {
   endTime: timestamptz
   id: uuid!
   roomId: uuid!
+  """An object relationship"""
+  session: Sessions
   sessionId: uuid!
   startTime: timestamptz!
   status: String!
@@ -959,6 +1000,10 @@ type UserSessionsAggregate {
   nodes: [UserSessions!]!
 }
 
+input UserSessionsAggregateBoolExp {
+  count: userSessionsAggregateBoolExpCount
+}
+
 """
 aggregate fields of "user_sessions"
 """
@@ -966,6 +1011,24 @@ type UserSessionsAggregateFields {
   count(columns: [UserSessionsSelectColumn!], distinct: Boolean): Int!
   max: UserSessionsMaxFields
   min: UserSessionsMinFields
+}
+
+"""
+order by aggregate values of table "user_sessions"
+"""
+input UserSessionsAggregateOrderBy {
+  count: OrderBy
+  max: UserSessionsMaxOrderBy
+  min: UserSessionsMinOrderBy
+}
+
+"""
+input type for inserting array relation for remote table "user_sessions"
+"""
+input UserSessionsArrRelInsertInput {
+  data: [UserSessionsInsertInput!]!
+  """upsert condition"""
+  onConflict: UserSessionsOnConflict
 }
 
 """
@@ -978,6 +1041,7 @@ input UserSessionsBoolExp {
   endTime: TimestamptzComparisonExp
   id: UuidComparisonExp
   roomId: UuidComparisonExp
+  session: SessionsBoolExp
   sessionId: UuidComparisonExp
   startTime: TimestamptzComparisonExp
   status: StringComparisonExp
@@ -1001,6 +1065,7 @@ input UserSessionsInsertInput {
   endTime: timestamptz
   id: uuid
   roomId: uuid
+  session: SessionsObjRelInsertInput
   sessionId: uuid
   startTime: timestamptz
   status: String
@@ -1018,6 +1083,19 @@ type UserSessionsMaxFields {
   userId: uuid
 }
 
+"""
+order by max() on columns of table "user_sessions"
+"""
+input UserSessionsMaxOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  sessionId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+  userId: OrderBy
+}
+
 """aggregate min on columns"""
 type UserSessionsMinFields {
   endTime: timestamptz
@@ -1027,6 +1105,19 @@ type UserSessionsMinFields {
   startTime: timestamptz
   status: String
   userId: uuid
+}
+
+"""
+order by min() on columns of table "user_sessions"
+"""
+input UserSessionsMinOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  roomId: OrderBy
+  sessionId: OrderBy
+  startTime: OrderBy
+  status: OrderBy
+  userId: OrderBy
 }
 
 """
@@ -1053,6 +1144,7 @@ input UserSessionsOrderBy {
   endTime: OrderBy
   id: OrderBy
   roomId: OrderBy
+  session: SessionsOrderBy
   sessionId: OrderBy
   startTime: OrderBy
   status: OrderBy
@@ -1754,9 +1846,7 @@ type query_root {
   ): SessionsAggregate!
   """fetch data from the table: "sessions" using primary key columns"""
   sessionsByPk(id: uuid!): Sessions
-  """
-  fetch data from the table: "user_sessions"
-  """
+  """An array relationship"""
   userSessions(
     """distinct select on columns"""
     distinctOn: [UserSessionsSelectColumn!]
@@ -1769,9 +1859,7 @@ type query_root {
     """filter the rows returned"""
     where: UserSessionsBoolExp
   ): [UserSessions!]!
-  """
-  fetch aggregated fields from the table: "user_sessions"
-  """
+  """An aggregate relationship"""
   userSessionsAggregate(
     """distinct select on columns"""
     distinctOn: [UserSessionsSelectColumn!]
@@ -1988,9 +2076,7 @@ type subscription_root {
     """filter the rows returned"""
     where: SessionsBoolExp
   ): [Sessions!]!
-  """
-  fetch data from the table: "user_sessions"
-  """
+  """An array relationship"""
   userSessions(
     """distinct select on columns"""
     distinctOn: [UserSessionsSelectColumn!]
@@ -2003,9 +2089,7 @@ type subscription_root {
     """filter the rows returned"""
     where: UserSessionsBoolExp
   ): [UserSessions!]!
-  """
-  fetch aggregated fields from the table: "user_sessions"
-  """
+  """An aggregate relationship"""
   userSessionsAggregate(
     """distinct select on columns"""
     distinctOn: [UserSessionsSelectColumn!]
@@ -2077,5 +2161,12 @@ type subscription_root {
 }
 
 scalar timestamptz
+
+input userSessionsAggregateBoolExpCount {
+  arguments: [UserSessionsSelectColumn!]
+  distinct: Boolean
+  filter: UserSessionsBoolExp
+  predicate: IntComparisonExp!
+}
 
 scalar uuid

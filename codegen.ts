@@ -11,10 +11,10 @@ const config: CodegenConfig = {
 			},
 		},
 	],
-	documents: ['./**/*.tsx'],
+	documents: ['./graphql/**/*.ts'],
 	ignoreNoDocuments: true,
 	generates: {
-		'./graphql/': {
+		'./graphql/generated/': {
 			preset: 'client',
 			presetConfig: {
 				gqlTagName: 'gql',

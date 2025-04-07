@@ -623,6 +623,30 @@ export type Sessions = {
   roomId: Scalars['uuid']['output'];
   startTime: Scalars['timestamptz']['output'];
   status: Scalars['String']['output'];
+  /** An array relationship */
+  userSessions: Array<UserSessions>;
+  /** An aggregate relationship */
+  userSessionsAggregate: UserSessionsAggregate;
+};
+
+
+/** columns and relationships of "sessions" */
+export type SessionsUserSessionsArgs = {
+  distinctOn?: InputMaybe<Array<UserSessionsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<UserSessionsOrderBy>>;
+  where?: InputMaybe<UserSessionsBoolExp>;
+};
+
+
+/** columns and relationships of "sessions" */
+export type SessionsUserSessionsAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserSessionsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<UserSessionsOrderBy>>;
+  where?: InputMaybe<UserSessionsBoolExp>;
 };
 
 /** aggregated selection of "sessions" */
@@ -676,6 +700,8 @@ export type SessionsBoolExp = {
   roomId?: InputMaybe<UuidComparisonExp>;
   startTime?: InputMaybe<TimestamptzComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
+  userSessions?: InputMaybe<UserSessionsBoolExp>;
+  userSessionsAggregate?: InputMaybe<UserSessionsAggregateBoolExp>;
 };
 
 /** unique or primary key constraints on table "sessions" */
@@ -692,6 +718,7 @@ export type SessionsInsertInput = {
   roomId?: InputMaybe<Scalars['uuid']['input']>;
   startTime?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  userSessions?: InputMaybe<UserSessionsArrRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -741,6 +768,13 @@ export type SessionsMutationResponse = {
   returning: Array<Sessions>;
 };
 
+/** input type for inserting object relation for remote table "sessions" */
+export type SessionsObjRelInsertInput = {
+  data: SessionsInsertInput;
+  /** upsert condition */
+  onConflict?: InputMaybe<SessionsOnConflict>;
+};
+
 /** on_conflict condition type for table "sessions" */
 export type SessionsOnConflict = {
   constraint: SessionsConstraint;
@@ -756,6 +790,7 @@ export type SessionsOrderBy = {
   roomId?: InputMaybe<OrderBy>;
   startTime?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
+  userSessionsAggregate?: InputMaybe<UserSessionsAggregateOrderBy>;
 };
 
 /** primary key columns input for table: sessions */
@@ -876,6 +911,8 @@ export type UserSessions = {
   endTime?: Maybe<Scalars['timestamptz']['output']>;
   id: Scalars['uuid']['output'];
   roomId: Scalars['uuid']['output'];
+  /** An object relationship */
+  session?: Maybe<Sessions>;
   sessionId: Scalars['uuid']['output'];
   startTime: Scalars['timestamptz']['output'];
   status: Scalars['String']['output'];
@@ -887,6 +924,10 @@ export type UserSessionsAggregate = {
   __typename?: 'UserSessionsAggregate';
   aggregate?: Maybe<UserSessionsAggregateFields>;
   nodes: Array<UserSessions>;
+};
+
+export type UserSessionsAggregateBoolExp = {
+  count?: InputMaybe<UserSessionsAggregateBoolExpCount>;
 };
 
 /** aggregate fields of "user_sessions" */
@@ -904,6 +945,20 @@ export type UserSessionsAggregateFieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "user_sessions" */
+export type UserSessionsAggregateOrderBy = {
+  count?: InputMaybe<OrderBy>;
+  max?: InputMaybe<UserSessionsMaxOrderBy>;
+  min?: InputMaybe<UserSessionsMinOrderBy>;
+};
+
+/** input type for inserting array relation for remote table "user_sessions" */
+export type UserSessionsArrRelInsertInput = {
+  data: Array<UserSessionsInsertInput>;
+  /** upsert condition */
+  onConflict?: InputMaybe<UserSessionsOnConflict>;
+};
+
 /** Boolean expression to filter rows from the table "user_sessions". All fields are combined with a logical 'AND'. */
 export type UserSessionsBoolExp = {
   _and?: InputMaybe<Array<UserSessionsBoolExp>>;
@@ -912,6 +967,7 @@ export type UserSessionsBoolExp = {
   endTime?: InputMaybe<TimestamptzComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   roomId?: InputMaybe<UuidComparisonExp>;
+  session?: InputMaybe<SessionsBoolExp>;
   sessionId?: InputMaybe<UuidComparisonExp>;
   startTime?: InputMaybe<TimestamptzComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
@@ -929,6 +985,7 @@ export type UserSessionsInsertInput = {
   endTime?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   roomId?: InputMaybe<Scalars['uuid']['input']>;
+  session?: InputMaybe<SessionsObjRelInsertInput>;
   sessionId?: InputMaybe<Scalars['uuid']['input']>;
   startTime?: InputMaybe<Scalars['timestamptz']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -947,6 +1004,17 @@ export type UserSessionsMaxFields = {
   userId?: Maybe<Scalars['uuid']['output']>;
 };
 
+/** order by max() on columns of table "user_sessions" */
+export type UserSessionsMaxOrderBy = {
+  endTime?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  roomId?: InputMaybe<OrderBy>;
+  sessionId?: InputMaybe<OrderBy>;
+  startTime?: InputMaybe<OrderBy>;
+  status?: InputMaybe<OrderBy>;
+  userId?: InputMaybe<OrderBy>;
+};
+
 /** aggregate min on columns */
 export type UserSessionsMinFields = {
   __typename?: 'UserSessionsMinFields';
@@ -957,6 +1025,17 @@ export type UserSessionsMinFields = {
   startTime?: Maybe<Scalars['timestamptz']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "user_sessions" */
+export type UserSessionsMinOrderBy = {
+  endTime?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  roomId?: InputMaybe<OrderBy>;
+  sessionId?: InputMaybe<OrderBy>;
+  startTime?: InputMaybe<OrderBy>;
+  status?: InputMaybe<OrderBy>;
+  userId?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "user_sessions" */
@@ -980,6 +1059,7 @@ export type UserSessionsOrderBy = {
   endTime?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   roomId?: InputMaybe<OrderBy>;
+  session?: InputMaybe<SessionsOrderBy>;
   sessionId?: InputMaybe<OrderBy>;
   startTime?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
@@ -1598,9 +1678,9 @@ export type QueryRoot = {
   sessionsAggregate: SessionsAggregate;
   /** fetch data from the table: "sessions" using primary key columns */
   sessionsByPk?: Maybe<Sessions>;
-  /** fetch data from the table: "user_sessions" */
+  /** An array relationship */
   userSessions: Array<UserSessions>;
-  /** fetch aggregated fields from the table: "user_sessions" */
+  /** An aggregate relationship */
   userSessionsAggregate: UserSessionsAggregate;
   /** fetch data from the table: "user_sessions" using primary key columns */
   userSessionsByPk?: Maybe<UserSessions>;
@@ -1777,9 +1857,9 @@ export type SubscriptionRoot = {
   sessionsByPk?: Maybe<Sessions>;
   /** fetch data from the table in a streaming manner: "sessions" */
   sessionsStream: Array<Sessions>;
-  /** fetch data from the table: "user_sessions" */
+  /** An array relationship */
   userSessions: Array<UserSessions>;
-  /** fetch aggregated fields from the table: "user_sessions" */
+  /** An aggregate relationship */
   userSessionsAggregate: UserSessionsAggregate;
   /** fetch data from the table: "user_sessions" using primary key columns */
   userSessionsByPk?: Maybe<UserSessions>;
@@ -1965,35 +2045,56 @@ export type SubscriptionRootUsersStreamArgs = {
   where?: InputMaybe<UsersBoolExp>;
 };
 
-export type RoomsQueryVariables = Exact<{ [key: string]: never; }>;
+export type UserSessionsAggregateBoolExpCount = {
+  arguments?: InputMaybe<Array<UserSessionsSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<UserSessionsBoolExp>;
+  predicate: IntComparisonExp;
+};
 
-
-export type RoomsQuery = { __typename?: 'query_root', rooms: Array<(
-    { __typename?: 'Rooms' }
-    & { ' $fragmentRefs'?: { 'RoomsListFragment': RoomsListFragment } }
-  )> };
-
-export type RoomFragment = { __typename?: 'Rooms', id: string, name: string, status: string, activeSession?: { __typename?: 'ActiveSession', id?: string | null, startTime?: string | null, endTime?: string | null, activeUsers: Array<{ __typename?: 'ActiveUsers', id?: string | null, user?: { __typename?: 'Users', name: string } | null }> } | null } & { ' $fragmentName'?: 'RoomFragment' };
-
-export type EndSessionMutationVariables = Exact<{
-  roomId?: InputMaybe<Scalars['uuid']['input']>;
-  roomStatus?: InputMaybe<Scalars['String']['input']>;
-  sessionId?: InputMaybe<Scalars['uuid']['input']>;
-  sessionStatus?: InputMaybe<Scalars['String']['input']>;
-  endTime?: InputMaybe<Scalars['timestamptz']['input']>;
-  userSessionIds?: InputMaybe<Array<Scalars['uuid']['input']> | Scalars['uuid']['input']>;
-  userSessionStatus?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type EndSessionMutation = { __typename?: 'mutation_root', updateRoomsByPk?: { __typename?: 'Rooms', id: string } | null, updateSessionsByPk?: { __typename?: 'Sessions', id: string } | null, updateUserSessionsMany?: Array<{ __typename?: 'UserSessionsMutationResponse', returning: Array<{ __typename?: 'UserSessions', id: string }> } | null> | null };
+export type RoomFragment = { __typename?: 'Rooms', id: string, name: string, status: string, activeSession?: { __typename?: 'ActiveSession', id?: string | null, startTime?: string | null, endTime?: string | null, activeUsers: Array<{ __typename?: 'ActiveUsers', id?: string | null, user?: { __typename?: 'Users', id: string, name: string } | null }> } | null } & { ' $fragmentName'?: 'RoomFragment' };
 
 export type RoomsListFragment = (
   { __typename?: 'Rooms', id: string }
   & { ' $fragmentRefs'?: { 'RoomFragment': RoomFragment } }
 ) & { ' $fragmentName'?: 'RoomsListFragment' };
 
-export const RoomFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RoomFragment, unknown>;
-export const RoomsListFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomsList"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RoomsListFragment, unknown>;
-export const RoomsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Rooms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rooms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoomsList"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomsList"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}}]} as unknown as DocumentNode<RoomsQuery, RoomsQueryVariables>;
-export const EndSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"EndSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roomStatus"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sessionStatus"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userSessionIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userSessionStatus"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}},"defaultValue":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateRoomsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomStatus"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateSessionsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sessionStatus"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUserSessionsMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userSessionIds"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userSessionStatus"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<EndSessionMutation, EndSessionMutationVariables>;
+export type EndSessionMutationVariables = Exact<{
+  roomId?: InputMaybe<Scalars['uuid']['input']>;
+  sessionId?: InputMaybe<Scalars['uuid']['input']>;
+  endTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  userSessionIds?: InputMaybe<Array<Scalars['uuid']['input']> | Scalars['uuid']['input']>;
+  userIds?: InputMaybe<Array<Scalars['uuid']['input']> | Scalars['uuid']['input']>;
+}>;
+
+
+export type EndSessionMutation = { __typename?: 'mutation_root', updateRoomsByPk?: { __typename?: 'Rooms', id: string } | null, updateSessionsByPk?: { __typename?: 'Sessions', id: string } | null, updateUserSessionsMany?: Array<{ __typename?: 'UserSessionsMutationResponse', returning: Array<{ __typename?: 'UserSessions', id: string }> } | null> | null, updateUsersMany?: Array<{ __typename?: 'UsersMutationResponse', returning: Array<{ __typename?: 'Users', id: string }> } | null> | null };
+
+export type StartSessionMutationVariables = Exact<{
+  roomId?: InputMaybe<Scalars['uuid']['input']>;
+  data?: InputMaybe<Array<UserSessionsInsertInput> | UserSessionsInsertInput>;
+  userIds?: InputMaybe<Array<Scalars['uuid']['input']> | Scalars['uuid']['input']>;
+}>;
+
+
+export type StartSessionMutation = { __typename?: 'mutation_root', insertSessionsOne?: { __typename?: 'Sessions', id: string } | null, updateRoomsByPk?: { __typename?: 'Rooms', id: string } | null, updateUsersMany?: Array<{ __typename?: 'UsersMutationResponse', returning: Array<{ __typename?: 'Users', id: string }> } | null> | null };
+
+export type ActiveDancersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ActiveDancersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'Users', id: string, name: string, status: string }> };
+
+export type RoomsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RoomsQuery = { __typename?: 'query_root', rooms: Array<(
+    { __typename?: 'Rooms', id: string }
+    & { ' $fragmentRefs'?: { 'RoomsListFragment': RoomsListFragment;'RoomFragment': RoomFragment } }
+  )> };
+
+export const RoomFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RoomFragment, unknown>;
+export const RoomsListFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomsList"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RoomsListFragment, unknown>;
+export const EndSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"EndSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userSessionIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateRoomsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Open","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateSessionsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Complete","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUserSessionsMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userSessionIds"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Complete","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUsersMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Active","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<EndSessionMutation, EndSessionMutationVariables>;
+export const StartSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StartSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserSessionsInsertInput"}}}},"defaultValue":{"kind":"ObjectValue","fields":[]}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertSessionsOne"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"roomId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"userSessions"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateRoomsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"In Use","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUsersMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"In Room","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<StartSessionMutation, StartSessionMutationVariables>;
+export const ActiveDancersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ActiveDancers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"role"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"dancer","block":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"Active","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<ActiveDancersQuery, ActiveDancersQueryVariables>;
+export const RoomsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Rooms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rooms"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoomsList"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomsList"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}}]} as unknown as DocumentNode<RoomsQuery, RoomsQueryVariables>;
