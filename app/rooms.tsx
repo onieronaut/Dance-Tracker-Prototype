@@ -2,7 +2,7 @@ import { StartSession } from '@/components/StartSession';
 import { RoomsList } from '@/components/rooms/RoomsList';
 import { FragmentType } from '@/graphql/generated';
 import { RoomFragmentDoc, RoomsDocument } from '@/graphql/generated/graphql';
-import { useQuery } from '@apollo/client';
+import { useQuery, useSubscription } from '@apollo/client';
 import { useState } from 'react';
 import { ScrollView, Text, XStack } from 'tamagui';
 
@@ -12,7 +12,7 @@ export default function RoomsScreen() {
 	const [open, setOpen] = useState(false);
 	const [selectedRoom, setSelectedRoom] = useState<Room>();
 
-	const { loading, error, data } = useQuery(RoomsDocument);
+	const { loading, error, data } = useSubscription(RoomsDocument);
 
 	const handleOpen = (roomId: string) => {
 		const room = data.rooms.find((room) => room.id === roomId);

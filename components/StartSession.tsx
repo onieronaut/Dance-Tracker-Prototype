@@ -112,7 +112,9 @@ export const StartSession = (props: {
 						<Sheet.ScrollView>
 							<YStack gap={'$3'}>
 								{data.users.map((dancer) => (
-									<Card onPress={() => handleCheckboxChange(dancer.id)}>
+									<Card
+										onPress={() => handleCheckboxChange(dancer.id)}
+										key={dancer.id}>
 										<Card.Header>
 											<XStack
 												justify='space-between'

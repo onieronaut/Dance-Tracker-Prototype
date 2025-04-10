@@ -44,6 +44,8 @@ type ActiveSession {
   ): ActiveUsersAggregate!
   endTime: timestamptz
   id: uuid
+  """An object relationship"""
+  room: Rooms
   roomId: uuid
   startTime: timestamptz
   status: String
@@ -77,6 +79,7 @@ input ActiveSessionBoolExp {
   activeUsersAggregate: ActiveUsersAggregateBoolExp
   endTime: TimestamptzComparisonExp
   id: UuidComparisonExp
+  room: RoomsBoolExp
   roomId: UuidComparisonExp
   startTime: TimestamptzComparisonExp
   status: StringComparisonExp
@@ -89,6 +92,7 @@ input ActiveSessionInsertInput {
   activeUsers: ActiveUsersArrRelInsertInput
   endTime: timestamptz
   id: uuid
+  room: RoomsObjRelInsertInput
   roomId: uuid
   startTime: timestamptz
   status: String
@@ -134,6 +138,7 @@ input ActiveSessionOrderBy {
   activeUsersAggregate: ActiveUsersAggregateOrderBy
   endTime: OrderBy
   id: OrderBy
+  room: RoomsOrderBy
   roomId: OrderBy
   startTime: OrderBy
   status: OrderBy
@@ -198,6 +203,8 @@ columns and relationships of "active_users"
 type ActiveUsers {
   endTime: timestamptz
   id: uuid
+  """An object relationship"""
+  room: Rooms
   roomId: uuid
   sessionId: uuid
   startTime: timestamptz
@@ -253,6 +260,7 @@ input ActiveUsersBoolExp {
   _or: [ActiveUsersBoolExp!]
   endTime: TimestamptzComparisonExp
   id: UuidComparisonExp
+  room: RoomsBoolExp
   roomId: UuidComparisonExp
   sessionId: UuidComparisonExp
   startTime: TimestamptzComparisonExp
@@ -267,6 +275,7 @@ input type for inserting data into table "active_users"
 input ActiveUsersInsertInput {
   endTime: timestamptz
   id: uuid
+  room: RoomsObjRelInsertInput
   roomId: uuid
   sessionId: uuid
   startTime: timestamptz
@@ -333,10 +342,18 @@ type ActiveUsersMutationResponse {
   returning: [ActiveUsers!]!
 }
 
+"""
+input type for inserting object relation for remote table "active_users"
+"""
+input ActiveUsersObjRelInsertInput {
+  data: ActiveUsersInsertInput!
+}
+
 """Ordering options when selecting data from "active_users"."""
 input ActiveUsersOrderBy {
   endTime: OrderBy
   id: OrderBy
+  room: RoomsOrderBy
   roomId: OrderBy
   sessionId: OrderBy
   startTime: OrderBy
@@ -404,6 +421,176 @@ input ActiveUsersUpdates {
   _set: ActiveUsersSetInput
   """filter the rows which have to be updated"""
   where: ActiveUsersBoolExp!
+}
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input BooleanComparisonExp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _isNull: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
+columns and relationships of "current_user_rotation"
+"""
+type CurrentUserRotation {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  """An object relationship"""
+  user: Users
+  userId: uuid
+}
+
+"""
+aggregated selection of "current_user_rotation"
+"""
+type CurrentUserRotationAggregate {
+  aggregate: CurrentUserRotationAggregateFields
+  nodes: [CurrentUserRotation!]!
+}
+
+"""
+aggregate fields of "current_user_rotation"
+"""
+type CurrentUserRotationAggregateFields {
+  count(columns: [CurrentUserRotationSelectColumn!], distinct: Boolean): Int!
+  max: CurrentUserRotationMaxFields
+  min: CurrentUserRotationMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "current_user_rotation". All fields are combined with a logical 'AND'.
+"""
+input CurrentUserRotationBoolExp {
+  _and: [CurrentUserRotationBoolExp!]
+  _not: CurrentUserRotationBoolExp
+  _or: [CurrentUserRotationBoolExp!]
+  endTime: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  rotationId: UuidComparisonExp
+  startTime: TimestamptzComparisonExp
+  user: UsersBoolExp
+  userId: UuidComparisonExp
+}
+
+"""
+input type for inserting data into table "current_user_rotation"
+"""
+input CurrentUserRotationInsertInput {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  user: UsersObjRelInsertInput
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type CurrentUserRotationMaxFields {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type CurrentUserRotationMinFields {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "current_user_rotation"
+"""
+type CurrentUserRotationMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [CurrentUserRotation!]!
+}
+
+"""
+input type for inserting object relation for remote table "current_user_rotation"
+"""
+input CurrentUserRotationObjRelInsertInput {
+  data: CurrentUserRotationInsertInput!
+}
+
+"""Ordering options when selecting data from "current_user_rotation"."""
+input CurrentUserRotationOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  rotationId: OrderBy
+  startTime: OrderBy
+  user: UsersOrderBy
+  userId: OrderBy
+}
+
+"""
+select columns of table "current_user_rotation"
+"""
+enum CurrentUserRotationSelectColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  rotationId
+  """column name"""
+  startTime
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "current_user_rotation"
+"""
+input CurrentUserRotationSetInput {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+Streaming cursor of the table "current_user_rotation"
+"""
+input CurrentUserRotationStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: CurrentUserRotationStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input CurrentUserRotationStreamCursorValueInput {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+input CurrentUserRotationUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: CurrentUserRotationSetInput
+  """filter the rows which have to be updated"""
+  where: CurrentUserRotationBoolExp!
 }
 
 """ordering argument of a cursor"""
@@ -646,6 +833,261 @@ input RoomsUpdates {
   _set: RoomsSetInput
   """filter the rows which have to be updated"""
   where: RoomsBoolExp!
+}
+
+"""
+columns and relationships of "rotation"
+"""
+type Rotation {
+  """An object relationship"""
+  currentUserRotation: CurrentUserRotation
+  id: uuid!
+  index: Int!
+  isActive: Boolean!
+  name: String!
+  type: String!
+  userId: uuid
+}
+
+"""
+aggregated selection of "rotation"
+"""
+type RotationAggregate {
+  aggregate: RotationAggregateFields
+  nodes: [Rotation!]!
+}
+
+"""
+aggregate fields of "rotation"
+"""
+type RotationAggregateFields {
+  avg: RotationAvgFields
+  count(columns: [RotationSelectColumn!], distinct: Boolean): Int!
+  max: RotationMaxFields
+  min: RotationMinFields
+  stddev: RotationStddevFields
+  stddevPop: RotationStddevPopFields
+  stddevSamp: RotationStddevSampFields
+  sum: RotationSumFields
+  varPop: RotationVarPopFields
+  varSamp: RotationVarSampFields
+  variance: RotationVarianceFields
+}
+
+"""aggregate avg on columns"""
+type RotationAvgFields {
+  index: Float
+}
+
+"""
+Boolean expression to filter rows from the table "rotation". All fields are combined with a logical 'AND'.
+"""
+input RotationBoolExp {
+  _and: [RotationBoolExp!]
+  _not: RotationBoolExp
+  _or: [RotationBoolExp!]
+  currentUserRotation: CurrentUserRotationBoolExp
+  id: UuidComparisonExp
+  index: IntComparisonExp
+  isActive: BooleanComparisonExp
+  name: StringComparisonExp
+  type: StringComparisonExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "rotation"
+"""
+enum RotationConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  rotation_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "rotation"
+"""
+input RotationIncInput {
+  index: Int
+}
+
+"""
+input type for inserting data into table "rotation"
+"""
+input RotationInsertInput {
+  currentUserRotation: CurrentUserRotationObjRelInsertInput
+  id: uuid
+  index: Int
+  isActive: Boolean
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type RotationMaxFields {
+  id: uuid
+  index: Int
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type RotationMinFields {
+  id: uuid
+  index: Int
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "rotation"
+"""
+type RotationMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [Rotation!]!
+}
+
+"""
+on_conflict condition type for table "rotation"
+"""
+input RotationOnConflict {
+  constraint: RotationConstraint!
+  updateColumns: [RotationUpdateColumn!]! = []
+  where: RotationBoolExp
+}
+
+"""Ordering options when selecting data from "rotation"."""
+input RotationOrderBy {
+  currentUserRotation: CurrentUserRotationOrderBy
+  id: OrderBy
+  index: OrderBy
+  isActive: OrderBy
+  name: OrderBy
+  type: OrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: rotation"""
+input RotationPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "rotation"
+"""
+enum RotationSelectColumn {
+  """column name"""
+  id
+  """column name"""
+  index
+  """column name"""
+  isActive
+  """column name"""
+  name
+  """column name"""
+  type
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "rotation"
+"""
+input RotationSetInput {
+  id: uuid
+  index: Int
+  isActive: Boolean
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate stddev on columns"""
+type RotationStddevFields {
+  index: Float
+}
+
+"""aggregate stddevPop on columns"""
+type RotationStddevPopFields {
+  index: Float
+}
+
+"""aggregate stddevSamp on columns"""
+type RotationStddevSampFields {
+  index: Float
+}
+
+"""
+Streaming cursor of the table "rotation"
+"""
+input RotationStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: RotationStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input RotationStreamCursorValueInput {
+  id: uuid
+  index: Int
+  isActive: Boolean
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate sum on columns"""
+type RotationSumFields {
+  index: Int
+}
+
+"""
+update columns of table "rotation"
+"""
+enum RotationUpdateColumn {
+  """column name"""
+  id
+  """column name"""
+  index
+  """column name"""
+  isActive
+  """column name"""
+  name
+  """column name"""
+  type
+  """column name"""
+  userId
+}
+
+input RotationUpdates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: RotationIncInput
+  """sets the columns of the filtered rows to the given values"""
+  _set: RotationSetInput
+  """filter the rows which have to be updated"""
+  where: RotationBoolExp!
+}
+
+"""aggregate varPop on columns"""
+type RotationVarPopFields {
+  index: Float
+}
+
+"""aggregate varSamp on columns"""
+type RotationVarSampFields {
+  index: Float
+}
+
+"""aggregate variance on columns"""
+type RotationVarianceFields {
+  index: Float
 }
 
 """
@@ -978,6 +1420,194 @@ input TimestamptzComparisonExp {
 }
 
 """
+columns and relationships of "user_rotation"
+"""
+type UserRotation {
+  endTime: timestamptz
+  id: uuid!
+  rotationId: uuid!
+  startTime: timestamptz!
+  """An object relationship"""
+  user: Users
+  userId: uuid!
+}
+
+"""
+aggregated selection of "user_rotation"
+"""
+type UserRotationAggregate {
+  aggregate: UserRotationAggregateFields
+  nodes: [UserRotation!]!
+}
+
+"""
+aggregate fields of "user_rotation"
+"""
+type UserRotationAggregateFields {
+  count(columns: [UserRotationSelectColumn!], distinct: Boolean): Int!
+  max: UserRotationMaxFields
+  min: UserRotationMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "user_rotation". All fields are combined with a logical 'AND'.
+"""
+input UserRotationBoolExp {
+  _and: [UserRotationBoolExp!]
+  _not: UserRotationBoolExp
+  _or: [UserRotationBoolExp!]
+  endTime: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  rotationId: UuidComparisonExp
+  startTime: TimestamptzComparisonExp
+  user: UsersBoolExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "user_rotation"
+"""
+enum UserRotationConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_rotation_pkey
+}
+
+"""
+input type for inserting data into table "user_rotation"
+"""
+input UserRotationInsertInput {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  user: UsersObjRelInsertInput
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type UserRotationMaxFields {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type UserRotationMinFields {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "user_rotation"
+"""
+type UserRotationMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [UserRotation!]!
+}
+
+"""
+on_conflict condition type for table "user_rotation"
+"""
+input UserRotationOnConflict {
+  constraint: UserRotationConstraint!
+  updateColumns: [UserRotationUpdateColumn!]! = []
+  where: UserRotationBoolExp
+}
+
+"""Ordering options when selecting data from "user_rotation"."""
+input UserRotationOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  rotationId: OrderBy
+  startTime: OrderBy
+  user: UsersOrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: user_rotation"""
+input UserRotationPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "user_rotation"
+"""
+enum UserRotationSelectColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  rotationId
+  """column name"""
+  startTime
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "user_rotation"
+"""
+input UserRotationSetInput {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+Streaming cursor of the table "user_rotation"
+"""
+input UserRotationStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: UserRotationStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input UserRotationStreamCursorValueInput {
+  endTime: timestamptz
+  id: uuid
+  rotationId: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+update columns of table "user_rotation"
+"""
+enum UserRotationUpdateColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  rotationId
+  """column name"""
+  startTime
+  """column name"""
+  userId
+}
+
+input UserRotationUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: UserRotationSetInput
+  """filter the rows which have to be updated"""
+  where: UserRotationBoolExp!
+}
+
+"""
 columns and relationships of "user_sessions"
 """
 type UserSessions {
@@ -1241,6 +1871,8 @@ input UserSessionsUpdates {
 columns and relationships of "users"
 """
 type Users {
+  """An object relationship"""
+  activeSession: ActiveUsers
   id: uuid!
   name: String!
   role: String!
@@ -1271,6 +1903,7 @@ input UsersBoolExp {
   _and: [UsersBoolExp!]
   _not: UsersBoolExp
   _or: [UsersBoolExp!]
+  activeSession: ActiveUsersBoolExp
   id: UuidComparisonExp
   name: StringComparisonExp
   role: StringComparisonExp
@@ -1291,6 +1924,7 @@ enum UsersConstraint {
 input type for inserting data into table "users"
 """
 input UsersInsertInput {
+  activeSession: ActiveUsersObjRelInsertInput
   id: uuid
   name: String
   role: String
@@ -1343,6 +1977,7 @@ input UsersOnConflict {
 
 """Ordering options when selecting data from "users"."""
 input UsersOrderBy {
+  activeSession: ActiveUsersOrderBy
   id: OrderBy
   name: OrderBy
   role: OrderBy
@@ -1456,6 +2091,13 @@ type mutation_root {
     where: ActiveUsersBoolExp!
   ): ActiveUsersMutationResponse
   """
+  delete data from the table: "current_user_rotation"
+  """
+  deleteCurrentUserRotation(
+    """filter the rows which have to be deleted"""
+    where: CurrentUserRotationBoolExp!
+  ): CurrentUserRotationMutationResponse
+  """
   delete data from the table: "rooms"
   """
   deleteRooms(
@@ -1467,6 +2109,17 @@ type mutation_root {
   """
   deleteRoomsByPk(id: uuid!): Rooms
   """
+  delete data from the table: "rotation"
+  """
+  deleteRotation(
+    """filter the rows which have to be deleted"""
+    where: RotationBoolExp!
+  ): RotationMutationResponse
+  """
+  delete single row from the table: "rotation"
+  """
+  deleteRotationByPk(id: uuid!): Rotation
+  """
   delete data from the table: "sessions"
   """
   deleteSessions(
@@ -1477,6 +2130,17 @@ type mutation_root {
   delete single row from the table: "sessions"
   """
   deleteSessionsByPk(id: uuid!): Sessions
+  """
+  delete data from the table: "user_rotation"
+  """
+  deleteUserRotation(
+    """filter the rows which have to be deleted"""
+    where: UserRotationBoolExp!
+  ): UserRotationMutationResponse
+  """
+  delete single row from the table: "user_rotation"
+  """
+  deleteUserRotationByPk(id: uuid!): UserRotation
   """
   delete data from the table: "user_sessions"
   """
@@ -1528,6 +2192,20 @@ type mutation_root {
     object: ActiveUsersInsertInput!
   ): ActiveUsers
   """
+  insert data into the table: "current_user_rotation"
+  """
+  insertCurrentUserRotation(
+    """the rows to be inserted"""
+    objects: [CurrentUserRotationInsertInput!]!
+  ): CurrentUserRotationMutationResponse
+  """
+  insert a single row into the table: "current_user_rotation"
+  """
+  insertCurrentUserRotationOne(
+    """the row to be inserted"""
+    object: CurrentUserRotationInsertInput!
+  ): CurrentUserRotation
+  """
   insert data into the table: "rooms"
   """
   insertRooms(
@@ -1546,6 +2224,24 @@ type mutation_root {
     onConflict: RoomsOnConflict
   ): Rooms
   """
+  insert data into the table: "rotation"
+  """
+  insertRotation(
+    """the rows to be inserted"""
+    objects: [RotationInsertInput!]!
+    """upsert condition"""
+    onConflict: RotationOnConflict
+  ): RotationMutationResponse
+  """
+  insert a single row into the table: "rotation"
+  """
+  insertRotationOne(
+    """the row to be inserted"""
+    object: RotationInsertInput!
+    """upsert condition"""
+    onConflict: RotationOnConflict
+  ): Rotation
+  """
   insert data into the table: "sessions"
   """
   insertSessions(
@@ -1563,6 +2259,24 @@ type mutation_root {
     """upsert condition"""
     onConflict: SessionsOnConflict
   ): Sessions
+  """
+  insert data into the table: "user_rotation"
+  """
+  insertUserRotation(
+    """the rows to be inserted"""
+    objects: [UserRotationInsertInput!]!
+    """upsert condition"""
+    onConflict: UserRotationOnConflict
+  ): UserRotationMutationResponse
+  """
+  insert a single row into the table: "user_rotation"
+  """
+  insertUserRotationOne(
+    """the row to be inserted"""
+    object: UserRotationInsertInput!
+    """upsert condition"""
+    onConflict: UserRotationOnConflict
+  ): UserRotation
   """
   insert data into the table: "user_sessions"
   """
@@ -1632,6 +2346,22 @@ type mutation_root {
     updates: [ActiveUsersUpdates!]!
   ): [ActiveUsersMutationResponse]
   """
+  update data of the table: "current_user_rotation"
+  """
+  updateCurrentUserRotation(
+    """sets the columns of the filtered rows to the given values"""
+    _set: CurrentUserRotationSetInput
+    """filter the rows which have to be updated"""
+    where: CurrentUserRotationBoolExp!
+  ): CurrentUserRotationMutationResponse
+  """
+  update multiples rows of table: "current_user_rotation"
+  """
+  updateCurrentUserRotationMany(
+    """updates to execute, in order"""
+    updates: [CurrentUserRotationUpdates!]!
+  ): [CurrentUserRotationMutationResponse]
+  """
   update data of the table: "rooms"
   """
   updateRooms(
@@ -1656,6 +2386,34 @@ type mutation_root {
     updates: [RoomsUpdates!]!
   ): [RoomsMutationResponse]
   """
+  update data of the table: "rotation"
+  """
+  updateRotation(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: RotationIncInput
+    """sets the columns of the filtered rows to the given values"""
+    _set: RotationSetInput
+    """filter the rows which have to be updated"""
+    where: RotationBoolExp!
+  ): RotationMutationResponse
+  """
+  update single row of the table: "rotation"
+  """
+  updateRotationByPk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: RotationIncInput
+    """sets the columns of the filtered rows to the given values"""
+    _set: RotationSetInput
+    pkColumns: RotationPkColumnsInput!
+  ): Rotation
+  """
+  update multiples rows of table: "rotation"
+  """
+  updateRotationMany(
+    """updates to execute, in order"""
+    updates: [RotationUpdates!]!
+  ): [RotationMutationResponse]
+  """
   update data of the table: "sessions"
   """
   updateSessions(
@@ -1679,6 +2437,30 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [SessionsUpdates!]!
   ): [SessionsMutationResponse]
+  """
+  update data of the table: "user_rotation"
+  """
+  updateUserRotation(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UserRotationSetInput
+    """filter the rows which have to be updated"""
+    where: UserRotationBoolExp!
+  ): UserRotationMutationResponse
+  """
+  update single row of the table: "user_rotation"
+  """
+  updateUserRotationByPk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UserRotationSetInput
+    pkColumns: UserRotationPkColumnsInput!
+  ): UserRotation
+  """
+  update multiples rows of table: "user_rotation"
+  """
+  updateUserRotationMany(
+    """updates to execute, in order"""
+    updates: [UserRotationUpdates!]!
+  ): [UserRotationMutationResponse]
   """
   update data of the table: "user_sessions"
   """
@@ -1787,6 +2569,36 @@ type query_root {
     where: ActiveUsersBoolExp
   ): ActiveUsersAggregate!
   """
+  fetch data from the table: "current_user_rotation"
+  """
+  currentUserRotation(
+    """distinct select on columns"""
+    distinctOn: [CurrentUserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [CurrentUserRotationOrderBy!]
+    """filter the rows returned"""
+    where: CurrentUserRotationBoolExp
+  ): [CurrentUserRotation!]!
+  """
+  fetch aggregated fields from the table: "current_user_rotation"
+  """
+  currentUserRotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [CurrentUserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [CurrentUserRotationOrderBy!]
+    """filter the rows returned"""
+    where: CurrentUserRotationBoolExp
+  ): CurrentUserRotationAggregate!
+  """
   fetch data from the table: "rooms"
   """
   rooms(
@@ -1818,6 +2630,38 @@ type query_root {
   ): RoomsAggregate!
   """fetch data from the table: "rooms" using primary key columns"""
   roomsByPk(id: uuid!): Rooms
+  """
+  fetch data from the table: "rotation"
+  """
+  rotation(
+    """distinct select on columns"""
+    distinctOn: [RotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RotationOrderBy!]
+    """filter the rows returned"""
+    where: RotationBoolExp
+  ): [Rotation!]!
+  """
+  fetch aggregated fields from the table: "rotation"
+  """
+  rotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [RotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RotationOrderBy!]
+    """filter the rows returned"""
+    where: RotationBoolExp
+  ): RotationAggregate!
+  """fetch data from the table: "rotation" using primary key columns"""
+  rotationByPk(id: uuid!): Rotation
   """An array relationship"""
   sessions(
     """distinct select on columns"""
@@ -1846,6 +2690,38 @@ type query_root {
   ): SessionsAggregate!
   """fetch data from the table: "sessions" using primary key columns"""
   sessionsByPk(id: uuid!): Sessions
+  """
+  fetch data from the table: "user_rotation"
+  """
+  userRotation(
+    """distinct select on columns"""
+    distinctOn: [UserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserRotationOrderBy!]
+    """filter the rows returned"""
+    where: UserRotationBoolExp
+  ): [UserRotation!]!
+  """
+  fetch aggregated fields from the table: "user_rotation"
+  """
+  userRotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [UserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserRotationOrderBy!]
+    """filter the rows returned"""
+    where: UserRotationBoolExp
+  ): UserRotationAggregate!
+  """fetch data from the table: "user_rotation" using primary key columns"""
+  userRotationByPk(id: uuid!): UserRotation
   """An array relationship"""
   userSessions(
     """distinct select on columns"""
@@ -1995,6 +2871,47 @@ type subscription_root {
     where: ActiveUsersBoolExp
   ): [ActiveUsers!]!
   """
+  fetch data from the table: "current_user_rotation"
+  """
+  currentUserRotation(
+    """distinct select on columns"""
+    distinctOn: [CurrentUserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [CurrentUserRotationOrderBy!]
+    """filter the rows returned"""
+    where: CurrentUserRotationBoolExp
+  ): [CurrentUserRotation!]!
+  """
+  fetch aggregated fields from the table: "current_user_rotation"
+  """
+  currentUserRotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [CurrentUserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [CurrentUserRotationOrderBy!]
+    """filter the rows returned"""
+    where: CurrentUserRotationBoolExp
+  ): CurrentUserRotationAggregate!
+  """
+  fetch data from the table in a streaming manner: "current_user_rotation"
+  """
+  currentUserRotationStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [CurrentUserRotationStreamCursorInput]!
+    """filter the rows returned"""
+    where: CurrentUserRotationBoolExp
+  ): [CurrentUserRotation!]!
+  """
   fetch data from the table: "rooms"
   """
   rooms(
@@ -2037,6 +2954,49 @@ type subscription_root {
     """filter the rows returned"""
     where: RoomsBoolExp
   ): [Rooms!]!
+  """
+  fetch data from the table: "rotation"
+  """
+  rotation(
+    """distinct select on columns"""
+    distinctOn: [RotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RotationOrderBy!]
+    """filter the rows returned"""
+    where: RotationBoolExp
+  ): [Rotation!]!
+  """
+  fetch aggregated fields from the table: "rotation"
+  """
+  rotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [RotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [RotationOrderBy!]
+    """filter the rows returned"""
+    where: RotationBoolExp
+  ): RotationAggregate!
+  """fetch data from the table: "rotation" using primary key columns"""
+  rotationByPk(id: uuid!): Rotation
+  """
+  fetch data from the table in a streaming manner: "rotation"
+  """
+  rotationStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [RotationStreamCursorInput]!
+    """filter the rows returned"""
+    where: RotationBoolExp
+  ): [Rotation!]!
   """An array relationship"""
   sessions(
     """distinct select on columns"""
@@ -2076,6 +3036,49 @@ type subscription_root {
     """filter the rows returned"""
     where: SessionsBoolExp
   ): [Sessions!]!
+  """
+  fetch data from the table: "user_rotation"
+  """
+  userRotation(
+    """distinct select on columns"""
+    distinctOn: [UserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserRotationOrderBy!]
+    """filter the rows returned"""
+    where: UserRotationBoolExp
+  ): [UserRotation!]!
+  """
+  fetch aggregated fields from the table: "user_rotation"
+  """
+  userRotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [UserRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserRotationOrderBy!]
+    """filter the rows returned"""
+    where: UserRotationBoolExp
+  ): UserRotationAggregate!
+  """fetch data from the table: "user_rotation" using primary key columns"""
+  userRotationByPk(id: uuid!): UserRotation
+  """
+  fetch data from the table in a streaming manner: "user_rotation"
+  """
+  userRotationStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [UserRotationStreamCursorInput]!
+    """filter the rows returned"""
+    where: UserRotationBoolExp
+  ): [UserRotation!]!
   """An array relationship"""
   userSessions(
     """distinct select on columns"""

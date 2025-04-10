@@ -1,4 +1,3 @@
-import { createUser } from '@/db/users/database';
 import { useState } from 'react';
 import { Button, Form, H6, Input, Spinner, YStack } from 'tamagui';
 
@@ -9,27 +8,27 @@ export default function CreateUserScreen() {
 	const [name, setName] = useState('');
 	const [type, setType] = useState('');
 
-	const handleSubmit = async () => {
-		const data = {
-			name: name,
-			type: type,
-		};
+	// const handleSubmit = async () => {
+	// 	const data = {
+	// 		name: name,
+	// 		type: type,
+	// 	};
 
-		try {
-			setStatus('submitting');
-			await createUser(data);
-		} catch (err) {
-			console.log(err);
-		} finally {
-			setStatus('off');
-		}
-	};
+	// 	try {
+	// 		setStatus('submitting');
+	// 		await createUser(data);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	} finally {
+	// 		setStatus('off');
+	// 	}
+	// };
 
 	return (
 		<YStack flex={1}>
 			<Form
 				gap='$4'
-				onSubmit={handleSubmit}
+				// onSubmit={handleSubmit}
 				borderWidth={1}
 				bg='$background'
 				rounded={4}

@@ -1,38 +1,46 @@
-import { UserType } from '@/types/users';
-import React, { useEffect, useState } from 'react';
-import { Card, H2, Text, XStack, YStack } from 'tamagui';
-import { UserStatusChip } from './ui/UserStatusChip';
+import { FragmentType, getFragmentData } from '@/graphql/generated';
+import { SlotFragmentDoc } from '@/graphql/generated/graphql';
 import { Hourglass } from '@tamagui/lucide-icons';
-import dayjs from 'dayjs';
-import { RotationType } from '@/types/rotation';
+import dayjs, { duration } from 'dayjs';
+import React, { useEffect, useState } from 'react';
+import { Card, H2, Text, XStack } from 'tamagui';
+import { UserStatusChip } from './ui/UserStatusChip';
 
-interface QueueRotationItemPropsType {
-	slot: RotationType;
-}
+dayjs.extend(duration);
 
-export const QueueRotationItem = ({ slot }: QueueRotationItemPropsType) => {
+export const QueueRotationItem = (props: {
+	slot: FragmentType<typeof SlotFragmentDoc>;
+}) => {
+	const slot = getFragmentData(SlotFragmentDoc, props.slot);
+
 	const initialTime = '0:00';
 	const [time, setTime] = useState(initialTime);
 
 	useEffect(() => {
-		if (slot.timestamp === 0) return;
+		if (slot.currentUserRotation?.user?.activeSession?.endTime !== null) return;
 
 		const intervalId = setInterval(() => {
-			setTime(dayjs(new Date().getTime() - slot.timestamp).format('m:ss'));
+			const now = dayjs();
+			const diff = now.diff(
+				slot.currentUserRotation?.user?.activeSession?.startTime
+			);
+			const time = dayjs.duration(diff).format('mm:ss');
+
+			setTime(time);
 		}, 1000);
 
 		return () => clearInterval(intervalId);
-	}, [slot.timestamp]);
+	}, [slot.currentUserRotation?.user?.activeSession]);
 
 	return (
 		<Card>
 			<Card.Header>
 				<XStack justify='space-between' style={{ alignItems: 'center' }}>
-					<H2>{slot.position}</H2>
-					<H2>{slot.userName}</H2>
-					<UserStatusChip status={slot.status} />
+					<H2>{slot.name}</H2>
+					<H2>{slot.currentUserRotation?.user?.name}</H2>
+					<UserStatusChip status={slot.currentUserRotation?.user?.status} />
 				</XStack>
-				{slot.timestamp > 0 && (
+				{slot.currentUserRotation?.user?.activeSession && (
 					<XStack
 						style={{ alignItems: 'center' }}
 						justify='flex-end'

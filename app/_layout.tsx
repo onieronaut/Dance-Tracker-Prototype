@@ -24,10 +24,7 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
-export {
-	// Catch any errors thrown by the Layout component.
-	ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
 const httpLink = new HttpLink({
 	uri: 'https://guiding-foxhound-54.hasura.app/v1/graphql',
@@ -61,9 +58,15 @@ const splitLink = split(
 	httpLink
 );
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
 	link: splitLink,
-	cache: new InMemoryCache(),
+	cache: new InMemoryCache({
+		typePolicies: {
+			Rooms: {
+				keyFields: ['id'],
+			},
+		},
+	}),
 });
 
 export const unstable_settings = {
@@ -155,10 +158,10 @@ function RootLayoutNav() {
 								}}
 							/>
 							<Drawer.Screen
-								name='assign-user'
+								name='test'
 								options={{
-									drawerLabel: 'Assign',
-									headerTitle: 'Assign',
+									drawerLabel: 'Rooms',
+									headerTitle: 'VIP Rooms',
 								}}
 							/>
 

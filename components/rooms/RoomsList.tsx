@@ -10,8 +10,6 @@ export const RoomsList = (props: {
 }) => {
 	const rooms = getFragmentData(RoomsListFragmentDoc, props.rooms);
 
-	console.log('[rooms list]:', rooms);
-
 	return (
 		<>
 			{rooms?.map((room) => (

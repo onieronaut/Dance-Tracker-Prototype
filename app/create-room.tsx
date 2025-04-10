@@ -1,4 +1,3 @@
-import { createRoom } from '@/db/rooms/database';
 import { useState } from 'react';
 import { Button, Form, H6, Input, Spinner, YStack } from 'tamagui';
 
@@ -8,26 +7,26 @@ export default function CreateRoomScreen() {
 	);
 	const [name, setName] = useState('');
 
-	const handleSubmit = async () => {
-		const data = {
-			name: name,
-		};
+	// const handleSubmit = async () => {
+	// 	const data = {
+	// 		name: name,
+	// 	};
 
-		try {
-			setStatus('submitting');
-			await createRoom(data);
-		} catch (err) {
-			console.log(err);
-		} finally {
-			setStatus('off');
-		}
-	};
+	// 	try {
+	// 		setStatus('submitting');
+	// 		await createRoom(data);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	} finally {
+	// 		setStatus('off');
+	// 	}
+	// };
 
 	return (
 		<YStack flex={1}>
 			<Form
 				gap='$4'
-				onSubmit={handleSubmit}
+				// onSubmit={handleSubmit}
 				borderWidth={1}
 				bg='$background'
 				rounded={4}
