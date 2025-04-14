@@ -100,11 +100,6 @@ export default function RotationScreen() {
 							id: user.activeSession?.id,
 							startTime: user.activeSession?.startTime,
 							endTime: null,
-							room: {
-								// __typename: 'Rooms',
-								id: user.activeSession?.room?.id,
-								name: user.activeSession?.room?.name,
-							},
 					  }
 					: null;
 
@@ -168,105 +163,11 @@ export default function RotationScreen() {
 					updateRotationMany: [
 						{
 							__typename: 'RotationMutationResponse',
-							affectedRows: newOrder.length,
 							returning: optimisticResponse,
 						},
 					],
 				},
 			});
-		});
-	};
-
-	const handleOnDragEnd = ({
-		data: dragData,
-	}: {
-		data: FragmentType<typeof SlotFragmentDoc>[];
-	}) => {
-		const rotation = getFragmentData(SlotFragmentDoc, dragData);
-
-		const updateRotations = rotation.map((slot, index) => {
-			return {
-				where: { id: { _eq: data.rotation[index].id } },
-				_set: { userId: slot.currentUserRotation?.user?.id },
-			};
-		});
-
-		const optimisticUpdateRotations = rotation.map((slot, index) => {
-			const rotationId = data.rotation[index].id;
-			const rotationName = data.rotation[index].name;
-			const user = slot.currentUserRotation?.user;
-
-			console.log('[user]', user);
-
-			const activeSession = slot.currentUserRotation.user.activeSession
-				? {
-						id: user.activeSession?.id,
-						startTime: user.activeSession?.startTime,
-						endTime: null,
-						room: {
-							id: user.activeSession?.room?.id,
-							name: user.activeSession?.room?.name,
-						},
-				  }
-				: null;
-
-			return {
-				id: rotationId,
-				index: slot.index,
-				type: slot.type,
-				name: rotationName,
-				currentUserRotation: {
-					id: 'temp-' + rotationId,
-					user: {
-						id: user.id,
-						name: user.name,
-						status: user.status,
-						activeSession: activeSession,
-					},
-				},
-			};
-		});
-
-		setDragData([...optimisticUpdateRotations]);
-
-		const insertUserSessions = rotation.map((slot, index) => {
-			return {
-				rotationId: data.rotation[index].id,
-				userId: slot.currentUserRotation?.user?.id,
-			};
-		});
-
-		const userRotationIds = rotation.map(
-			(slot) => slot.currentUserRotation?.id
-		);
-
-		const timestamp = dayjs().toISOString();
-
-		changeRotation({
-			variables: {
-				updates: updateRotations,
-				endTime: timestamp,
-				userRotationIds: userRotationIds,
-				objects: insertUserSessions,
-			},
-			optimisticResponse: {
-				__typename: 'mutation_root',
-				insertUserRotation: {
-					__typename: 'UserRotationMutationResponse',
-					affectedRows: insertUserSessions.length,
-				},
-				updateUserRotation: {
-					__typename: 'UserRotationMutationResponse',
-					affectedRows: userRotationIds.length,
-				},
-				updateRotationMany: [
-					{
-						__typename: 'RotationMutationResponse',
-						affectedRows: rotation.length,
-						returning: optimisticUpdateRotations,
-					},
-				],
-			},
 		});
 	};
 

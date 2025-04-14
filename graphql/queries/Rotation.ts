@@ -1,6 +1,6 @@
 import { gql } from '../generated';
 
-export const Rotation = gql(/* GraphQL */ `
+export const RotationQuery = gql(/* GraphQL */ `
 	query Rotation {
 		rotation(orderBy: { index: ASC }, where: { type: { _eq: "queue" } }) {
 			id
@@ -17,10 +17,6 @@ export const Rotation = gql(/* GraphQL */ `
 						id
 						startTime
 						endTime
-						room {
-							id
-							name
-						}
 					}
 				}
 			}

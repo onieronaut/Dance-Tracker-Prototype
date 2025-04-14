@@ -1,6 +1,6 @@
 import { gql } from '../generated';
 
-export const ChangeRotation = gql(/* GraphQL */ `
+export const ChangeRotationMutation = gql(/* GraphQL */ `
 	mutation ChangeRotation(
 		$endTime: timestamptz = ""
 		$userRotationIds: [uuid!] = ""
@@ -11,7 +11,6 @@ export const ChangeRotation = gql(/* GraphQL */ `
 		$objects: [UserRotationInsertInput!] = { rotationId: "", userId: "" }
 	) {
 		updateRotationMany(updates: $updates) {
-			affectedRows
 			returning {
 				id
 				index
@@ -27,10 +26,6 @@ export const ChangeRotation = gql(/* GraphQL */ `
 							id
 							startTime
 							endTime
-							room {
-								id
-								name
-							}
 						}
 					}
 				}

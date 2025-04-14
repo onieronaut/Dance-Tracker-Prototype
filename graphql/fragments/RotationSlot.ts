@@ -16,10 +16,6 @@ export const RotationSlot = gql(/* GraphQL */ `
 					id
 					startTime
 					endTime
-					room {
-						id
-						name
-					}
 				}
 			}
 		}

@@ -23,6 +23,8 @@ import { TamaguiProvider } from 'tamagui';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { RotationDocument } from '@/graphql/generated/graphql';
+import { DocumentType } from '@/graphql/generated';
 
 export { ErrorBoundary } from 'expo-router';
 
@@ -58,12 +60,20 @@ const splitLink = split(
 	httpLink
 );
 
+DocumentType;
+
 export const client = new ApolloClient({
 	link: splitLink,
 	cache: new InMemoryCache({
 		typePolicies: {
-			Rooms: {
-				keyFields: ['id'],
+			Query: {
+				fields: {
+					rotation: {
+						merge(existing = [], incoming: any[]) {
+							return [...incoming];
+						},
+					},
+				},
 			},
 		},
 	}),
@@ -157,18 +167,6 @@ function RootLayoutNav() {
 									headerTitle: 'VIP Rooms',
 								}}
 							/>
-							<Drawer.Screen
-								name='test'
-								options={{
-									drawerLabel: 'Rooms',
-									headerTitle: 'VIP Rooms',
-								}}
-							/>
-
-							{/* <Stack screenOptions={{ contentStyle: { backgroundColor: 'red' } }}>
-							<Stack.Screen name='index2' options={{ headerShown: false }} />
-							<Stack.Screen name='modal' options={{ presentation: 'modal' }} />
-						</Stack> */}
 						</Drawer>
 					</GestureHandlerRootView>
 				</ApolloProvider>
