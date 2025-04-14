@@ -115,18 +115,6 @@ function RootLayoutNav() {
 	const colorScheme = 'dark';
 	// const colorScheme = useColorScheme();
 
-	useEffect(() => {
-		const prepare = async () => {
-			try {
-				// await dropTables();
-				// await createTables();
-			} catch (err) {
-				console.warn(err);
-			}
-		};
-		prepare();
-	}, []);
-
 	return (
 		<TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
 			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

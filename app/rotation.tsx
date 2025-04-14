@@ -1,41 +1,36 @@
-import { QueueRotationItem } from '@/components/QueueRotationItem';
 import { StageRotationItem } from '@/components/StageRotationItem';
-import { FragmentType, getFragmentData } from '@/graphql/generated';
+import { DocumentType } from '@/graphql/generated';
 import {
 	ChangeRotationDocument,
-	Rotation,
 	RotationDocument,
-	SlotFragmentDoc,
 } from '@/graphql/generated/graphql';
-import { useMutation, useQuery, useSubscription } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import dayjs from 'dayjs';
 import { memo, useEffect, useState } from 'react';
-import { InteractionManager, Pressable, TouchableOpacity } from 'react-native';
-import DraggableFlatList from 'react-native-draggable-flatlist';
-import { Button, Text, XStack, YStack } from 'tamagui';
+import { InteractionManager, Pressable } from 'react-native';
 import ReorderableList, {
-	ReorderableListIndexChangeEvent,
 	ReorderableListReorderEvent,
 	reorderItems,
 	useReorderableDrag,
 } from 'react-native-reorderable-list';
+import { Text, XStack, YStack } from 'tamagui';
 
 export default function RotationScreen() {
 	const { loading, error, data } = useQuery(RotationDocument);
-	const [dragData, setDragData] = useState([]);
+	const [dragData, setDragData] = useState<
+		DocumentType<typeof RotationDocument>['rotation']
+	>([]);
 
 	useEffect(() => {
 		if (data?.rotation) {
 			setDragData([...data.rotation]);
-
-			console.log('[res]', data.rotation);
 		}
 	}, [data?.rotation]);
 
 	const stageRotation = data?.rotation.filter((slot) => slot.type === 'stage');
 	const queueRotation = data?.rotation.filter((slot) => slot.type === 'queue');
 
-	const [changeRotation, { error: mutationError }] = useMutation(
+	const [changeRotation] = useMutation(
 		ChangeRotationDocument,
 
 		{
@@ -60,105 +55,78 @@ export default function RotationScreen() {
 	);
 
 	const handleReorder = ({ from, to }: ReorderableListReorderEvent) => {
-		const y: FragmentType<typeof SlotFragmentDoc>[] = [...dragData];
-		const x: FragmentType<typeof SlotFragmentDoc>[] = reorderItems(
-			dragData,
-			from,
-			to
-		);
-		const prevOrder = getFragmentData(SlotFragmentDoc, y);
+		const initialList = [...dragData];
+		const updatedList = reorderItems(dragData, from, to);
 
-		const newOrder = getFragmentData(SlotFragmentDoc, x);
-
-		setDragData((value) => {
-			console.log('[prev]', value);
-
-			const x = reorderItems(value, from, to);
-			console.log('[new]', x);
-
-			return x;
-		});
+		setDragData(updatedList);
 
 		InteractionManager.runAfterInteractions(() => {
-			console.log('[copy]', newOrder);
+			const timestamp = dayjs().toISOString();
 
-			const updateRotations = newOrder.map((slot, index) => {
+			const updateRotationMany = updatedList.map((slot, index) => {
 				return {
-					where: { id: { _eq: prevOrder[index].id } },
+					where: { id: { _eq: initialList[index].id } },
 					_set: { userId: slot.currentUserRotation.user.id },
 				};
 			});
 
-			const optimisticResponse = newOrder.map((slot, index) => {
-				const rotationId = slot.id;
-				const rotationName = prevOrder[index].name;
-				const user = slot.currentUserRotation?.user;
-
-				const activeSession = slot.currentUserRotation.user.activeSession
-					? {
-							// __typename: 'ActiveUsers',
-							id: user.activeSession?.id,
-							startTime: user.activeSession?.startTime,
-							endTime: null,
-					  }
-					: null;
-
+			const insertUserRotation = updatedList.map((slot, index) => {
 				return {
-					// __typename: 'Rotation',
-					id: rotationId,
-					index: slot.index,
-					type: slot.type,
-					name: rotationName,
-					currentUserRotation: {
-						// __typename: 'CurrentUserRotation',
-						id: 'temp-' + rotationId,
-						user: {
-							// __typename: 'Users',
-							id: user.id,
-							name: user.name,
-							status: user.status,
-							activeSession: activeSession,
-						},
-					},
-				};
-			});
-
-			console.log('[update]', updateRotations);
-			console.log('[op]', optimisticResponse);
-
-			const insertUserSessions = newOrder.map((slot, index) => {
-				return {
-					rotationId: prevOrder[index].id,
+					rotationId: initialList[index].id,
 					userId: slot.currentUserRotation.user.id,
 				};
 			});
 
-			const userRotationIds = newOrder.map(
+			const updateUserRotation = updatedList.map(
 				(slot) => slot.currentUserRotation?.id
 			);
 
-			const timestamp = dayjs().toISOString();
-			console.log(timestamp);
-			console.log(userRotationIds);
+			const optimisticResponse = updatedList.map((slot, index) => {
+				const rotationName = initialList[index].name;
+				const user = slot.currentUserRotation?.user;
 
-			console.log('[insert]', insertUserSessions);
+				// const activeSession = slot.currentUserRotation.user.activeSession
+				// 	? {
+				// 			id: user.activeSession?.id,
+				// 			startTime: user.activeSession?.startTime,
+				// 			endTime: null,
+				// 	  }
+				// 	: null;
+
+				return {
+					id: slot.id,
+					index: slot.index,
+					type: slot.type,
+					name: rotationName,
+					currentUserRotation: {
+						id: 'temp-' + slot.id,
+						user: user,
+						// user: {
+						// 	id: user.id,
+						// 	name: user.name,
+						// 	status: user.status,
+						// 	activeSession: activeSession,
+						// },
+					},
+				};
+			});
 
 			changeRotation({
 				variables: {
-					updates: updateRotations,
 					endTime: timestamp,
-					userRotationIds: userRotationIds,
-					objects: insertUserSessions,
+					updateRotationMany: updateRotationMany,
+					updateUserRotation: updateUserRotation,
+					insertUserRotation: insertUserRotation,
 				},
 				optimisticResponse: {
 					__typename: 'mutation_root',
 					insertUserRotation: {
 						__typename: 'UserRotationMutationResponse',
-						affectedRows: insertUserSessions.length,
+						affectedRows: insertUserRotation.length,
 					},
 					updateUserRotation: {
 						__typename: 'UserRotationMutationResponse',
-						affectedRows: userRotationIds.length,
+						affectedRows: updateUserRotation.length,
 					},
 					updateRotationMany: [
 						{
@@ -203,24 +171,8 @@ export default function RotationScreen() {
 					data={dragData}
 					onReorder={handleReorder}
 					renderItem={renderItem}
-					// IMPORTANT: Do not use the current index as key.
-					// Always use a stable and unique key for each item.
 					keyExtractor={(item) => item.id}
 				/>
-				{/* <DraggableFlatList
-					data={dragData}
-					keyExtractor={(item) => item.id}
-					onDragEnd={handleOnDragEnd}
-					scrollEnabled
-					activationDistance={10}
-					renderItem={({ item, drag, isActive }) => (
-						<YStack my={'$2'}>
-							<TouchableOpacity onLongPress={drag} disabled={isActive}>
-								<QueueRotationItem slot={item} />
-							</TouchableOpacity>
-						</YStack>
-					)}
-				/> */}
 			</YStack>
 		</YStack>
 	);

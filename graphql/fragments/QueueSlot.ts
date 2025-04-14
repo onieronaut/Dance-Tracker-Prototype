@@ -1,7 +1,7 @@
 import { gql } from '../generated';
 
-export const RotationSlot = gql(/* GraphQL */ `
-	fragment Slot on Rotation {
+export const QueueSlotFragment = gql(/* GraphQL */ `
+	fragment QueueSlot on Rotation {
 		id
 		index
 		type

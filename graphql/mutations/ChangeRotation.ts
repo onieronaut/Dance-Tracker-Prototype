@@ -3,14 +3,17 @@ import { gql } from '../generated';
 export const ChangeRotationMutation = gql(/* GraphQL */ `
 	mutation ChangeRotation(
 		$endTime: timestamptz = ""
-		$userRotationIds: [uuid!] = ""
-		$updates: [RotationUpdates!] = {
+		$updateUserRotation: [uuid!] = ""
+		$updateRotationMany: [RotationUpdates!] = {
 			where: { id: { _eq: "" } }
 			_set: { userId: "" }
 		}
-		$objects: [UserRotationInsertInput!] = { rotationId: "", userId: "" }
+		$insertUserRotation: [UserRotationInsertInput!] = {
+			rotationId: ""
+			userId: ""
+		}
 	) {
-		updateRotationMany(updates: $updates) {
+		updateRotationMany(updates: $updateRotationMany) {
 			returning {
 				id
 				index
@@ -32,12 +35,12 @@ export const ChangeRotationMutation = gql(/* GraphQL */ `
 			}
 		}
 		updateUserRotation(
-			where: { id: { _in: $userRotationIds } }
+			where: { id: { _in: $updateUserRotation } }
 			_set: { endTime: $endTime }
 		) {
 			affectedRows
 		}
-		insertUserRotation(objects: $objects) {
+		insertUserRotation(objects: $insertUserRotation) {
 			affectedRows
 		}
 	}

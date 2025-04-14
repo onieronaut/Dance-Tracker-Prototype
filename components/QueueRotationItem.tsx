@@ -1,5 +1,5 @@
 import { FragmentType, getFragmentData } from '@/graphql/generated';
-import { SlotFragmentDoc } from '@/graphql/generated/graphql';
+import { QueueSlotFragmentDoc } from '@/graphql/generated/graphql';
 import { Hourglass } from '@tamagui/lucide-icons';
 import dayjs, { duration } from 'dayjs';
 import React, { useEffect, useState } from 'react';
@@ -9,9 +9,9 @@ import { UserStatusChip } from './ui/UserStatusChip';
 dayjs.extend(duration);
 
 export const QueueRotationItem = (props: {
-	slot: FragmentType<typeof SlotFragmentDoc>;
+	slot: FragmentType<typeof QueueSlotFragmentDoc>;
 }) => {
-	const slot = getFragmentData(SlotFragmentDoc, props.slot);
+	const slot = getFragmentData(QueueSlotFragmentDoc, props.slot);
 
 	const initialTime = '0:00';
 	const [time, setTime] = useState(initialTime);
