@@ -1,3 +1,4 @@
+import { QueueRotationItem } from '@/components/QueueRotationItem';
 import { StageRotationItem } from '@/components/StageRotationItem';
 import { DocumentType } from '@/graphql/generated';
 import {
@@ -6,12 +7,11 @@ import {
 } from '@/graphql/generated/graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import dayjs from 'dayjs';
-import { memo, useEffect, useState } from 'react';
-import { InteractionManager, Pressable } from 'react-native';
+import { useEffect, useState } from 'react';
+import { InteractionManager } from 'react-native';
 import ReorderableList, {
 	ReorderableListReorderEvent,
 	reorderItems,
-	useReorderableDrag,
 } from 'react-native-reorderable-list';
 import { Text, XStack, YStack } from 'tamagui';
 
@@ -43,14 +43,6 @@ export default function RotationScreen() {
 				cache.writeQuery({ query: RotationDocument, data });
 			},
 			refetchQueries: [RotationDocument],
-			// onCompleted: (result) => {
-			// 	const rotation = result.updateRotationMany.map(
-			// 		(slot) => slot.returning[0]
-			// 	);
-			// 	console.log('[res]', rotation);
-
-			// 	setDragData([...rotation]);
-			// },
 		}
 	);
 
@@ -85,28 +77,14 @@ export default function RotationScreen() {
 				const rotationName = initialList[index].name;
 				const user = slot.currentUserRotation?.user;
 
-				// const activeSession = slot.currentUserRotation.user.activeSession
-				// 	? {
-				// 			id: user.activeSession?.id,
-				// 			startTime: user.activeSession?.startTime,
-				// 			endTime: null,
-				// 	  }
-				// 	: null;
-
 				return {
 					id: slot.id,
+					name: rotationName,
 					index: slot.index,
 					type: slot.type,
-					name: rotationName,
 					currentUserRotation: {
 						id: 'temp-' + slot.id,
 						user: user,
-						// user: {
-						// 	id: user.id,
-						// 	name: user.name,
-						// 	status: user.status,
-						// 	activeSession: activeSession,
-						// },
 					},
 				};
 			});
@@ -139,21 +117,6 @@ export default function RotationScreen() {
 		});
 	};
 
-	const Card: React.FC<any> = memo((props) => {
-		const drag = useReorderableDrag();
-
-		return (
-			<Pressable
-				onLongPress={drag}
-				style={{ backgroundColor: 'red', padding: 24 }}>
-				<Text>{props.name}</Text>
-				<Text>{props.currentUserRotation.user.name}</Text>
-			</Pressable>
-		);
-	});
-
-	const renderItem = ({ item }: any) => <Card {...item} />;
-
 	if (loading) return <Text>Loading...</Text>;
 
 	return (
@@ -170,7 +133,7 @@ export default function RotationScreen() {
 				<ReorderableList
 					data={dragData}
 					onReorder={handleReorder}
-					renderItem={renderItem}
+					renderItem={({ item }) => <QueueRotationItem slot={item} />}
 					keyExtractor={(item) => item.id}
 				/>
 			</YStack>
