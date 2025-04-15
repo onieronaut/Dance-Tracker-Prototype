@@ -1,25 +1,19 @@
-import {
-	DocumentType,
-	FragmentType,
-	getFragmentData,
-} from '@/graphql/generated';
-import {
-	ChangeRotationDocument,
-	QueueSlotFragmentDoc,
-	RotationDocument,
-} from '@/graphql/generated/graphql';
+import { DocumentType } from '@/graphql/generated';
+import { QueueRotationDocument } from '@/graphql/generated/graphql';
 import { Hourglass } from '@tamagui/lucide-icons';
 import dayjs, { duration } from 'dayjs';
 import React, { memo, useEffect, useState } from 'react';
+import { Pressable } from 'react-native';
+import { useIsActive, useReorderableDrag } from 'react-native-reorderable-list';
 import { Card, H2, Text, XStack } from 'tamagui';
 import { UserStatusChip } from './ui/UserStatusChip';
-import { useIsActive, useReorderableDrag } from 'react-native-reorderable-list';
-import { Pressable, TouchableOpacity } from 'react-native';
 
 dayjs.extend(duration);
 
 export const QueueRotationItem = memo(
-	(props: { slot: DocumentType<typeof RotationDocument>['rotation'][0] }) => {
+	(props: {
+		slot: DocumentType<typeof QueueRotationDocument>['rotation'][0];
+	}) => {
 		const { slot } = props;
 
 		const drag = useReorderableDrag();

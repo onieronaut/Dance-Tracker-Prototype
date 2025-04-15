@@ -2,8 +2,9 @@ import { QueueRotationItem } from '@/components/QueueRotationItem';
 import { StageRotationItem } from '@/components/StageRotationItem';
 import { DocumentType } from '@/graphql/generated';
 import {
-	ChangeRotationDocument,
-	RotationDocument,
+	QueueRotationDocument,
+	StageRotationDocument,
+	UpdateQueueRotationDocument,
 } from '@/graphql/generated/graphql';
 import { useMutation, useQuery } from '@apollo/client';
 import dayjs from 'dayjs';
@@ -16,33 +17,31 @@ import ReorderableList, {
 import { Text, XStack, YStack } from 'tamagui';
 
 export default function RotationScreen() {
-	const { loading, error, data } = useQuery(RotationDocument);
+	const queueRotation = useQuery(QueueRotationDocument);
+	const stageRotation = useQuery(StageRotationDocument);
 	const [dragData, setDragData] = useState<
-		DocumentType<typeof RotationDocument>['rotation']
+		DocumentType<typeof QueueRotationDocument>['rotation']
 	>([]);
 
 	useEffect(() => {
-		if (data?.rotation) {
-			setDragData([...data.rotation]);
+		if (queueRotation?.data?.rotation) {
+			setDragData([...queueRotation.data.rotation]);
 		}
-	}, [data?.rotation]);
-
-	const stageRotation = data?.rotation.filter((slot) => slot.type === 'stage');
-	const queueRotation = data?.rotation.filter((slot) => slot.type === 'queue');
+	}, [queueRotation?.data?.rotation]);
 
 	const [changeRotation] = useMutation(
-		ChangeRotationDocument,
+		UpdateQueueRotationDocument,
 
 		{
 			update: (cache, { data: { updateRotationMany } }) => {
-				const data = { ...cache.readQuery({ query: RotationDocument }) };
+				const data = { ...cache.readQuery({ query: QueueRotationDocument }) };
 
 				let rotation = [...updateRotationMany[0].returning];
 				data.rotation = rotation;
 
-				cache.writeQuery({ query: RotationDocument, data });
+				cache.writeQuery({ query: QueueRotationDocument, data });
 			},
-			refetchQueries: [RotationDocument],
+			refetchQueries: [QueueRotationDocument],
 		}
 	);
 
@@ -117,7 +116,10 @@ export default function RotationScreen() {
 		});
 	};
 
-	if (loading) return <Text>Loading...</Text>;
+	stageRotation.data;
+
+	if (queueRotation.loading || stageRotation.loading)
+		return <Text>Loading...</Text>;
 
 	return (
 		<YStack flex={1}>
@@ -125,7 +127,7 @@ export default function RotationScreen() {
 				{/* <Button onPress={() => nextSongMutation.mutate()}>Next Song</Button> */}
 			</XStack>
 			<YStack gap={'$2'}>
-				{stageRotation.map((slot) => (
+				{stageRotation?.data?.rotation.map((slot) => (
 					<StageRotationItem slot={slot} key={slot.id} />
 				))}
 			</YStack>
@@ -133,7 +135,11 @@ export default function RotationScreen() {
 				<ReorderableList
 					data={dragData}
 					onReorder={handleReorder}
-					renderItem={({ item }) => <QueueRotationItem slot={item} />}
+					renderItem={({ item }) => (
+						<YStack gap={'$2'}>
+							<QueueRotationItem slot={item} />
+						</YStack>
+					)}
 					keyExtractor={(item) => item.id}
 				/>
 			</YStack>

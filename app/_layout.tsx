@@ -23,7 +23,6 @@ import { TamaguiProvider } from 'tamagui';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { RotationDocument } from '@/graphql/generated/graphql';
 import { DocumentType } from '@/graphql/generated';
 
 export { ErrorBoundary } from 'expo-router';
