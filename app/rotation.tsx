@@ -3,6 +3,7 @@ import { StageRotationItem } from '@/components/StageRotationItem';
 import { DocumentType } from '@/graphql/generated';
 import {
 	QueueRotationDocument,
+	RotateDocument,
 	StageRotationDocument,
 	UpdateQueueRotationDocument,
 } from '@/graphql/generated/graphql';
@@ -14,7 +15,7 @@ import ReorderableList, {
 	ReorderableListReorderEvent,
 	reorderItems,
 } from 'react-native-reorderable-list';
-import { Text, XStack, YStack } from 'tamagui';
+import { Button, Text, XStack, YStack } from 'tamagui';
 
 export default function RotationScreen() {
 	const queueRotation = useQuery(QueueRotationDocument);
@@ -29,25 +30,180 @@ export default function RotationScreen() {
 		}
 	}, [queueRotation?.data?.rotation]);
 
-	const [changeRotation] = useMutation(
-		UpdateQueueRotationDocument,
+	const [rotate] = useMutation(RotateDocument, {
+		update: (cache, { data: { updateRotationMany } }) => {
+			const queueData = {
+				...cache.readQuery({ query: QueueRotationDocument }),
+			};
+			const stageData = {
+				...cache.readQuery({ query: StageRotationDocument }),
+			};
 
-		{
-			update: (cache, { data: { updateRotationMany } }) => {
-				const data = { ...cache.readQuery({ query: QueueRotationDocument }) };
+			queueData.rotation = [
+				...updateRotationMany[0].returning.filter(
+					(slot) => slot.type === 'queue'
+				),
+			];
+			stageData.rotation = [
+				...updateRotationMany[0].returning.filter(
+					(slot) => slot.type === 'stage'
+				),
+			];
 
-				let rotation = [...updateRotationMany[0].returning];
-				data.rotation = rotation;
+			cache.writeQuery({ query: QueueRotationDocument, data: queueData });
+			cache.writeQuery({ query: StageRotationDocument, data: stageData });
+		},
+		refetchQueries: [QueueRotationDocument, StageRotationDocument],
+	});
 
-				cache.writeQuery({ query: QueueRotationDocument, data });
+	const [updateQueueRotation] = useMutation(UpdateQueueRotationDocument, {
+		update: (cache, { data: { updateRotationMany } }) => {
+			const data = { ...cache.readQuery({ query: QueueRotationDocument }) };
+
+			let rotation = [...updateRotationMany[0].returning];
+			data.rotation = rotation;
+
+			cache.writeQuery({ query: QueueRotationDocument, data });
+		},
+		refetchQueries: [QueueRotationDocument],
+	});
+
+	const handleRotate = () => {
+		const initialList = [
+			...stageRotation.data.rotation,
+			...queueRotation.data.rotation,
+		];
+
+		const timestamp = dayjs().toISOString();
+
+		const updateRotationMany = initialList
+			.map((slot, index) => {
+				if (index === initialList.length - 1) {
+					if (!initialList[0]?.currentUserRotation?.user?.id) return;
+
+					return {
+						where: { id: { _eq: slot.id } },
+						_set: {
+							userId: initialList[0]?.currentUserRotation?.user?.id,
+						},
+					};
+				}
+
+				if (!initialList[index + 1]?.currentUserRotation?.user?.id) return;
+
+				return {
+					where: { id: { _eq: slot.id } },
+					_set: {
+						userId: initialList[index + 1]?.currentUserRotation?.user?.id,
+					},
+				};
+			})
+			.filter((slot) => slot);
+
+		const updateUserRotation = initialList
+			.map((slot) => slot.currentUserRotation?.id)
+			.filter((slot) => slot);
+
+		const insertUserRotation = initialList
+			.map((slot, index) => {
+				if (index === initialList.length - 1) {
+					if (!initialList[0]?.currentUserRotation?.user?.id) return;
+
+					return {
+						rotationId: slot.id,
+						userId: initialList[0]?.currentUserRotation?.user?.id,
+					};
+				}
+
+				if (!initialList[index + 1]?.currentUserRotation?.user?.id) return;
+
+				return {
+					rotationId: slot.id,
+					userId: initialList[index + 1]?.currentUserRotation?.user?.id,
+				};
+			})
+			.filter((slot) => slot);
+
+		const optimisticResponse = initialList
+			.map((slot, index) => {
+				if (index === initialList.length - 1) {
+					if (!initialList[0]?.currentUserRotation?.user?.id) return;
+
+					const user = {
+						...initialList[0]?.currentUserRotation?.user,
+						name: initialList[0]?.currentUserRotation?.user?.name,
+					};
+
+					return {
+						id: slot.id,
+						name: slot.name,
+						index: slot.index,
+						type: slot.type,
+						currentUserRotation: {
+							id: 'temp-' + slot.id,
+							user: user,
+						},
+					};
+				}
+
+				if (!initialList[index + 1]?.currentUserRotation?.user?.id) return slot;
+
+				const user = {
+					...initialList[index + 1]?.currentUserRotation?.user,
+					name: initialList[index + 1]?.currentUserRotation?.user?.name,
+				};
+
+				return {
+					id: slot.id,
+					name: slot.name,
+					index: slot.index,
+					type: slot.type,
+					currentUserRotation: {
+						id: 'temp-' + slot.id,
+						user: user,
+					},
+				};
+			})
+			.filter((slot) => slot);
+
+		// console.log('[initial]', initialList);
+		// console.log('[update]', updateRotationMany);
+		// console.log('[userRotation]', updateUserRotation);
+		// console.log('[insert]', insertUserRotation);
+		// console.log('[optimisticResponse]', optimisticResponse);
+
+		rotate({
+			variables: {
+				updates: updateRotationMany,
+				endTime: timestamp,
+				_in: updateUserRotation,
+				objects: insertUserRotation,
 			},
-			refetchQueries: [QueueRotationDocument],
-		}
-	);
+			optimisticResponse: {
+				__typename: 'mutation_root',
+				insertUserRotation: {
+					__typename: 'UserRotationMutationResponse',
+					affectedRows: insertUserRotation.length,
+				},
+				updateUserRotation: {
+					__typename: 'UserRotationMutationResponse',
+					affectedRows: updateUserRotation.length,
+				},
+				updateRotationMany: [
+					{
+						__typename: 'RotationMutationResponse',
+						returning: optimisticResponse,
+					},
+				],
+			},
+		});
+	};
 
 	const handleReorder = ({ from, to }: ReorderableListReorderEvent) => {
 		const initialList = [...dragData];
 		const updatedList = reorderItems(dragData, from, to);
+
+		console.log(updatedList);
 
 		setDragData(updatedList);
 
@@ -88,7 +244,7 @@ export default function RotationScreen() {
 				};
 			});
 
-			changeRotation({
+			updateQueueRotation({
 				variables: {
 					endTime: timestamp,
 					updateRotationMany: updateRotationMany,
@@ -116,16 +272,11 @@ export default function RotationScreen() {
 		});
 	};
 
-	stageRotation.data;
-
 	if (queueRotation.loading || stageRotation.loading)
 		return <Text>Loading...</Text>;
 
 	return (
-		<YStack flex={1}>
-			<XStack>
-				{/* <Button onPress={() => nextSongMutation.mutate()}>Next Song</Button> */}
-			</XStack>
+		<YStack flex={1} gap={'$2'}>
 			<YStack gap={'$2'}>
 				{stageRotation?.data?.rotation.map((slot) => (
 					<StageRotationItem slot={slot} key={slot.id} />
@@ -136,13 +287,16 @@ export default function RotationScreen() {
 					data={dragData}
 					onReorder={handleReorder}
 					renderItem={({ item }) => (
-						<YStack gap={'$2'}>
+						<YStack my={'$1'}>
 							<QueueRotationItem slot={item} />
 						</YStack>
 					)}
 					keyExtractor={(item) => item.id}
 				/>
 			</YStack>
+			<XStack flex={1}>
+				<Button onPress={handleRotate}>Next Song</Button>
+			</XStack>
 		</YStack>
 	);
 }

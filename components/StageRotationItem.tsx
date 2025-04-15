@@ -18,8 +18,8 @@ export const StageRotationItem = (props: {
 			<Card.Header>
 				<XStack justify='space-between'>
 					<H2>{slot.name}</H2>
-					{/* <H2>{slot.userName}</H2>
-					<UserStatusChip status={slot.status} /> */}
+					<H2>{slot.currentUserRotation?.user?.name}</H2>
+					<UserStatusChip status={slot.currentUserRotation?.user?.status} />
 				</XStack>
 			</Card.Header>
 			<Card.Footer />

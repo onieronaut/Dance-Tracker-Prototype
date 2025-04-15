@@ -12,6 +12,12 @@ export const StageRotationQuery = gql(/* GraphQL */ `
 				user {
 					id
 					name
+					status
+					activeSession {
+						id
+						startTime
+						endTime
+					}
 				}
 			}
 		}
