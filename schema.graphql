@@ -13,6 +13,219 @@ directive @cached(
 ) on QUERY
 
 """
+columns and relationships of "active_rotation"
+"""
+type ActiveRotation {
+  """An object relationship"""
+  currentUserRotation: CurrentUserRotation
+  id: uuid
+  index: Int
+  isActive: Boolean
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""
+aggregated selection of "active_rotation"
+"""
+type ActiveRotationAggregate {
+  aggregate: ActiveRotationAggregateFields
+  nodes: [ActiveRotation!]!
+}
+
+"""
+aggregate fields of "active_rotation"
+"""
+type ActiveRotationAggregateFields {
+  avg: ActiveRotationAvgFields
+  count(columns: [ActiveRotationSelectColumn!], distinct: Boolean): Int!
+  max: ActiveRotationMaxFields
+  min: ActiveRotationMinFields
+  stddev: ActiveRotationStddevFields
+  stddevPop: ActiveRotationStddevPopFields
+  stddevSamp: ActiveRotationStddevSampFields
+  sum: ActiveRotationSumFields
+  varPop: ActiveRotationVarPopFields
+  varSamp: ActiveRotationVarSampFields
+  variance: ActiveRotationVarianceFields
+}
+
+"""aggregate avg on columns"""
+type ActiveRotationAvgFields {
+  index: Float
+}
+
+"""
+Boolean expression to filter rows from the table "active_rotation". All fields are combined with a logical 'AND'.
+"""
+input ActiveRotationBoolExp {
+  _and: [ActiveRotationBoolExp!]
+  _not: ActiveRotationBoolExp
+  _or: [ActiveRotationBoolExp!]
+  currentUserRotation: CurrentUserRotationBoolExp
+  id: UuidComparisonExp
+  index: IntComparisonExp
+  isActive: BooleanComparisonExp
+  name: StringComparisonExp
+  type: StringComparisonExp
+  userId: UuidComparisonExp
+}
+
+"""
+input type for incrementing numeric columns in table "active_rotation"
+"""
+input ActiveRotationIncInput {
+  index: Int
+}
+
+"""
+input type for inserting data into table "active_rotation"
+"""
+input ActiveRotationInsertInput {
+  currentUserRotation: CurrentUserRotationObjRelInsertInput
+  id: uuid
+  index: Int
+  isActive: Boolean
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type ActiveRotationMaxFields {
+  id: uuid
+  index: Int
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type ActiveRotationMinFields {
+  id: uuid
+  index: Int
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "active_rotation"
+"""
+type ActiveRotationMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [ActiveRotation!]!
+}
+
+"""Ordering options when selecting data from "active_rotation"."""
+input ActiveRotationOrderBy {
+  currentUserRotation: CurrentUserRotationOrderBy
+  id: OrderBy
+  index: OrderBy
+  isActive: OrderBy
+  name: OrderBy
+  type: OrderBy
+  userId: OrderBy
+}
+
+"""
+select columns of table "active_rotation"
+"""
+enum ActiveRotationSelectColumn {
+  """column name"""
+  id
+  """column name"""
+  index
+  """column name"""
+  isActive
+  """column name"""
+  name
+  """column name"""
+  type
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "active_rotation"
+"""
+input ActiveRotationSetInput {
+  id: uuid
+  index: Int
+  isActive: Boolean
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate stddev on columns"""
+type ActiveRotationStddevFields {
+  index: Float
+}
+
+"""aggregate stddevPop on columns"""
+type ActiveRotationStddevPopFields {
+  index: Float
+}
+
+"""aggregate stddevSamp on columns"""
+type ActiveRotationStddevSampFields {
+  index: Float
+}
+
+"""
+Streaming cursor of the table "active_rotation"
+"""
+input ActiveRotationStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: ActiveRotationStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ActiveRotationStreamCursorValueInput {
+  id: uuid
+  index: Int
+  isActive: Boolean
+  name: String
+  type: String
+  userId: uuid
+}
+
+"""aggregate sum on columns"""
+type ActiveRotationSumFields {
+  index: Int
+}
+
+input ActiveRotationUpdates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: ActiveRotationIncInput
+  """sets the columns of the filtered rows to the given values"""
+  _set: ActiveRotationSetInput
+  """filter the rows which have to be updated"""
+  where: ActiveRotationBoolExp!
+}
+
+"""aggregate varPop on columns"""
+type ActiveRotationVarPopFields {
+  index: Float
+}
+
+"""aggregate varSamp on columns"""
+type ActiveRotationVarSampFields {
+  index: Float
+}
+
+"""aggregate variance on columns"""
+type ActiveRotationVarianceFields {
+  index: Float
+}
+
+"""
 columns and relationships of "active_session"
 """
 type ActiveSession {
@@ -436,6 +649,173 @@ input BooleanComparisonExp {
   _lte: Boolean
   _neq: Boolean
   _nin: [Boolean!]
+}
+
+type ClockInResponse {
+  assignedSlot: RotationSlot
+}
+
+"""
+columns and relationships of "clocked_in_users"
+"""
+type ClockedInUsers {
+  clerkId: String
+  email: String
+  id: uuid
+  name: String
+  role: String
+  shiftStatus: String
+  status: String
+}
+
+"""
+aggregated selection of "clocked_in_users"
+"""
+type ClockedInUsersAggregate {
+  aggregate: ClockedInUsersAggregateFields
+  nodes: [ClockedInUsers!]!
+}
+
+"""
+aggregate fields of "clocked_in_users"
+"""
+type ClockedInUsersAggregateFields {
+  count(columns: [ClockedInUsersSelectColumn!], distinct: Boolean): Int!
+  max: ClockedInUsersMaxFields
+  min: ClockedInUsersMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "clocked_in_users". All fields are combined with a logical 'AND'.
+"""
+input ClockedInUsersBoolExp {
+  _and: [ClockedInUsersBoolExp!]
+  _not: ClockedInUsersBoolExp
+  _or: [ClockedInUsersBoolExp!]
+  clerkId: StringComparisonExp
+  email: StringComparisonExp
+  id: UuidComparisonExp
+  name: StringComparisonExp
+  role: StringComparisonExp
+  shiftStatus: StringComparisonExp
+  status: StringComparisonExp
+}
+
+"""
+input type for inserting data into table "clocked_in_users"
+"""
+input ClockedInUsersInsertInput {
+  clerkId: String
+  email: String
+  id: uuid
+  name: String
+  role: String
+  shiftStatus: String
+  status: String
+}
+
+"""aggregate max on columns"""
+type ClockedInUsersMaxFields {
+  clerkId: String
+  email: String
+  id: uuid
+  name: String
+  role: String
+  shiftStatus: String
+  status: String
+}
+
+"""aggregate min on columns"""
+type ClockedInUsersMinFields {
+  clerkId: String
+  email: String
+  id: uuid
+  name: String
+  role: String
+  shiftStatus: String
+  status: String
+}
+
+"""
+response of any mutation on the table "clocked_in_users"
+"""
+type ClockedInUsersMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [ClockedInUsers!]!
+}
+
+"""Ordering options when selecting data from "clocked_in_users"."""
+input ClockedInUsersOrderBy {
+  clerkId: OrderBy
+  email: OrderBy
+  id: OrderBy
+  name: OrderBy
+  role: OrderBy
+  shiftStatus: OrderBy
+  status: OrderBy
+}
+
+"""
+select columns of table "clocked_in_users"
+"""
+enum ClockedInUsersSelectColumn {
+  """column name"""
+  clerkId
+  """column name"""
+  email
+  """column name"""
+  id
+  """column name"""
+  name
+  """column name"""
+  role
+  """column name"""
+  shiftStatus
+  """column name"""
+  status
+}
+
+"""
+input type for updating data in table "clocked_in_users"
+"""
+input ClockedInUsersSetInput {
+  clerkId: String
+  email: String
+  id: uuid
+  name: String
+  role: String
+  shiftStatus: String
+  status: String
+}
+
+"""
+Streaming cursor of the table "clocked_in_users"
+"""
+input ClockedInUsersStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: ClockedInUsersStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input ClockedInUsersStreamCursorValueInput {
+  clerkId: String
+  email: String
+  id: uuid
+  name: String
+  role: String
+  shiftStatus: String
+  status: String
+}
+
+input ClockedInUsersUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: ClockedInUsersSetInput
+  """filter the rows which have to be updated"""
+  where: ClockedInUsersBoolExp!
 }
 
 """
@@ -1008,6 +1388,11 @@ input RotationSetInput {
   userId: uuid
 }
 
+type RotationSlot {
+  id: uuid!
+  name: String!
+}
+
 """aggregate stddev on columns"""
 type RotationStddevFields {
   index: Float
@@ -1417,6 +1802,177 @@ input TimestamptzComparisonExp {
   _lte: timestamptz
   _neq: timestamptz
   _nin: [timestamptz!]
+}
+
+"""
+columns and relationships of "user_logins"
+"""
+type UserLogins {
+  endTime: timestamptz
+  id: uuid!
+  startTime: timestamptz!
+  userId: uuid!
+}
+
+"""
+aggregated selection of "user_logins"
+"""
+type UserLoginsAggregate {
+  aggregate: UserLoginsAggregateFields
+  nodes: [UserLogins!]!
+}
+
+"""
+aggregate fields of "user_logins"
+"""
+type UserLoginsAggregateFields {
+  count(columns: [UserLoginsSelectColumn!], distinct: Boolean): Int!
+  max: UserLoginsMaxFields
+  min: UserLoginsMinFields
+}
+
+"""
+Boolean expression to filter rows from the table "user_logins". All fields are combined with a logical 'AND'.
+"""
+input UserLoginsBoolExp {
+  _and: [UserLoginsBoolExp!]
+  _not: UserLoginsBoolExp
+  _or: [UserLoginsBoolExp!]
+  endTime: TimestamptzComparisonExp
+  id: UuidComparisonExp
+  startTime: TimestamptzComparisonExp
+  userId: UuidComparisonExp
+}
+
+"""
+unique or primary key constraints on table "user_logins"
+"""
+enum UserLoginsConstraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_logins_pkey
+}
+
+"""
+input type for inserting data into table "user_logins"
+"""
+input UserLoginsInsertInput {
+  endTime: timestamptz
+  id: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""aggregate max on columns"""
+type UserLoginsMaxFields {
+  endTime: timestamptz
+  id: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""aggregate min on columns"""
+type UserLoginsMinFields {
+  endTime: timestamptz
+  id: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+response of any mutation on the table "user_logins"
+"""
+type UserLoginsMutationResponse {
+  """number of rows affected by the mutation"""
+  affectedRows: Int!
+  """data from the rows affected by the mutation"""
+  returning: [UserLogins!]!
+}
+
+"""
+on_conflict condition type for table "user_logins"
+"""
+input UserLoginsOnConflict {
+  constraint: UserLoginsConstraint!
+  updateColumns: [UserLoginsUpdateColumn!]! = []
+  where: UserLoginsBoolExp
+}
+
+"""Ordering options when selecting data from "user_logins"."""
+input UserLoginsOrderBy {
+  endTime: OrderBy
+  id: OrderBy
+  startTime: OrderBy
+  userId: OrderBy
+}
+
+"""primary key columns input for table: user_logins"""
+input UserLoginsPkColumnsInput {
+  id: uuid!
+}
+
+"""
+select columns of table "user_logins"
+"""
+enum UserLoginsSelectColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  startTime
+  """column name"""
+  userId
+}
+
+"""
+input type for updating data in table "user_logins"
+"""
+input UserLoginsSetInput {
+  endTime: timestamptz
+  id: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+Streaming cursor of the table "user_logins"
+"""
+input UserLoginsStreamCursorInput {
+  """Stream column input with initial value"""
+  initialValue: UserLoginsStreamCursorValueInput!
+  """cursor ordering"""
+  ordering: CursorOrdering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input UserLoginsStreamCursorValueInput {
+  endTime: timestamptz
+  id: uuid
+  startTime: timestamptz
+  userId: uuid
+}
+
+"""
+update columns of table "user_logins"
+"""
+enum UserLoginsUpdateColumn {
+  """column name"""
+  endTime
+  """column name"""
+  id
+  """column name"""
+  startTime
+  """column name"""
+  userId
+}
+
+input UserLoginsUpdates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: UserLoginsSetInput
+  """filter the rows which have to be updated"""
+  where: UserLoginsBoolExp!
 }
 
 """
@@ -1876,8 +2432,10 @@ type Users {
   clerkId: String
   email: String!
   id: uuid!
+  loginStatus: String!
   name: String!
   role: String!
+  shiftStatus: String!
   status: String!
 }
 
@@ -1909,8 +2467,10 @@ input UsersBoolExp {
   clerkId: StringComparisonExp
   email: StringComparisonExp
   id: UuidComparisonExp
+  loginStatus: StringComparisonExp
   name: StringComparisonExp
   role: StringComparisonExp
+  shiftStatus: StringComparisonExp
   status: StringComparisonExp
 }
 
@@ -1932,8 +2492,10 @@ input UsersInsertInput {
   clerkId: String
   email: String
   id: uuid
+  loginStatus: String
   name: String
   role: String
+  shiftStatus: String
   status: String
 }
 
@@ -1942,8 +2504,10 @@ type UsersMaxFields {
   clerkId: String
   email: String
   id: uuid
+  loginStatus: String
   name: String
   role: String
+  shiftStatus: String
   status: String
 }
 
@@ -1952,8 +2516,10 @@ type UsersMinFields {
   clerkId: String
   email: String
   id: uuid
+  loginStatus: String
   name: String
   role: String
+  shiftStatus: String
   status: String
 }
 
@@ -1991,8 +2557,10 @@ input UsersOrderBy {
   clerkId: OrderBy
   email: OrderBy
   id: OrderBy
+  loginStatus: OrderBy
   name: OrderBy
   role: OrderBy
+  shiftStatus: OrderBy
   status: OrderBy
 }
 
@@ -2012,9 +2580,13 @@ enum UsersSelectColumn {
   """column name"""
   id
   """column name"""
+  loginStatus
+  """column name"""
   name
   """column name"""
   role
+  """column name"""
+  shiftStatus
   """column name"""
   status
 }
@@ -2026,8 +2598,10 @@ input UsersSetInput {
   clerkId: String
   email: String
   id: uuid
+  loginStatus: String
   name: String
   role: String
+  shiftStatus: String
   status: String
 }
 
@@ -2046,8 +2620,10 @@ input UsersStreamCursorValueInput {
   clerkId: String
   email: String
   id: uuid
+  loginStatus: String
   name: String
   role: String
+  shiftStatus: String
   status: String
 }
 
@@ -2062,9 +2638,13 @@ enum UsersUpdateColumn {
   """column name"""
   id
   """column name"""
+  loginStatus
+  """column name"""
   name
   """column name"""
   role
+  """column name"""
+  shiftStatus
   """column name"""
   status
 }
@@ -2100,6 +2680,15 @@ input activeUsersAggregateBoolExpCount {
 
 """mutation root"""
 type mutation_root {
+  """Assign dancer to rotation slot on clock in"""
+  clockIn: ClockInResponse!
+  """
+  delete data from the table: "active_rotation"
+  """
+  deleteActiveRotation(
+    """filter the rows which have to be deleted"""
+    where: ActiveRotationBoolExp!
+  ): ActiveRotationMutationResponse
   """
   delete data from the table: "active_session"
   """
@@ -2114,6 +2703,13 @@ type mutation_root {
     """filter the rows which have to be deleted"""
     where: ActiveUsersBoolExp!
   ): ActiveUsersMutationResponse
+  """
+  delete data from the table: "clocked_in_users"
+  """
+  deleteClockedInUsers(
+    """filter the rows which have to be deleted"""
+    where: ClockedInUsersBoolExp!
+  ): ClockedInUsersMutationResponse
   """
   delete data from the table: "current_user_rotation"
   """
@@ -2155,6 +2751,17 @@ type mutation_root {
   """
   deleteSessionsByPk(id: uuid!): Sessions
   """
+  delete data from the table: "user_logins"
+  """
+  deleteUserLogins(
+    """filter the rows which have to be deleted"""
+    where: UserLoginsBoolExp!
+  ): UserLoginsMutationResponse
+  """
+  delete single row from the table: "user_logins"
+  """
+  deleteUserLoginsByPk(id: uuid!): UserLogins
+  """
   delete data from the table: "user_rotation"
   """
   deleteUserRotation(
@@ -2188,6 +2795,20 @@ type mutation_root {
   """
   deleteUsersByPk(id: uuid!): Users
   """
+  insert data into the table: "active_rotation"
+  """
+  insertActiveRotation(
+    """the rows to be inserted"""
+    objects: [ActiveRotationInsertInput!]!
+  ): ActiveRotationMutationResponse
+  """
+  insert a single row into the table: "active_rotation"
+  """
+  insertActiveRotationOne(
+    """the row to be inserted"""
+    object: ActiveRotationInsertInput!
+  ): ActiveRotation
+  """
   insert data into the table: "active_session"
   """
   insertActiveSession(
@@ -2215,6 +2836,20 @@ type mutation_root {
     """the row to be inserted"""
     object: ActiveUsersInsertInput!
   ): ActiveUsers
+  """
+  insert data into the table: "clocked_in_users"
+  """
+  insertClockedInUsers(
+    """the rows to be inserted"""
+    objects: [ClockedInUsersInsertInput!]!
+  ): ClockedInUsersMutationResponse
+  """
+  insert a single row into the table: "clocked_in_users"
+  """
+  insertClockedInUsersOne(
+    """the row to be inserted"""
+    object: ClockedInUsersInsertInput!
+  ): ClockedInUsers
   """
   insert data into the table: "current_user_rotation"
   """
@@ -2284,6 +2919,24 @@ type mutation_root {
     onConflict: SessionsOnConflict
   ): Sessions
   """
+  insert data into the table: "user_logins"
+  """
+  insertUserLogins(
+    """the rows to be inserted"""
+    objects: [UserLoginsInsertInput!]!
+    """upsert condition"""
+    onConflict: UserLoginsOnConflict
+  ): UserLoginsMutationResponse
+  """
+  insert a single row into the table: "user_logins"
+  """
+  insertUserLoginsOne(
+    """the row to be inserted"""
+    object: UserLoginsInsertInput!
+    """upsert condition"""
+    onConflict: UserLoginsOnConflict
+  ): UserLogins
+  """
   insert data into the table: "user_rotation"
   """
   insertUserRotation(
@@ -2338,6 +2991,24 @@ type mutation_root {
     onConflict: UsersOnConflict
   ): Users
   """
+  update data of the table: "active_rotation"
+  """
+  updateActiveRotation(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: ActiveRotationIncInput
+    """sets the columns of the filtered rows to the given values"""
+    _set: ActiveRotationSetInput
+    """filter the rows which have to be updated"""
+    where: ActiveRotationBoolExp!
+  ): ActiveRotationMutationResponse
+  """
+  update multiples rows of table: "active_rotation"
+  """
+  updateActiveRotationMany(
+    """updates to execute, in order"""
+    updates: [ActiveRotationUpdates!]!
+  ): [ActiveRotationMutationResponse]
+  """
   update data of the table: "active_session"
   """
   updateActiveSession(
@@ -2369,6 +3040,22 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [ActiveUsersUpdates!]!
   ): [ActiveUsersMutationResponse]
+  """
+  update data of the table: "clocked_in_users"
+  """
+  updateClockedInUsers(
+    """sets the columns of the filtered rows to the given values"""
+    _set: ClockedInUsersSetInput
+    """filter the rows which have to be updated"""
+    where: ClockedInUsersBoolExp!
+  ): ClockedInUsersMutationResponse
+  """
+  update multiples rows of table: "clocked_in_users"
+  """
+  updateClockedInUsersMany(
+    """updates to execute, in order"""
+    updates: [ClockedInUsersUpdates!]!
+  ): [ClockedInUsersMutationResponse]
   """
   update data of the table: "current_user_rotation"
   """
@@ -2462,6 +3149,30 @@ type mutation_root {
     updates: [SessionsUpdates!]!
   ): [SessionsMutationResponse]
   """
+  update data of the table: "user_logins"
+  """
+  updateUserLogins(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UserLoginsSetInput
+    """filter the rows which have to be updated"""
+    where: UserLoginsBoolExp!
+  ): UserLoginsMutationResponse
+  """
+  update single row of the table: "user_logins"
+  """
+  updateUserLoginsByPk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: UserLoginsSetInput
+    pkColumns: UserLoginsPkColumnsInput!
+  ): UserLogins
+  """
+  update multiples rows of table: "user_logins"
+  """
+  updateUserLoginsMany(
+    """updates to execute, in order"""
+    updates: [UserLoginsUpdates!]!
+  ): [UserLoginsMutationResponse]
+  """
   update data of the table: "user_rotation"
   """
   updateUserRotation(
@@ -2537,6 +3248,36 @@ type mutation_root {
 
 type query_root {
   """
+  fetch data from the table: "active_rotation"
+  """
+  activeRotation(
+    """distinct select on columns"""
+    distinctOn: [ActiveRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveRotationOrderBy!]
+    """filter the rows returned"""
+    where: ActiveRotationBoolExp
+  ): [ActiveRotation!]!
+  """
+  fetch aggregated fields from the table: "active_rotation"
+  """
+  activeRotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [ActiveRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveRotationOrderBy!]
+    """filter the rows returned"""
+    where: ActiveRotationBoolExp
+  ): ActiveRotationAggregate!
+  """
   fetch data from the table: "active_session"
   """
   activeSession(
@@ -2592,6 +3333,36 @@ type query_root {
     """filter the rows returned"""
     where: ActiveUsersBoolExp
   ): ActiveUsersAggregate!
+  """
+  fetch data from the table: "clocked_in_users"
+  """
+  clockedInUsers(
+    """distinct select on columns"""
+    distinctOn: [ClockedInUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ClockedInUsersOrderBy!]
+    """filter the rows returned"""
+    where: ClockedInUsersBoolExp
+  ): [ClockedInUsers!]!
+  """
+  fetch aggregated fields from the table: "clocked_in_users"
+  """
+  clockedInUsersAggregate(
+    """distinct select on columns"""
+    distinctOn: [ClockedInUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ClockedInUsersOrderBy!]
+    """filter the rows returned"""
+    where: ClockedInUsersBoolExp
+  ): ClockedInUsersAggregate!
   """
   fetch data from the table: "current_user_rotation"
   """
@@ -2715,6 +3486,38 @@ type query_root {
   """fetch data from the table: "sessions" using primary key columns"""
   sessionsByPk(id: uuid!): Sessions
   """
+  fetch data from the table: "user_logins"
+  """
+  userLogins(
+    """distinct select on columns"""
+    distinctOn: [UserLoginsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserLoginsOrderBy!]
+    """filter the rows returned"""
+    where: UserLoginsBoolExp
+  ): [UserLogins!]!
+  """
+  fetch aggregated fields from the table: "user_logins"
+  """
+  userLoginsAggregate(
+    """distinct select on columns"""
+    distinctOn: [UserLoginsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserLoginsOrderBy!]
+    """filter the rows returned"""
+    where: UserLoginsBoolExp
+  ): UserLoginsAggregate!
+  """fetch data from the table: "user_logins" using primary key columns"""
+  userLoginsByPk(id: uuid!): UserLogins
+  """
   fetch data from the table: "user_rotation"
   """
   userRotation(
@@ -2817,6 +3620,47 @@ input sessionsAggregateBoolExpCount {
 
 type subscription_root {
   """
+  fetch data from the table: "active_rotation"
+  """
+  activeRotation(
+    """distinct select on columns"""
+    distinctOn: [ActiveRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveRotationOrderBy!]
+    """filter the rows returned"""
+    where: ActiveRotationBoolExp
+  ): [ActiveRotation!]!
+  """
+  fetch aggregated fields from the table: "active_rotation"
+  """
+  activeRotationAggregate(
+    """distinct select on columns"""
+    distinctOn: [ActiveRotationSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ActiveRotationOrderBy!]
+    """filter the rows returned"""
+    where: ActiveRotationBoolExp
+  ): ActiveRotationAggregate!
+  """
+  fetch data from the table in a streaming manner: "active_rotation"
+  """
+  activeRotationStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [ActiveRotationStreamCursorInput]!
+    """filter the rows returned"""
+    where: ActiveRotationBoolExp
+  ): [ActiveRotation!]!
+  """
   fetch data from the table: "active_session"
   """
   activeSession(
@@ -2894,6 +3738,47 @@ type subscription_root {
     """filter the rows returned"""
     where: ActiveUsersBoolExp
   ): [ActiveUsers!]!
+  """
+  fetch data from the table: "clocked_in_users"
+  """
+  clockedInUsers(
+    """distinct select on columns"""
+    distinctOn: [ClockedInUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ClockedInUsersOrderBy!]
+    """filter the rows returned"""
+    where: ClockedInUsersBoolExp
+  ): [ClockedInUsers!]!
+  """
+  fetch aggregated fields from the table: "clocked_in_users"
+  """
+  clockedInUsersAggregate(
+    """distinct select on columns"""
+    distinctOn: [ClockedInUsersSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [ClockedInUsersOrderBy!]
+    """filter the rows returned"""
+    where: ClockedInUsersBoolExp
+  ): ClockedInUsersAggregate!
+  """
+  fetch data from the table in a streaming manner: "clocked_in_users"
+  """
+  clockedInUsersStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [ClockedInUsersStreamCursorInput]!
+    """filter the rows returned"""
+    where: ClockedInUsersBoolExp
+  ): [ClockedInUsers!]!
   """
   fetch data from the table: "current_user_rotation"
   """
@@ -3060,6 +3945,49 @@ type subscription_root {
     """filter the rows returned"""
     where: SessionsBoolExp
   ): [Sessions!]!
+  """
+  fetch data from the table: "user_logins"
+  """
+  userLogins(
+    """distinct select on columns"""
+    distinctOn: [UserLoginsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserLoginsOrderBy!]
+    """filter the rows returned"""
+    where: UserLoginsBoolExp
+  ): [UserLogins!]!
+  """
+  fetch aggregated fields from the table: "user_logins"
+  """
+  userLoginsAggregate(
+    """distinct select on columns"""
+    distinctOn: [UserLoginsSelectColumn!]
+    """limit the number of rows returned"""
+    limit: Int
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+    """sort the rows by one or more columns"""
+    orderBy: [UserLoginsOrderBy!]
+    """filter the rows returned"""
+    where: UserLoginsBoolExp
+  ): UserLoginsAggregate!
+  """fetch data from the table: "user_logins" using primary key columns"""
+  userLoginsByPk(id: uuid!): UserLogins
+  """
+  fetch data from the table in a streaming manner: "user_logins"
+  """
+  userLoginsStream(
+    """maximum number of rows returned in a single batch"""
+    batchSize: Int!
+    """cursor to stream the results returned by the query"""
+    cursor: [UserLoginsStreamCursorInput]!
+    """filter the rows returned"""
+    where: UserLoginsBoolExp
+  ): [UserLogins!]!
   """
   fetch data from the table: "user_rotation"
   """

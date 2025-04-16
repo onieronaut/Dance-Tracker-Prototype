@@ -21,14 +21,16 @@ export default function RotationScreen() {
 	const queueRotation = useQuery(QueueRotationDocument);
 	const stageRotation = useQuery(StageRotationDocument);
 	const [dragData, setDragData] = useState<
-		DocumentType<typeof QueueRotationDocument>['rotation']
+		DocumentType<typeof QueueRotationDocument>['activeRotation']
 	>([]);
 
+	console.log('[queue]', queueRotation.data);
+
 	useEffect(() => {
-		if (queueRotation?.data?.rotation) {
-			setDragData([...queueRotation.data.rotation]);
+		if (queueRotation?.data?.activeRotation) {
+			setDragData([...queueRotation.data.activeRotation]);
 		}
-	}, [queueRotation?.data?.rotation]);
+	}, [queueRotation?.data?.activeRotation]);
 
 	const [rotate] = useMutation(RotateDocument, {
 		update: (cache, { data: { updateRotationMany } }) => {
@@ -39,7 +41,7 @@ export default function RotationScreen() {
 				...cache.readQuery({ query: StageRotationDocument }),
 			};
 
-			queueData.rotation = [
+			queueData.activeRotation = [
 				...updateRotationMany[0].returning.filter(
 					(slot) => slot.type === 'queue'
 				),

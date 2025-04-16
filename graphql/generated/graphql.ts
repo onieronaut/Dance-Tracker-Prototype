@@ -18,6 +18,220 @@ export type Scalars = {
   uuid: { input: string; output: string; }
 };
 
+/** columns and relationships of "active_rotation" */
+export type ActiveRotation = {
+  __typename?: 'ActiveRotation';
+  /** An object relationship */
+  currentUserRotation?: Maybe<CurrentUserRotation>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  index?: Maybe<Scalars['Int']['output']>;
+  isActive?: Maybe<Scalars['Boolean']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregated selection of "active_rotation" */
+export type ActiveRotationAggregate = {
+  __typename?: 'ActiveRotationAggregate';
+  aggregate?: Maybe<ActiveRotationAggregateFields>;
+  nodes: Array<ActiveRotation>;
+};
+
+/** aggregate fields of "active_rotation" */
+export type ActiveRotationAggregateFields = {
+  __typename?: 'ActiveRotationAggregateFields';
+  avg?: Maybe<ActiveRotationAvgFields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<ActiveRotationMaxFields>;
+  min?: Maybe<ActiveRotationMinFields>;
+  stddev?: Maybe<ActiveRotationStddevFields>;
+  stddevPop?: Maybe<ActiveRotationStddevPopFields>;
+  stddevSamp?: Maybe<ActiveRotationStddevSampFields>;
+  sum?: Maybe<ActiveRotationSumFields>;
+  varPop?: Maybe<ActiveRotationVarPopFields>;
+  varSamp?: Maybe<ActiveRotationVarSampFields>;
+  variance?: Maybe<ActiveRotationVarianceFields>;
+};
+
+
+/** aggregate fields of "active_rotation" */
+export type ActiveRotationAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<ActiveRotationSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type ActiveRotationAvgFields = {
+  __typename?: 'ActiveRotationAvgFields';
+  index?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "active_rotation". All fields are combined with a logical 'AND'. */
+export type ActiveRotationBoolExp = {
+  _and?: InputMaybe<Array<ActiveRotationBoolExp>>;
+  _not?: InputMaybe<ActiveRotationBoolExp>;
+  _or?: InputMaybe<Array<ActiveRotationBoolExp>>;
+  currentUserRotation?: InputMaybe<CurrentUserRotationBoolExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  index?: InputMaybe<IntComparisonExp>;
+  isActive?: InputMaybe<BooleanComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  type?: InputMaybe<StringComparisonExp>;
+  userId?: InputMaybe<UuidComparisonExp>;
+};
+
+/** input type for incrementing numeric columns in table "active_rotation" */
+export type ActiveRotationIncInput = {
+  index?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** input type for inserting data into table "active_rotation" */
+export type ActiveRotationInsertInput = {
+  currentUserRotation?: InputMaybe<CurrentUserRotationObjRelInsertInput>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  index?: InputMaybe<Scalars['Int']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type ActiveRotationMaxFields = {
+  __typename?: 'ActiveRotationMaxFields';
+  id?: Maybe<Scalars['uuid']['output']>;
+  index?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type ActiveRotationMinFields = {
+  __typename?: 'ActiveRotationMinFields';
+  id?: Maybe<Scalars['uuid']['output']>;
+  index?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "active_rotation" */
+export type ActiveRotationMutationResponse = {
+  __typename?: 'ActiveRotationMutationResponse';
+  /** number of rows affected by the mutation */
+  affectedRows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<ActiveRotation>;
+};
+
+/** Ordering options when selecting data from "active_rotation". */
+export type ActiveRotationOrderBy = {
+  currentUserRotation?: InputMaybe<CurrentUserRotationOrderBy>;
+  id?: InputMaybe<OrderBy>;
+  index?: InputMaybe<OrderBy>;
+  isActive?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  type?: InputMaybe<OrderBy>;
+  userId?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "active_rotation" */
+export enum ActiveRotationSelectColumn {
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Index = 'index',
+  /** column name */
+  IsActive = 'isActive',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "active_rotation" */
+export type ActiveRotationSetInput = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  index?: InputMaybe<Scalars['Int']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type ActiveRotationStddevFields = {
+  __typename?: 'ActiveRotationStddevFields';
+  index?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddevPop on columns */
+export type ActiveRotationStddevPopFields = {
+  __typename?: 'ActiveRotationStddevPopFields';
+  index?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddevSamp on columns */
+export type ActiveRotationStddevSampFields = {
+  __typename?: 'ActiveRotationStddevSampFields';
+  index?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "active_rotation" */
+export type ActiveRotationStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: ActiveRotationStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ActiveRotationStreamCursorValueInput = {
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  index?: InputMaybe<Scalars['Int']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate sum on columns */
+export type ActiveRotationSumFields = {
+  __typename?: 'ActiveRotationSumFields';
+  index?: Maybe<Scalars['Int']['output']>;
+};
+
+export type ActiveRotationUpdates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<ActiveRotationIncInput>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<ActiveRotationSetInput>;
+  /** filter the rows which have to be updated */
+  where: ActiveRotationBoolExp;
+};
+
+/** aggregate varPop on columns */
+export type ActiveRotationVarPopFields = {
+  __typename?: 'ActiveRotationVarPopFields';
+  index?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate varSamp on columns */
+export type ActiveRotationVarSampFields = {
+  __typename?: 'ActiveRotationVarSampFields';
+  index?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type ActiveRotationVarianceFields = {
+  __typename?: 'ActiveRotationVarianceFields';
+  index?: Maybe<Scalars['Float']['output']>;
+};
+
 /** columns and relationships of "active_session" */
 export type ActiveSession = {
   __typename?: 'ActiveSession';
@@ -416,6 +630,169 @@ export type BooleanComparisonExp = {
   _lte?: InputMaybe<Scalars['Boolean']['input']>;
   _neq?: InputMaybe<Scalars['Boolean']['input']>;
   _nin?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+};
+
+export type ClockInResponse = {
+  __typename?: 'ClockInResponse';
+  assignedSlot?: Maybe<RotationSlot>;
+};
+
+/** columns and relationships of "clocked_in_users" */
+export type ClockedInUsers = {
+  __typename?: 'ClockedInUsers';
+  clerkId?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  shiftStatus?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregated selection of "clocked_in_users" */
+export type ClockedInUsersAggregate = {
+  __typename?: 'ClockedInUsersAggregate';
+  aggregate?: Maybe<ClockedInUsersAggregateFields>;
+  nodes: Array<ClockedInUsers>;
+};
+
+/** aggregate fields of "clocked_in_users" */
+export type ClockedInUsersAggregateFields = {
+  __typename?: 'ClockedInUsersAggregateFields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<ClockedInUsersMaxFields>;
+  min?: Maybe<ClockedInUsersMinFields>;
+};
+
+
+/** aggregate fields of "clocked_in_users" */
+export type ClockedInUsersAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<ClockedInUsersSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "clocked_in_users". All fields are combined with a logical 'AND'. */
+export type ClockedInUsersBoolExp = {
+  _and?: InputMaybe<Array<ClockedInUsersBoolExp>>;
+  _not?: InputMaybe<ClockedInUsersBoolExp>;
+  _or?: InputMaybe<Array<ClockedInUsersBoolExp>>;
+  clerkId?: InputMaybe<StringComparisonExp>;
+  email?: InputMaybe<StringComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  name?: InputMaybe<StringComparisonExp>;
+  role?: InputMaybe<StringComparisonExp>;
+  shiftStatus?: InputMaybe<StringComparisonExp>;
+  status?: InputMaybe<StringComparisonExp>;
+};
+
+/** input type for inserting data into table "clocked_in_users" */
+export type ClockedInUsersInsertInput = {
+  clerkId?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  shiftStatus?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** aggregate max on columns */
+export type ClockedInUsersMaxFields = {
+  __typename?: 'ClockedInUsersMaxFields';
+  clerkId?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  shiftStatus?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type ClockedInUsersMinFields = {
+  __typename?: 'ClockedInUsersMinFields';
+  clerkId?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  shiftStatus?: Maybe<Scalars['String']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+};
+
+/** response of any mutation on the table "clocked_in_users" */
+export type ClockedInUsersMutationResponse = {
+  __typename?: 'ClockedInUsersMutationResponse';
+  /** number of rows affected by the mutation */
+  affectedRows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<ClockedInUsers>;
+};
+
+/** Ordering options when selecting data from "clocked_in_users". */
+export type ClockedInUsersOrderBy = {
+  clerkId?: InputMaybe<OrderBy>;
+  email?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  name?: InputMaybe<OrderBy>;
+  role?: InputMaybe<OrderBy>;
+  shiftStatus?: InputMaybe<OrderBy>;
+  status?: InputMaybe<OrderBy>;
+};
+
+/** select columns of table "clocked_in_users" */
+export enum ClockedInUsersSelectColumn {
+  /** column name */
+  ClerkId = 'clerkId',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Role = 'role',
+  /** column name */
+  ShiftStatus = 'shiftStatus',
+  /** column name */
+  Status = 'status'
+}
+
+/** input type for updating data in table "clocked_in_users" */
+export type ClockedInUsersSetInput = {
+  clerkId?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  shiftStatus?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Streaming cursor of the table "clocked_in_users" */
+export type ClockedInUsersStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: ClockedInUsersStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ClockedInUsersStreamCursorValueInput = {
+  clerkId?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  shiftStatus?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ClockedInUsersUpdates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<ClockedInUsersSetInput>;
+  /** filter the rows which have to be updated */
+  where: ClockedInUsersBoolExp;
 };
 
 /** columns and relationships of "current_user_rotation" */
@@ -952,6 +1329,12 @@ export type RotationSetInput = {
   userId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
+export type RotationSlot = {
+  __typename?: 'RotationSlot';
+  id: Scalars['uuid']['output'];
+  name: Scalars['String']['output'];
+};
+
 /** aggregate stddev on columns */
 export type RotationStddevFields = {
   __typename?: 'RotationStddevFields';
@@ -1327,6 +1710,164 @@ export type TimestamptzComparisonExp = {
   _lte?: InputMaybe<Scalars['timestamptz']['input']>;
   _neq?: InputMaybe<Scalars['timestamptz']['input']>;
   _nin?: InputMaybe<Array<Scalars['timestamptz']['input']>>;
+};
+
+/** columns and relationships of "user_logins" */
+export type UserLogins = {
+  __typename?: 'UserLogins';
+  endTime?: Maybe<Scalars['timestamptz']['output']>;
+  id: Scalars['uuid']['output'];
+  startTime: Scalars['timestamptz']['output'];
+  userId: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "user_logins" */
+export type UserLoginsAggregate = {
+  __typename?: 'UserLoginsAggregate';
+  aggregate?: Maybe<UserLoginsAggregateFields>;
+  nodes: Array<UserLogins>;
+};
+
+/** aggregate fields of "user_logins" */
+export type UserLoginsAggregateFields = {
+  __typename?: 'UserLoginsAggregateFields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<UserLoginsMaxFields>;
+  min?: Maybe<UserLoginsMinFields>;
+};
+
+
+/** aggregate fields of "user_logins" */
+export type UserLoginsAggregateFieldsCountArgs = {
+  columns?: InputMaybe<Array<UserLoginsSelectColumn>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "user_logins". All fields are combined with a logical 'AND'. */
+export type UserLoginsBoolExp = {
+  _and?: InputMaybe<Array<UserLoginsBoolExp>>;
+  _not?: InputMaybe<UserLoginsBoolExp>;
+  _or?: InputMaybe<Array<UserLoginsBoolExp>>;
+  endTime?: InputMaybe<TimestamptzComparisonExp>;
+  id?: InputMaybe<UuidComparisonExp>;
+  startTime?: InputMaybe<TimestamptzComparisonExp>;
+  userId?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "user_logins" */
+export enum UserLoginsConstraint {
+  /** unique or primary key constraint on columns "id" */
+  UserLoginsPkey = 'user_logins_pkey'
+}
+
+/** input type for inserting data into table "user_logins" */
+export type UserLoginsInsertInput = {
+  endTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  startTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type UserLoginsMaxFields = {
+  __typename?: 'UserLoginsMaxFields';
+  endTime?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  startTime?: Maybe<Scalars['timestamptz']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type UserLoginsMinFields = {
+  __typename?: 'UserLoginsMinFields';
+  endTime?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  startTime?: Maybe<Scalars['timestamptz']['output']>;
+  userId?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "user_logins" */
+export type UserLoginsMutationResponse = {
+  __typename?: 'UserLoginsMutationResponse';
+  /** number of rows affected by the mutation */
+  affectedRows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<UserLogins>;
+};
+
+/** on_conflict condition type for table "user_logins" */
+export type UserLoginsOnConflict = {
+  constraint: UserLoginsConstraint;
+  updateColumns?: Array<UserLoginsUpdateColumn>;
+  where?: InputMaybe<UserLoginsBoolExp>;
+};
+
+/** Ordering options when selecting data from "user_logins". */
+export type UserLoginsOrderBy = {
+  endTime?: InputMaybe<OrderBy>;
+  id?: InputMaybe<OrderBy>;
+  startTime?: InputMaybe<OrderBy>;
+  userId?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: user_logins */
+export type UserLoginsPkColumnsInput = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "user_logins" */
+export enum UserLoginsSelectColumn {
+  /** column name */
+  EndTime = 'endTime',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  StartTime = 'startTime',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "user_logins" */
+export type UserLoginsSetInput = {
+  endTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  startTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** Streaming cursor of the table "user_logins" */
+export type UserLoginsStreamCursorInput = {
+  /** Stream column input with initial value */
+  initialValue: UserLoginsStreamCursorValueInput;
+  /** cursor ordering */
+  ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type UserLoginsStreamCursorValueInput = {
+  endTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  startTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  userId?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "user_logins" */
+export enum UserLoginsUpdateColumn {
+  /** column name */
+  EndTime = 'endTime',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  StartTime = 'startTime',
+  /** column name */
+  UserId = 'userId'
+}
+
+export type UserLoginsUpdates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<UserLoginsSetInput>;
+  /** filter the rows which have to be updated */
+  where: UserLoginsBoolExp;
 };
 
 /** columns and relationships of "user_rotation" */
@@ -1751,8 +2292,10 @@ export type Users = {
   clerkId?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
+  loginStatus: Scalars['String']['output'];
   name: Scalars['String']['output'];
   role: Scalars['String']['output'];
+  shiftStatus: Scalars['String']['output'];
   status: Scalars['String']['output'];
 };
 
@@ -1787,8 +2330,10 @@ export type UsersBoolExp = {
   clerkId?: InputMaybe<StringComparisonExp>;
   email?: InputMaybe<StringComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
+  loginStatus?: InputMaybe<StringComparisonExp>;
   name?: InputMaybe<StringComparisonExp>;
   role?: InputMaybe<StringComparisonExp>;
+  shiftStatus?: InputMaybe<StringComparisonExp>;
   status?: InputMaybe<StringComparisonExp>;
 };
 
@@ -1804,8 +2349,10 @@ export type UsersInsertInput = {
   clerkId?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  loginStatus?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
+  shiftStatus?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1815,8 +2362,10 @@ export type UsersMaxFields = {
   clerkId?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  loginStatus?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   role?: Maybe<Scalars['String']['output']>;
+  shiftStatus?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1826,8 +2375,10 @@ export type UsersMinFields = {
   clerkId?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  loginStatus?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   role?: Maybe<Scalars['String']['output']>;
+  shiftStatus?: Maybe<Scalars['String']['output']>;
   status?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1860,8 +2411,10 @@ export type UsersOrderBy = {
   clerkId?: InputMaybe<OrderBy>;
   email?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
+  loginStatus?: InputMaybe<OrderBy>;
   name?: InputMaybe<OrderBy>;
   role?: InputMaybe<OrderBy>;
+  shiftStatus?: InputMaybe<OrderBy>;
   status?: InputMaybe<OrderBy>;
 };
 
@@ -1879,9 +2432,13 @@ export enum UsersSelectColumn {
   /** column name */
   Id = 'id',
   /** column name */
+  LoginStatus = 'loginStatus',
+  /** column name */
   Name = 'name',
   /** column name */
   Role = 'role',
+  /** column name */
+  ShiftStatus = 'shiftStatus',
   /** column name */
   Status = 'status'
 }
@@ -1891,8 +2448,10 @@ export type UsersSetInput = {
   clerkId?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  loginStatus?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
+  shiftStatus?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1909,8 +2468,10 @@ export type UsersStreamCursorValueInput = {
   clerkId?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  loginStatus?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
+  shiftStatus?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1923,9 +2484,13 @@ export enum UsersUpdateColumn {
   /** column name */
   Id = 'id',
   /** column name */
+  LoginStatus = 'loginStatus',
+  /** column name */
   Name = 'name',
   /** column name */
   Role = 'role',
+  /** column name */
+  ShiftStatus = 'shiftStatus',
   /** column name */
   Status = 'status'
 }
@@ -1960,10 +2525,16 @@ export type ActiveUsersAggregateBoolExpCount = {
 /** mutation root */
 export type MutationRoot = {
   __typename?: 'mutation_root';
+  /** Assign dancer to rotation slot on clock in */
+  clockIn: ClockInResponse;
+  /** delete data from the table: "active_rotation" */
+  deleteActiveRotation?: Maybe<ActiveRotationMutationResponse>;
   /** delete data from the table: "active_session" */
   deleteActiveSession?: Maybe<ActiveSessionMutationResponse>;
   /** delete data from the table: "active_users" */
   deleteActiveUsers?: Maybe<ActiveUsersMutationResponse>;
+  /** delete data from the table: "clocked_in_users" */
+  deleteClockedInUsers?: Maybe<ClockedInUsersMutationResponse>;
   /** delete data from the table: "current_user_rotation" */
   deleteCurrentUserRotation?: Maybe<CurrentUserRotationMutationResponse>;
   /** delete data from the table: "rooms" */
@@ -1978,6 +2549,10 @@ export type MutationRoot = {
   deleteSessions?: Maybe<SessionsMutationResponse>;
   /** delete single row from the table: "sessions" */
   deleteSessionsByPk?: Maybe<Sessions>;
+  /** delete data from the table: "user_logins" */
+  deleteUserLogins?: Maybe<UserLoginsMutationResponse>;
+  /** delete single row from the table: "user_logins" */
+  deleteUserLoginsByPk?: Maybe<UserLogins>;
   /** delete data from the table: "user_rotation" */
   deleteUserRotation?: Maybe<UserRotationMutationResponse>;
   /** delete single row from the table: "user_rotation" */
@@ -1990,6 +2565,10 @@ export type MutationRoot = {
   deleteUsers?: Maybe<UsersMutationResponse>;
   /** delete single row from the table: "users" */
   deleteUsersByPk?: Maybe<Users>;
+  /** insert data into the table: "active_rotation" */
+  insertActiveRotation?: Maybe<ActiveRotationMutationResponse>;
+  /** insert a single row into the table: "active_rotation" */
+  insertActiveRotationOne?: Maybe<ActiveRotation>;
   /** insert data into the table: "active_session" */
   insertActiveSession?: Maybe<ActiveSessionMutationResponse>;
   /** insert a single row into the table: "active_session" */
@@ -1998,6 +2577,10 @@ export type MutationRoot = {
   insertActiveUsers?: Maybe<ActiveUsersMutationResponse>;
   /** insert a single row into the table: "active_users" */
   insertActiveUsersOne?: Maybe<ActiveUsers>;
+  /** insert data into the table: "clocked_in_users" */
+  insertClockedInUsers?: Maybe<ClockedInUsersMutationResponse>;
+  /** insert a single row into the table: "clocked_in_users" */
+  insertClockedInUsersOne?: Maybe<ClockedInUsers>;
   /** insert data into the table: "current_user_rotation" */
   insertCurrentUserRotation?: Maybe<CurrentUserRotationMutationResponse>;
   /** insert a single row into the table: "current_user_rotation" */
@@ -2014,6 +2597,10 @@ export type MutationRoot = {
   insertSessions?: Maybe<SessionsMutationResponse>;
   /** insert a single row into the table: "sessions" */
   insertSessionsOne?: Maybe<Sessions>;
+  /** insert data into the table: "user_logins" */
+  insertUserLogins?: Maybe<UserLoginsMutationResponse>;
+  /** insert a single row into the table: "user_logins" */
+  insertUserLoginsOne?: Maybe<UserLogins>;
   /** insert data into the table: "user_rotation" */
   insertUserRotation?: Maybe<UserRotationMutationResponse>;
   /** insert a single row into the table: "user_rotation" */
@@ -2026,6 +2613,10 @@ export type MutationRoot = {
   insertUsers?: Maybe<UsersMutationResponse>;
   /** insert a single row into the table: "users" */
   insertUsersOne?: Maybe<Users>;
+  /** update data of the table: "active_rotation" */
+  updateActiveRotation?: Maybe<ActiveRotationMutationResponse>;
+  /** update multiples rows of table: "active_rotation" */
+  updateActiveRotationMany?: Maybe<Array<Maybe<ActiveRotationMutationResponse>>>;
   /** update data of the table: "active_session" */
   updateActiveSession?: Maybe<ActiveSessionMutationResponse>;
   /** update multiples rows of table: "active_session" */
@@ -2034,6 +2625,10 @@ export type MutationRoot = {
   updateActiveUsers?: Maybe<ActiveUsersMutationResponse>;
   /** update multiples rows of table: "active_users" */
   updateActiveUsersMany?: Maybe<Array<Maybe<ActiveUsersMutationResponse>>>;
+  /** update data of the table: "clocked_in_users" */
+  updateClockedInUsers?: Maybe<ClockedInUsersMutationResponse>;
+  /** update multiples rows of table: "clocked_in_users" */
+  updateClockedInUsersMany?: Maybe<Array<Maybe<ClockedInUsersMutationResponse>>>;
   /** update data of the table: "current_user_rotation" */
   updateCurrentUserRotation?: Maybe<CurrentUserRotationMutationResponse>;
   /** update multiples rows of table: "current_user_rotation" */
@@ -2056,6 +2651,12 @@ export type MutationRoot = {
   updateSessionsByPk?: Maybe<Sessions>;
   /** update multiples rows of table: "sessions" */
   updateSessionsMany?: Maybe<Array<Maybe<SessionsMutationResponse>>>;
+  /** update data of the table: "user_logins" */
+  updateUserLogins?: Maybe<UserLoginsMutationResponse>;
+  /** update single row of the table: "user_logins" */
+  updateUserLoginsByPk?: Maybe<UserLogins>;
+  /** update multiples rows of table: "user_logins" */
+  updateUserLoginsMany?: Maybe<Array<Maybe<UserLoginsMutationResponse>>>;
   /** update data of the table: "user_rotation" */
   updateUserRotation?: Maybe<UserRotationMutationResponse>;
   /** update single row of the table: "user_rotation" */
@@ -2078,6 +2679,12 @@ export type MutationRoot = {
 
 
 /** mutation root */
+export type MutationRootDeleteActiveRotationArgs = {
+  where: ActiveRotationBoolExp;
+};
+
+
+/** mutation root */
 export type MutationRootDeleteActiveSessionArgs = {
   where: ActiveSessionBoolExp;
 };
@@ -2086,6 +2693,12 @@ export type MutationRootDeleteActiveSessionArgs = {
 /** mutation root */
 export type MutationRootDeleteActiveUsersArgs = {
   where: ActiveUsersBoolExp;
+};
+
+
+/** mutation root */
+export type MutationRootDeleteClockedInUsersArgs = {
+  where: ClockedInUsersBoolExp;
 };
 
 
@@ -2132,6 +2745,18 @@ export type MutationRootDeleteSessionsByPkArgs = {
 
 
 /** mutation root */
+export type MutationRootDeleteUserLoginsArgs = {
+  where: UserLoginsBoolExp;
+};
+
+
+/** mutation root */
+export type MutationRootDeleteUserLoginsByPkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
 export type MutationRootDeleteUserRotationArgs = {
   where: UserRotationBoolExp;
 };
@@ -2168,6 +2793,18 @@ export type MutationRootDeleteUsersByPkArgs = {
 
 
 /** mutation root */
+export type MutationRootInsertActiveRotationArgs = {
+  objects: Array<ActiveRotationInsertInput>;
+};
+
+
+/** mutation root */
+export type MutationRootInsertActiveRotationOneArgs = {
+  object: ActiveRotationInsertInput;
+};
+
+
+/** mutation root */
 export type MutationRootInsertActiveSessionArgs = {
   objects: Array<ActiveSessionInsertInput>;
 };
@@ -2188,6 +2825,18 @@ export type MutationRootInsertActiveUsersArgs = {
 /** mutation root */
 export type MutationRootInsertActiveUsersOneArgs = {
   object: ActiveUsersInsertInput;
+};
+
+
+/** mutation root */
+export type MutationRootInsertClockedInUsersArgs = {
+  objects: Array<ClockedInUsersInsertInput>;
+};
+
+
+/** mutation root */
+export type MutationRootInsertClockedInUsersOneArgs = {
+  object: ClockedInUsersInsertInput;
 };
 
 
@@ -2246,6 +2895,20 @@ export type MutationRootInsertSessionsOneArgs = {
 
 
 /** mutation root */
+export type MutationRootInsertUserLoginsArgs = {
+  objects: Array<UserLoginsInsertInput>;
+  onConflict?: InputMaybe<UserLoginsOnConflict>;
+};
+
+
+/** mutation root */
+export type MutationRootInsertUserLoginsOneArgs = {
+  object: UserLoginsInsertInput;
+  onConflict?: InputMaybe<UserLoginsOnConflict>;
+};
+
+
+/** mutation root */
 export type MutationRootInsertUserRotationArgs = {
   objects: Array<UserRotationInsertInput>;
   onConflict?: InputMaybe<UserRotationOnConflict>;
@@ -2288,6 +2951,20 @@ export type MutationRootInsertUsersOneArgs = {
 
 
 /** mutation root */
+export type MutationRootUpdateActiveRotationArgs = {
+  _inc?: InputMaybe<ActiveRotationIncInput>;
+  _set?: InputMaybe<ActiveRotationSetInput>;
+  where: ActiveRotationBoolExp;
+};
+
+
+/** mutation root */
+export type MutationRootUpdateActiveRotationManyArgs = {
+  updates: Array<ActiveRotationUpdates>;
+};
+
+
+/** mutation root */
 export type MutationRootUpdateActiveSessionArgs = {
   _set?: InputMaybe<ActiveSessionSetInput>;
   where: ActiveSessionBoolExp;
@@ -2310,6 +2987,19 @@ export type MutationRootUpdateActiveUsersArgs = {
 /** mutation root */
 export type MutationRootUpdateActiveUsersManyArgs = {
   updates: Array<ActiveUsersUpdates>;
+};
+
+
+/** mutation root */
+export type MutationRootUpdateClockedInUsersArgs = {
+  _set?: InputMaybe<ClockedInUsersSetInput>;
+  where: ClockedInUsersBoolExp;
+};
+
+
+/** mutation root */
+export type MutationRootUpdateClockedInUsersManyArgs = {
+  updates: Array<ClockedInUsersUpdates>;
 };
 
 
@@ -2389,6 +3079,26 @@ export type MutationRootUpdateSessionsManyArgs = {
 
 
 /** mutation root */
+export type MutationRootUpdateUserLoginsArgs = {
+  _set?: InputMaybe<UserLoginsSetInput>;
+  where: UserLoginsBoolExp;
+};
+
+
+/** mutation root */
+export type MutationRootUpdateUserLoginsByPkArgs = {
+  _set?: InputMaybe<UserLoginsSetInput>;
+  pkColumns: UserLoginsPkColumnsInput;
+};
+
+
+/** mutation root */
+export type MutationRootUpdateUserLoginsManyArgs = {
+  updates: Array<UserLoginsUpdates>;
+};
+
+
+/** mutation root */
 export type MutationRootUpdateUserRotationArgs = {
   _set?: InputMaybe<UserRotationSetInput>;
   where: UserRotationBoolExp;
@@ -2449,6 +3159,10 @@ export type MutationRootUpdateUsersManyArgs = {
 
 export type QueryRoot = {
   __typename?: 'query_root';
+  /** fetch data from the table: "active_rotation" */
+  activeRotation: Array<ActiveRotation>;
+  /** fetch aggregated fields from the table: "active_rotation" */
+  activeRotationAggregate: ActiveRotationAggregate;
   /** fetch data from the table: "active_session" */
   activeSession: Array<ActiveSession>;
   /** fetch aggregated fields from the table: "active_session" */
@@ -2457,6 +3171,10 @@ export type QueryRoot = {
   activeUsers: Array<ActiveUsers>;
   /** An aggregate relationship */
   activeUsersAggregate: ActiveUsersAggregate;
+  /** fetch data from the table: "clocked_in_users" */
+  clockedInUsers: Array<ClockedInUsers>;
+  /** fetch aggregated fields from the table: "clocked_in_users" */
+  clockedInUsersAggregate: ClockedInUsersAggregate;
   /** fetch data from the table: "current_user_rotation" */
   currentUserRotation: Array<CurrentUserRotation>;
   /** fetch aggregated fields from the table: "current_user_rotation" */
@@ -2479,6 +3197,12 @@ export type QueryRoot = {
   sessionsAggregate: SessionsAggregate;
   /** fetch data from the table: "sessions" using primary key columns */
   sessionsByPk?: Maybe<Sessions>;
+  /** fetch data from the table: "user_logins" */
+  userLogins: Array<UserLogins>;
+  /** fetch aggregated fields from the table: "user_logins" */
+  userLoginsAggregate: UserLoginsAggregate;
+  /** fetch data from the table: "user_logins" using primary key columns */
+  userLoginsByPk?: Maybe<UserLogins>;
   /** fetch data from the table: "user_rotation" */
   userRotation: Array<UserRotation>;
   /** fetch aggregated fields from the table: "user_rotation" */
@@ -2497,6 +3221,24 @@ export type QueryRoot = {
   usersAggregate: UsersAggregate;
   /** fetch data from the table: "users" using primary key columns */
   usersByPk?: Maybe<Users>;
+};
+
+
+export type QueryRootActiveRotationArgs = {
+  distinctOn?: InputMaybe<Array<ActiveRotationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ActiveRotationOrderBy>>;
+  where?: InputMaybe<ActiveRotationBoolExp>;
+};
+
+
+export type QueryRootActiveRotationAggregateArgs = {
+  distinctOn?: InputMaybe<Array<ActiveRotationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ActiveRotationOrderBy>>;
+  where?: InputMaybe<ActiveRotationBoolExp>;
 };
 
 
@@ -2533,6 +3275,24 @@ export type QueryRootActiveUsersAggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ActiveUsersOrderBy>>;
   where?: InputMaybe<ActiveUsersBoolExp>;
+};
+
+
+export type QueryRootClockedInUsersArgs = {
+  distinctOn?: InputMaybe<Array<ClockedInUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ClockedInUsersOrderBy>>;
+  where?: InputMaybe<ClockedInUsersBoolExp>;
+};
+
+
+export type QueryRootClockedInUsersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<ClockedInUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ClockedInUsersOrderBy>>;
+  where?: InputMaybe<ClockedInUsersBoolExp>;
 };
 
 
@@ -2623,6 +3383,29 @@ export type QueryRootSessionsByPkArgs = {
 };
 
 
+export type QueryRootUserLoginsArgs = {
+  distinctOn?: InputMaybe<Array<UserLoginsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<UserLoginsOrderBy>>;
+  where?: InputMaybe<UserLoginsBoolExp>;
+};
+
+
+export type QueryRootUserLoginsAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserLoginsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<UserLoginsOrderBy>>;
+  where?: InputMaybe<UserLoginsBoolExp>;
+};
+
+
+export type QueryRootUserLoginsByPkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
 export type QueryRootUserRotationArgs = {
   distinctOn?: InputMaybe<Array<UserRotationSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -2700,6 +3483,12 @@ export type SessionsAggregateBoolExpCount = {
 
 export type SubscriptionRoot = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "active_rotation" */
+  activeRotation: Array<ActiveRotation>;
+  /** fetch aggregated fields from the table: "active_rotation" */
+  activeRotationAggregate: ActiveRotationAggregate;
+  /** fetch data from the table in a streaming manner: "active_rotation" */
+  activeRotationStream: Array<ActiveRotation>;
   /** fetch data from the table: "active_session" */
   activeSession: Array<ActiveSession>;
   /** fetch aggregated fields from the table: "active_session" */
@@ -2712,6 +3501,12 @@ export type SubscriptionRoot = {
   activeUsersAggregate: ActiveUsersAggregate;
   /** fetch data from the table in a streaming manner: "active_users" */
   activeUsersStream: Array<ActiveUsers>;
+  /** fetch data from the table: "clocked_in_users" */
+  clockedInUsers: Array<ClockedInUsers>;
+  /** fetch aggregated fields from the table: "clocked_in_users" */
+  clockedInUsersAggregate: ClockedInUsersAggregate;
+  /** fetch data from the table in a streaming manner: "clocked_in_users" */
+  clockedInUsersStream: Array<ClockedInUsers>;
   /** fetch data from the table: "current_user_rotation" */
   currentUserRotation: Array<CurrentUserRotation>;
   /** fetch aggregated fields from the table: "current_user_rotation" */
@@ -2742,6 +3537,14 @@ export type SubscriptionRoot = {
   sessionsByPk?: Maybe<Sessions>;
   /** fetch data from the table in a streaming manner: "sessions" */
   sessionsStream: Array<Sessions>;
+  /** fetch data from the table: "user_logins" */
+  userLogins: Array<UserLogins>;
+  /** fetch aggregated fields from the table: "user_logins" */
+  userLoginsAggregate: UserLoginsAggregate;
+  /** fetch data from the table: "user_logins" using primary key columns */
+  userLoginsByPk?: Maybe<UserLogins>;
+  /** fetch data from the table in a streaming manner: "user_logins" */
+  userLoginsStream: Array<UserLogins>;
   /** fetch data from the table: "user_rotation" */
   userRotation: Array<UserRotation>;
   /** fetch aggregated fields from the table: "user_rotation" */
@@ -2766,6 +3569,31 @@ export type SubscriptionRoot = {
   usersByPk?: Maybe<Users>;
   /** fetch data from the table in a streaming manner: "users" */
   usersStream: Array<Users>;
+};
+
+
+export type SubscriptionRootActiveRotationArgs = {
+  distinctOn?: InputMaybe<Array<ActiveRotationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ActiveRotationOrderBy>>;
+  where?: InputMaybe<ActiveRotationBoolExp>;
+};
+
+
+export type SubscriptionRootActiveRotationAggregateArgs = {
+  distinctOn?: InputMaybe<Array<ActiveRotationSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ActiveRotationOrderBy>>;
+  where?: InputMaybe<ActiveRotationBoolExp>;
+};
+
+
+export type SubscriptionRootActiveRotationStreamArgs = {
+  batchSize: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<ActiveRotationStreamCursorInput>>;
+  where?: InputMaybe<ActiveRotationBoolExp>;
 };
 
 
@@ -2816,6 +3644,31 @@ export type SubscriptionRootActiveUsersStreamArgs = {
   batchSize: Scalars['Int']['input'];
   cursor: Array<InputMaybe<ActiveUsersStreamCursorInput>>;
   where?: InputMaybe<ActiveUsersBoolExp>;
+};
+
+
+export type SubscriptionRootClockedInUsersArgs = {
+  distinctOn?: InputMaybe<Array<ClockedInUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ClockedInUsersOrderBy>>;
+  where?: InputMaybe<ClockedInUsersBoolExp>;
+};
+
+
+export type SubscriptionRootClockedInUsersAggregateArgs = {
+  distinctOn?: InputMaybe<Array<ClockedInUsersSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ClockedInUsersOrderBy>>;
+  where?: InputMaybe<ClockedInUsersBoolExp>;
+};
+
+
+export type SubscriptionRootClockedInUsersStreamArgs = {
+  batchSize: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<ClockedInUsersStreamCursorInput>>;
+  where?: InputMaybe<ClockedInUsersBoolExp>;
 };
 
 
@@ -2934,6 +3787,36 @@ export type SubscriptionRootSessionsStreamArgs = {
 };
 
 
+export type SubscriptionRootUserLoginsArgs = {
+  distinctOn?: InputMaybe<Array<UserLoginsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<UserLoginsOrderBy>>;
+  where?: InputMaybe<UserLoginsBoolExp>;
+};
+
+
+export type SubscriptionRootUserLoginsAggregateArgs = {
+  distinctOn?: InputMaybe<Array<UserLoginsSelectColumn>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<UserLoginsOrderBy>>;
+  where?: InputMaybe<UserLoginsBoolExp>;
+};
+
+
+export type SubscriptionRootUserLoginsByPkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type SubscriptionRootUserLoginsStreamArgs = {
+  batchSize: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<UserLoginsStreamCursorInput>>;
+  where?: InputMaybe<UserLoginsBoolExp>;
+};
+
+
 export type SubscriptionRootUserRotationArgs = {
   distinctOn?: InputMaybe<Array<UserRotationSelectColumn>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3039,6 +3922,18 @@ export type RoomsListFragment = (
   & { ' $fragmentRefs'?: { 'RoomFragment': RoomFragment } }
 ) & { ' $fragmentName'?: 'RoomsListFragment' };
 
+export type ClockInMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClockInMutation = { __typename?: 'mutation_root', clockIn: { __typename?: 'ClockInResponse', assignedSlot?: { __typename?: 'RotationSlot', id: string, name: string } | null } };
+
+export type ClockOutMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['uuid']['input']>;
+}>;
+
+
+export type ClockOutMutation = { __typename?: 'mutation_root', updateUsersByPk?: { __typename?: 'Users', shiftStatus: string } | null };
+
 export type EndSessionMutationVariables = Exact<{
   roomId?: InputMaybe<Scalars['uuid']['input']>;
   sessionId?: InputMaybe<Scalars['uuid']['input']>;
@@ -3087,19 +3982,19 @@ export type ActiveDancersQuery = { __typename?: 'query_root', users: Array<{ __t
 export type QueueRotationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type QueueRotationQuery = { __typename?: 'query_root', rotation: Array<{ __typename?: 'Rotation', id: string, index: number, type: string, name: string, currentUserRotation?: { __typename?: 'CurrentUserRotation', id?: string | null, user?: { __typename?: 'Users', id: string, name: string, status: string, activeSession?: { __typename?: 'ActiveUsers', id?: string | null, startTime?: string | null, endTime?: string | null } | null } | null } | null }> };
+export type QueueRotationQuery = { __typename?: 'query_root', activeRotation: Array<{ __typename?: 'ActiveRotation', id?: string | null, index?: number | null, type?: string | null, name?: string | null, currentUserRotation?: { __typename?: 'CurrentUserRotation', id?: string | null, user?: { __typename?: 'Users', id: string, name: string, status: string, activeSession?: { __typename?: 'ActiveUsers', id?: string | null, startTime?: string | null, endTime?: string | null } | null } | null } | null }> };
 
 export type StageRotationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type StageRotationQuery = { __typename?: 'query_root', rotation: Array<{ __typename?: 'Rotation', id: string, index: number, type: string, name: string, currentUserRotation?: { __typename?: 'CurrentUserRotation', id?: string | null, user?: { __typename?: 'Users', id: string, name: string, status: string, activeSession?: { __typename?: 'ActiveUsers', id?: string | null, startTime?: string | null, endTime?: string | null } | null } | null } | null }> };
 
-export type UserRoleQueryVariables = Exact<{
-  clerkId: Scalars['String']['input'];
+export type GetUserQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['uuid']['input']>;
 }>;
 
 
-export type UserRoleQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'Users', role: string }> };
+export type GetUserQuery = { __typename?: 'query_root', usersByPk?: { __typename?: 'Users', id: string, name: string, loginStatus: string, shiftStatus: string, status: string } | null };
 
 export type RoomsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
@@ -3112,12 +4007,14 @@ export type RoomsSubscription = { __typename?: 'subscription_root', rooms: Array
 export const QueueSlotFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"QueueSlot"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rotation"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]} as unknown as DocumentNode<QueueSlotFragment, unknown>;
 export const RoomFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RoomFragment, unknown>;
 export const RoomsListFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomsList"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<RoomsListFragment, unknown>;
+export const ClockInDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ClockIn"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"clockIn"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"assignedSlot"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<ClockInMutation, ClockInMutationVariables>;
+export const ClockOutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ClockOut"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateUsersByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"shiftStatus"},"value":{"kind":"StringValue","value":"Clocked Out","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Unavailable","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"shiftStatus"}}]}}]}}]} as unknown as DocumentNode<ClockOutMutation, ClockOutMutationVariables>;
 export const EndSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"EndSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userSessionIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateRoomsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Open","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateSessionsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sessionId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Complete","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUserSessionsMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userSessionIds"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Complete","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUsersMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"Active","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<EndSessionMutation, EndSessionMutationVariables>;
 export const RotateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Rotate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updates"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RotationUpdates"}}}},"defaultValue":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"","block":false}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"StringValue","value":"","block":false}}]}}]}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"_in"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"objects"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserRotationInsertInput"}}}},"defaultValue":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rotationId"},"value":{"kind":"StringValue","value":"","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"StringValue","value":"","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateRotationMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updates"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUserRotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"_in"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affectedRows"}}]}},{"kind":"Field","name":{"kind":"Name","value":"insertUserRotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"objects"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affectedRows"}}]}}]}}]} as unknown as DocumentNode<RotateMutation, RotateMutationVariables>;
 export const StartSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StartSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserSessionsInsertInput"}}}},"defaultValue":{"kind":"ObjectValue","fields":[]}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"insertSessionsOne"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"object"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"roomId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"userSessions"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateRoomsByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"pkColumns"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"roomId"}}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"In Use","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUsersMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"StringValue","value":"In Room","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<StartSessionMutation, StartSessionMutationVariables>;
 export const UpdateQueueRotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateQueueRotation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"timestamptz"}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateUserRotation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}}}},"defaultValue":{"kind":"StringValue","value":"","block":false}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"updateRotationMany"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"RotationUpdates"}}}},"defaultValue":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"","block":false}}]}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"StringValue","value":"","block":false}}]}}]}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"insertUserRotation"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserRotationInsertInput"}}}},"defaultValue":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"rotationId"},"value":{"kind":"StringValue","value":"","block":false}},{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"StringValue","value":"","block":false}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateRotationMany"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"updates"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateRotationMany"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"returning"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"updateUserRotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_in"},"value":{"kind":"Variable","name":{"kind":"Name","value":"updateUserRotation"}}}]}}]}},{"kind":"Argument","name":{"kind":"Name","value":"_set"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"endTime"},"value":{"kind":"Variable","name":{"kind":"Name","value":"endTime"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affectedRows"}}]}},{"kind":"Field","name":{"kind":"Name","value":"insertUserRotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"objects"},"value":{"kind":"Variable","name":{"kind":"Name","value":"insertUserRotation"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"affectedRows"}}]}}]}}]} as unknown as DocumentNode<UpdateQueueRotationMutation, UpdateQueueRotationMutationVariables>;
 export const ActiveDancersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ActiveDancers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"role"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"dancer","block":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"Active","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<ActiveDancersQuery, ActiveDancersQueryVariables>;
-export const QueueRotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"QueueRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"index"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"queue","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<QueueRotationQuery, QueueRotationQueryVariables>;
+export const QueueRotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"QueueRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"activeRotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"index"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"queue","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<QueueRotationQuery, QueueRotationQueryVariables>;
 export const StageRotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StageRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"index"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"stage","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<StageRotationQuery, StageRotationQueryVariables>;
-export const UserRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clerkId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"clerkId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clerkId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]} as unknown as DocumentNode<UserRoleQuery, UserRoleQueryVariables>;
+export const GetUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"uuid"}},"defaultValue":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"usersByPk"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"loginStatus"}},{"kind":"Field","name":{"kind":"Name","value":"shiftStatus"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
 export const RoomsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"Rooms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rooms"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoomsList"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomsList"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}}]} as unknown as DocumentNode<RoomsSubscription, RoomsSubscriptionVariables>;

@@ -1,12 +1,21 @@
+import { GetUserDocument } from '@/graphql/generated/graphql';
+import { useQuery } from '@apollo/client';
 import { useAuth, useSession, useUser } from '@clerk/clerk-expo';
 import { Text } from 'tamagui';
 
 export default function ProfileScreen() {
 	const { user } = useUser();
-	const auth = useAuth();
-	console.log(auth);
 
-	console.log(user.publicMetadata);
+	const { data, loading } = useQuery(GetUserDocument, {
+		variables: { id: user?.publicMetadata?.hasura_user_id as string },
+	});
 
-	return <Text>{user?.emailAddresses[0].emailAddress}</Text>;
+	if (loading) return <Text>Loading...</Text>;
+
+	return (
+		<>
+			<Text>{data.usersByPk.name}</Text>
+			<Text>{user?.emailAddresses[0].emailAddress}</Text>
+		</>
+	);
 }
