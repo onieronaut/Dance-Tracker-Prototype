@@ -24,6 +24,7 @@ type Documents = {
     "\n\tquery ActiveDancers {\n\t\tusers(\n\t\t\torderBy: { name: ASC }\n\t\t\twhere: { role: { _eq: \"dancer\" }, status: { _eq: \"Active\" } }\n\t\t) {\n\t\t\tid\n\t\t\tname\n\t\t\tstatus\n\t\t}\n\t}\n": typeof types.ActiveDancersDocument,
     "\n\tquery QueueRotation {\n\t\trotation(orderBy: { index: ASC }, where: { type: { _eq: \"queue\" } }) {\n\t\t\tid\n\t\t\tindex\n\t\t\ttype\n\t\t\tname\n\t\t\tcurrentUserRotation {\n\t\t\t\tid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tactiveSession {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tstartTime\n\t\t\t\t\t\tendTime\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": typeof types.QueueRotationDocument,
     "\n\tquery StageRotation {\n\t\trotation(orderBy: { index: ASC }, where: { type: { _eq: \"stage\" } }) {\n\t\t\tid\n\t\t\tindex\n\t\t\ttype\n\t\t\tname\n\t\t\tcurrentUserRotation {\n\t\t\t\tid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tactiveSession {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tstartTime\n\t\t\t\t\t\tendTime\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": typeof types.StageRotationDocument,
+    "\n\tquery UserRole($clerkId: String!) {\n\t\tusers(where: { clerkId: { _eq: $clerkId } }) {\n\t\t\trole\n\t\t}\n\t}\n": typeof types.UserRoleDocument,
     "\n\tsubscription Rooms {\n\t\trooms(orderBy: { name: ASC }) {\n\t\t\tid\n\t\t\t...RoomsList\n\t\t\t...Room\n\t\t}\n\t}\n": typeof types.RoomsDocument,
 };
 const documents: Documents = {
@@ -37,6 +38,7 @@ const documents: Documents = {
     "\n\tquery ActiveDancers {\n\t\tusers(\n\t\t\torderBy: { name: ASC }\n\t\t\twhere: { role: { _eq: \"dancer\" }, status: { _eq: \"Active\" } }\n\t\t) {\n\t\t\tid\n\t\t\tname\n\t\t\tstatus\n\t\t}\n\t}\n": types.ActiveDancersDocument,
     "\n\tquery QueueRotation {\n\t\trotation(orderBy: { index: ASC }, where: { type: { _eq: \"queue\" } }) {\n\t\t\tid\n\t\t\tindex\n\t\t\ttype\n\t\t\tname\n\t\t\tcurrentUserRotation {\n\t\t\t\tid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tactiveSession {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tstartTime\n\t\t\t\t\t\tendTime\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.QueueRotationDocument,
     "\n\tquery StageRotation {\n\t\trotation(orderBy: { index: ASC }, where: { type: { _eq: \"stage\" } }) {\n\t\t\tid\n\t\t\tindex\n\t\t\ttype\n\t\t\tname\n\t\t\tcurrentUserRotation {\n\t\t\t\tid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tactiveSession {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tstartTime\n\t\t\t\t\t\tendTime\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.StageRotationDocument,
+    "\n\tquery UserRole($clerkId: String!) {\n\t\tusers(where: { clerkId: { _eq: $clerkId } }) {\n\t\t\trole\n\t\t}\n\t}\n": types.UserRoleDocument,
     "\n\tsubscription Rooms {\n\t\trooms(orderBy: { name: ASC }) {\n\t\t\tid\n\t\t\t...RoomsList\n\t\t\t...Room\n\t\t}\n\t}\n": types.RoomsDocument,
 };
 
@@ -94,6 +96,10 @@ export function gql(source: "\n\tquery QueueRotation {\n\t\trotation(orderBy: { 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tquery StageRotation {\n\t\trotation(orderBy: { index: ASC }, where: { type: { _eq: \"stage\" } }) {\n\t\t\tid\n\t\t\tindex\n\t\t\ttype\n\t\t\tname\n\t\t\tcurrentUserRotation {\n\t\t\t\tid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tactiveSession {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tstartTime\n\t\t\t\t\t\tendTime\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery StageRotation {\n\t\trotation(orderBy: { index: ASC }, where: { type: { _eq: \"stage\" } }) {\n\t\t\tid\n\t\t\tindex\n\t\t\ttype\n\t\t\tname\n\t\t\tcurrentUserRotation {\n\t\t\t\tid\n\t\t\t\tuser {\n\t\t\t\t\tid\n\t\t\t\t\tname\n\t\t\t\t\tstatus\n\t\t\t\t\tactiveSession {\n\t\t\t\t\t\tid\n\t\t\t\t\t\tstartTime\n\t\t\t\t\t\tendTime\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tquery UserRole($clerkId: String!) {\n\t\tusers(where: { clerkId: { _eq: $clerkId } }) {\n\t\t\trole\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery UserRole($clerkId: String!) {\n\t\tusers(where: { clerkId: { _eq: $clerkId } }) {\n\t\t\trole\n\t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

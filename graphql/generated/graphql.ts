@@ -1748,6 +1748,8 @@ export type Users = {
   __typename?: 'Users';
   /** An object relationship */
   activeSession?: Maybe<ActiveUsers>;
+  clerkId?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
   name: Scalars['String']['output'];
   role: Scalars['String']['output'];
@@ -1782,6 +1784,8 @@ export type UsersBoolExp = {
   _not?: InputMaybe<UsersBoolExp>;
   _or?: InputMaybe<Array<UsersBoolExp>>;
   activeSession?: InputMaybe<ActiveUsersBoolExp>;
+  clerkId?: InputMaybe<StringComparisonExp>;
+  email?: InputMaybe<StringComparisonExp>;
   id?: InputMaybe<UuidComparisonExp>;
   name?: InputMaybe<StringComparisonExp>;
   role?: InputMaybe<StringComparisonExp>;
@@ -1797,6 +1801,8 @@ export enum UsersConstraint {
 /** input type for inserting data into table "users" */
 export type UsersInsertInput = {
   activeSession?: InputMaybe<ActiveUsersObjRelInsertInput>;
+  clerkId?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
@@ -1806,6 +1812,8 @@ export type UsersInsertInput = {
 /** aggregate max on columns */
 export type UsersMaxFields = {
   __typename?: 'UsersMaxFields';
+  clerkId?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   role?: Maybe<Scalars['String']['output']>;
@@ -1815,6 +1823,8 @@ export type UsersMaxFields = {
 /** aggregate min on columns */
 export type UsersMinFields = {
   __typename?: 'UsersMinFields';
+  clerkId?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   role?: Maybe<Scalars['String']['output']>;
@@ -1847,6 +1857,8 @@ export type UsersOnConflict = {
 /** Ordering options when selecting data from "users". */
 export type UsersOrderBy = {
   activeSession?: InputMaybe<ActiveUsersOrderBy>;
+  clerkId?: InputMaybe<OrderBy>;
+  email?: InputMaybe<OrderBy>;
   id?: InputMaybe<OrderBy>;
   name?: InputMaybe<OrderBy>;
   role?: InputMaybe<OrderBy>;
@@ -1861,6 +1873,10 @@ export type UsersPkColumnsInput = {
 /** select columns of table "users" */
 export enum UsersSelectColumn {
   /** column name */
+  ClerkId = 'clerkId',
+  /** column name */
+  Email = 'email',
+  /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
@@ -1872,6 +1888,8 @@ export enum UsersSelectColumn {
 
 /** input type for updating data in table "users" */
 export type UsersSetInput = {
+  clerkId?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
@@ -1888,6 +1906,8 @@ export type UsersStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type UsersStreamCursorValueInput = {
+  clerkId?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<Scalars['String']['input']>;
@@ -1896,6 +1916,10 @@ export type UsersStreamCursorValueInput = {
 
 /** update columns of table "users" */
 export enum UsersUpdateColumn {
+  /** column name */
+  ClerkId = 'clerkId',
+  /** column name */
+  Email = 'email',
   /** column name */
   Id = 'id',
   /** column name */
@@ -3070,6 +3094,13 @@ export type StageRotationQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type StageRotationQuery = { __typename?: 'query_root', rotation: Array<{ __typename?: 'Rotation', id: string, index: number, type: string, name: string, currentUserRotation?: { __typename?: 'CurrentUserRotation', id?: string | null, user?: { __typename?: 'Users', id: string, name: string, status: string, activeSession?: { __typename?: 'ActiveUsers', id?: string | null, startTime?: string | null, endTime?: string | null } | null } | null } | null }> };
 
+export type UserRoleQueryVariables = Exact<{
+  clerkId: Scalars['String']['input'];
+}>;
+
+
+export type UserRoleQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'Users', role: string }> };
+
 export type RoomsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3088,4 +3119,5 @@ export const UpdateQueueRotationDocument = {"kind":"Document","definitions":[{"k
 export const ActiveDancersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ActiveDancers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"role"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"dancer","block":false}}]}},{"kind":"ObjectField","name":{"kind":"Name","value":"status"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"Active","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<ActiveDancersQuery, ActiveDancersQueryVariables>;
 export const QueueRotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"QueueRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"index"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"queue","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<QueueRotationQuery, QueueRotationQueryVariables>;
 export const StageRotationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StageRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rotation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"index"},"value":{"kind":"EnumValue","value":"ASC"}}]}},{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"type"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"StringValue","value":"stage","block":false}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"index"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"currentUserRotation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<StageRotationQuery, StageRotationQueryVariables>;
+export const UserRoleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"UserRole"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"clerkId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"clerkId"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"_eq"},"value":{"kind":"Variable","name":{"kind":"Name","value":"clerkId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"role"}}]}}]}}]} as unknown as DocumentNode<UserRoleQuery, UserRoleQueryVariables>;
 export const RoomsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"Rooms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rooms"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"name"},"value":{"kind":"EnumValue","value":"ASC"}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"RoomsList"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"Room"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"activeSession"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"activeUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"RoomsList"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Rooms"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"FragmentSpread","name":{"kind":"Name","value":"Room"}}]}}]} as unknown as DocumentNode<RoomsSubscription, RoomsSubscriptionVariables>;

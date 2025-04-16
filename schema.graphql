@@ -1873,6 +1873,8 @@ columns and relationships of "users"
 type Users {
   """An object relationship"""
   activeSession: ActiveUsers
+  clerkId: String
+  email: String!
   id: uuid!
   name: String!
   role: String!
@@ -1904,6 +1906,8 @@ input UsersBoolExp {
   _not: UsersBoolExp
   _or: [UsersBoolExp!]
   activeSession: ActiveUsersBoolExp
+  clerkId: StringComparisonExp
+  email: StringComparisonExp
   id: UuidComparisonExp
   name: StringComparisonExp
   role: StringComparisonExp
@@ -1925,6 +1929,8 @@ input type for inserting data into table "users"
 """
 input UsersInsertInput {
   activeSession: ActiveUsersObjRelInsertInput
+  clerkId: String
+  email: String
   id: uuid
   name: String
   role: String
@@ -1933,6 +1939,8 @@ input UsersInsertInput {
 
 """aggregate max on columns"""
 type UsersMaxFields {
+  clerkId: String
+  email: String
   id: uuid
   name: String
   role: String
@@ -1941,6 +1949,8 @@ type UsersMaxFields {
 
 """aggregate min on columns"""
 type UsersMinFields {
+  clerkId: String
+  email: String
   id: uuid
   name: String
   role: String
@@ -1978,6 +1988,8 @@ input UsersOnConflict {
 """Ordering options when selecting data from "users"."""
 input UsersOrderBy {
   activeSession: ActiveUsersOrderBy
+  clerkId: OrderBy
+  email: OrderBy
   id: OrderBy
   name: OrderBy
   role: OrderBy
@@ -1994,6 +2006,10 @@ select columns of table "users"
 """
 enum UsersSelectColumn {
   """column name"""
+  clerkId
+  """column name"""
+  email
+  """column name"""
   id
   """column name"""
   name
@@ -2007,6 +2023,8 @@ enum UsersSelectColumn {
 input type for updating data in table "users"
 """
 input UsersSetInput {
+  clerkId: String
+  email: String
   id: uuid
   name: String
   role: String
@@ -2025,6 +2043,8 @@ input UsersStreamCursorInput {
 
 """Initial value of the column from where the streaming should start"""
 input UsersStreamCursorValueInput {
+  clerkId: String
+  email: String
   id: uuid
   name: String
   role: String
@@ -2035,6 +2055,10 @@ input UsersStreamCursorValueInput {
 update columns of table "users"
 """
 enum UsersUpdateColumn {
+  """column name"""
+  clerkId
+  """column name"""
+  email
   """column name"""
   id
   """column name"""
