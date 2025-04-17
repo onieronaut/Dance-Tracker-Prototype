@@ -652,7 +652,11 @@ input BooleanComparisonExp {
 }
 
 type ClockInResponse {
-  assignedSlot: RotationSlot
+  success: Boolean!
+}
+
+type ClockOutResponse {
+  success: Boolean!
 }
 
 """
@@ -1386,11 +1390,6 @@ input RotationSetInput {
   name: String
   type: String
   userId: uuid
-}
-
-type RotationSlot {
-  id: uuid!
-  name: String!
 }
 
 """aggregate stddev on columns"""
@@ -2682,6 +2681,7 @@ input activeUsersAggregateBoolExpCount {
 type mutation_root {
   """Assign dancer to rotation slot on clock in"""
   clockIn: ClockInResponse!
+  clockOut: ClockOutResponse!
   """
   delete data from the table: "active_rotation"
   """

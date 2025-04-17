@@ -75,7 +75,7 @@ export const ApolloProviderWrapper = ({ children }) => {
 				typePolicies: {
 					Query: {
 						fields: {
-							rotation: {
+							activeRotation: {
 								merge(existing = [], incoming: any[]) {
 									return [...incoming];
 								},

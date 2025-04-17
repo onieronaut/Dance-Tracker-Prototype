@@ -8,6 +8,7 @@ export const UserQuery = gql(/* GraphQL */ `
 			loginStatus
 			shiftStatus
 			status
+			role
 		}
 	}
 `);

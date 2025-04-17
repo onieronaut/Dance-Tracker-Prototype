@@ -2,8 +2,10 @@ import { QueueRotationItem } from '@/components/QueueRotationItem';
 import { StageRotationItem } from '@/components/StageRotationItem';
 import { DocumentType } from '@/graphql/generated';
 import {
+	ActiveRotation,
 	QueueRotationDocument,
 	RotateDocument,
+	Rotation,
 	StageRotationDocument,
 	UpdateQueueRotationDocument,
 } from '@/graphql/generated/graphql';
@@ -24,8 +26,6 @@ export default function RotationScreen() {
 		DocumentType<typeof QueueRotationDocument>['activeRotation']
 	>([]);
 
-	console.log('[queue]', queueRotation.data);
-
 	useEffect(() => {
 		if (queueRotation?.data?.activeRotation) {
 			setDragData([...queueRotation.data.activeRotation]);
@@ -42,10 +42,17 @@ export default function RotationScreen() {
 			};
 
 			queueData.activeRotation = [
-				...updateRotationMany[0].returning.filter(
-					(slot) => slot.type === 'queue'
-				),
+				...updateRotationMany[0].returning.map((slot) => ({
+					...slot,
+					__typename: 'ActiveRotation' as const,
+				})),
 			];
+
+			// queueData.activeRotation = [
+			// 	...updateRotationMany[0].returning.filter(
+			// 		(slot) => slot.type === 'queue'
+			// 	),
+			// ];
 			stageData.rotation = [
 				...updateRotationMany[0].returning.filter(
 					(slot) => slot.type === 'stage'
@@ -62,8 +69,14 @@ export default function RotationScreen() {
 		update: (cache, { data: { updateRotationMany } }) => {
 			const data = { ...cache.readQuery({ query: QueueRotationDocument }) };
 
-			let rotation = [...updateRotationMany[0].returning];
-			data.rotation = rotation;
+			let rotation = [
+				...updateRotationMany[0].returning.map((slot) => ({
+					...slot,
+					__typename: 'ActiveRotation' as const,
+				})),
+			];
+
+			data.activeRotation = rotation;
 
 			cache.writeQuery({ query: QueueRotationDocument, data });
 		},
@@ -73,7 +86,7 @@ export default function RotationScreen() {
 	const handleRotate = () => {
 		const initialList = [
 			...stageRotation.data.rotation,
-			...queueRotation.data.rotation,
+			...queueRotation.data.activeRotation,
 		];
 
 		const timestamp = dayjs().toISOString();
@@ -137,6 +150,7 @@ export default function RotationScreen() {
 					};
 
 					return {
+						__typename: 'Rotation' as const,
 						id: slot.id,
 						name: slot.name,
 						index: slot.index,
@@ -148,7 +162,7 @@ export default function RotationScreen() {
 					};
 				}
 
-				if (!initialList[index + 1]?.currentUserRotation?.user?.id) return slot;
+				// if (!initialList[index + 1]?.currentUserRotation?.user?.id) return slot;
 
 				const user = {
 					...initialList[index + 1]?.currentUserRotation?.user,
@@ -156,6 +170,7 @@ export default function RotationScreen() {
 				};
 
 				return {
+					__typename: 'Rotation' as const,
 					id: slot.id,
 					name: slot.name,
 					index: slot.index,
@@ -204,8 +219,6 @@ export default function RotationScreen() {
 	const handleReorder = ({ from, to }: ReorderableListReorderEvent) => {
 		const initialList = [...dragData];
 		const updatedList = reorderItems(dragData, from, to);
-
-		console.log(updatedList);
 
 		setDragData(updatedList);
 

@@ -15,12 +15,13 @@ export default function DashboardScreen() {
 		variables: { id: userId },
 	});
 
+	console.log('[data]', data);
+
 	const [clockIn] = useMutation(ClockInDocument, {
 		refetchQueries: [GetUserDocument],
 	});
 
 	const [clockOut] = useMutation(ClockOutDocument, {
-		variables: { id: userId },
 		refetchQueries: [GetUserDocument],
 	});
 
